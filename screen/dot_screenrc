@@ -1,3 +1,6 @@
+## Start with a couple of windows
+
+# default windows (name, index, command)
 screen -t root		0 su -
 screen -t htop		1 sudo htop
 screen -t web		2 w3m -v
@@ -9,16 +12,38 @@ screen -t bash1         7
 screen -t bash2         8
 screen -t bash3         9
 
+# selects 7th window
 select 7
 
+
+## status bar 
+
+# backticks to display information in the statusbar
+# git clone https://github.com/thewtex/screen-cpu-mem.git
+# cmake . && make && sudo make install
+backtick 1 0 0 /usr/local/bin/screen-mem-usage
+backtick 2 0 0 /usr/local/bin/screen-cpu-usage
+
+#hardstatus alwayslastline '%{= wk} %-w%{+b wk}%50> %n* %t %{= wk}%+w%< %{= wk}%-=%D %m/%d/%y | %C:%s %A | %1`%{-} %2`%{-}'
+
+#hardstatus off
+hardstatus alwayslastline
+hardstatus string '%{= kG}[%{G}%H%{g}][%{W}%l%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{G}%C:%s%a | %M %d(%D), %Y%{g}]'
+
+## Misc settings
+
+# To clear the screen after closing some programs
 altscreen on
+
+# Do not show startup message
 startup_message off
+
+# erase background with current bg color 
+#defbce "on"
 
 #termcapinfo xterm* ti@:te@
 
 #caption always "%?%{ Wk}%-Lw%?%{Rk}%n*%f %t%?(%u)%?%?%{Wk}%+Lw%? %{Rk}%=%c %{rk}%d/%M/%Y"
 
-hardstatus alwayslastline
-hardstatus string '%{= kG}[%{G}%H%{g}][%{W}%l%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{G}%C:%s%a | %M %d(%D), %Y%{g}]'
-#hardstatus off
-
+defutf8 on
+utf8 on
