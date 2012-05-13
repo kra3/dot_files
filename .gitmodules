@@ -1,0 +1,6 @@
+[submodule "tmux/addon"]
+	path = tmux/addon
+	url = git://github.com/thewtex/tmux-mem-cpu-load.git
+[submodule "screen/addon"]
+	path = screen/addon
+	url = git://github.com/thewtex/screen-cpu-mem.git
