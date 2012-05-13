@@ -24,11 +24,10 @@ select 7
 backtick 1 0 0 /usr/local/bin/screen-mem-usage
 backtick 2 0 0 /usr/local/bin/screen-cpu-usage
 
-#hardstatus alwayslastline '%{= wk} %-w%{+b wk}%50> %n* %t %{= wk}%+w%< %{= wk}%-=%D %m/%d/%y | %C:%s %A | %1`%{-} %2`%{-}'
-
 #hardstatus off
 hardstatus alwayslastline
-hardstatus string '%{= kG}[%{G}%H%{g}][%{W}%l%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{G}%C:%s%a | %M %d(%D), %Y%{g}]'
+#hardstatus string '%{= kG}[%{G}%H%{g}][%{W}%l%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%1`%{-} %2`%{-}][%{G}%C:%s%a | %M %d(%D), %Y%{g}]'
+hardstatus string '%{= kG}[%{G}%H%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{W}%1`%{-} %2`%{-}%{w}][%{G}%C:%s%a | %D, %d/%m/%Y%{g}]'
 
 ## Misc settings
 

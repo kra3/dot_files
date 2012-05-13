@@ -11,7 +11,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 
-./tmuxer # start tmux with 3 sessions 
+sh .tmuxer& # start tmux with 3 sessions 
 
 # exec gnome-session
 # exec startkde
