@@ -1,0 +1,75 @@
+!You may want to run $ xrdb -merge ~/.Xresources with each update
+
+!Xft settings:
+
+!Xft*dpi:                96
+!Xft*hinting:            true
+! hintstyle 3 for flat-panel displays 
+!Xft*hintstyle:          2
+!Xft*antialias:          true
+! uncomment/adjust for flat-panel display
+!Xft*rgba:              rgb
+
+
+! URxvt settings
+
+URxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=12
+!URxvt*font: xft:Bitstream Vera Sans Mono:size=9
+!URxvt*font: x:-*-fixed-medium-r-normal-*-14-*-*-*-*-*-*-*
+URxvt*loginShell:       true
+URxvt*scrollBar:        true
+URxvt*scrollstyle:      plain 
+URxvt*scrollBar_right:  true
+URxvt*termName:         rxvt
+URxvt.buffered:         true
+URxvt.background:       black
+URxvt.foreground:       green
+URxvt.cursorColor:      white
+URxvt.underlineColor:   red
+URxvt.perl-ext:         default,matcher
+URxvt.urlLauncher:      /usr/bin/firefox
+URxvt.matcher.button:   1 
+URxvt.transparent:      True
+URxvt.shading:          25
+!URxvt*color0:           #000000
+!URxvt*color1:           #9e1828
+!URxvt*color2:           #aece92
+!URxvt*color3:           #968a38
+!URxvt*color4:           #414171
+!URxvt*color5:           #963c59
+!URxvt*color6:           #418179
+!URxvt*color7:           #bebebe
+!URxvt*color8:           #666666
+!URxvt*color9:           #cf6171
+!URxvt*color10:          #c5f779
+!URxvt*color11:          #fff796
+!URxvt*color12:          #4186be
+!URxvt*color13:          #cf9ebe
+!URxvt*color14:          #71bebe
+!URxvt*color15:          #ffffff
+
+
+! XTerm settings:
+
+XTerm*faceName:         Bitstream Vera Sans Mono
+XTerm*faceSize:         10
+!XTermfont: xft:        Bitstream Vera Sans Mono:pixelsize=14
+XTerm*background:       black 
+XTerm*foreground:       green 
+XTerm*cursorColor:      white 
+!XTerm*color0:           #000000
+!XTerm*color1:           #9e1828
+!XTerm*color2:           #aece92
+!XTerm*color3:           #968a38
+!XTerm*color4:           #414171
+!XTerm*color5:           #963c59
+!XTerm*color6:           #418179
+!XTerm*color7:           #bebebe
+!XTerm*color8:           #666666
+!XTerm*color9:           #cf6171
+!XTerm*color10:          #c5f779
+!XTerm*color11:          #fff796
+!XTerm*color12:          #4186be
+!XTerm*color13:          #cf9ebe
+!XTerm*color14:          #71bebe
+!XTerm*color15:          #ffffff
