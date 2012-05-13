@@ -1,0 +1,24 @@
+screen -t root		0 su -
+screen -t htop		1 sudo htop
+screen -t web		2 w3m -v
+screen -t irc		3 irssi
+screen -t music 	4 ncmpc -c
+screen -t ipython	5 ipython2
+screen -t bpython	6 bpython
+screen -t bash1         7 
+screen -t bash2         8
+screen -t bash3         9
+
+select 7
+
+altscreen on
+startup_message off
+
+#termcapinfo xterm* ti@:te@
+
+#caption always "%?%{ Wk}%-Lw%?%{Rk}%n*%f %t%?(%u)%?%?%{Wk}%+Lw%? %{Rk}%=%c %{rk}%d/%M/%Y"
+
+hardstatus alwayslastline
+hardstatus string '%{= kG}[%{G}%H%{g}][%{W}%l%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{G}%C:%s%a | %M %d(%D), %Y%{g}]'
+#hardstatus off
+
