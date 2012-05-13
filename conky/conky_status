@@ -1,0 +1,10 @@
+out_to_console yes
+out_to_x no
+background no
+update_interval 2
+total_run_times 0
+use_spacer none
+
+TEXT
+${downspeed ppp0}K/s ${upspeed ppp0}K/s | MPD ($mpd_vol %): ${if_running mpd} ${if_mpd_playing} ${mpd_smart} ${endif} ${endif} | $cpu% @ ${freq_g}GHz | T: ${acpitemp}c | M: $memperc%  $swapperc% |  /: ${fs_used_perc /}%  /home: ${fs_used_perc /home}% | ${time %a %b %d %I:%M%P} | Vol: ${exec amixer get Master | egrep -o "[0-9]+%" | head -1 | egrep -o "[0-9]*"}% 
+
