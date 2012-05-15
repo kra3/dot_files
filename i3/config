@@ -9,7 +9,6 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-exec `feh --bg-scale Pictures/A1.jpg`
 exec xcompmgr&
 
 set $mod Mod4

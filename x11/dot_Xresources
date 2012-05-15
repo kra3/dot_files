@@ -51,12 +51,12 @@ URxvt.shading:          25
 
 ! XTerm settings:
 
-XTerm*faceName:         Bitstream Vera Sans Mono
-XTerm*faceSize:         10
+!XTerm*faceName:         Bitstream Vera Sans Mono
+!XTerm*faceSize:         10
 !XTermfont: xft:        Bitstream Vera Sans Mono:pixelsize=14
-XTerm*background:       black 
-XTerm*foreground:       green 
-XTerm*cursorColor:      white 
+!XTerm*background:       black 
+!XTerm*foreground:       green 
+!XTerm*cursorColor:      white 
 !XTerm*color0:           #000000
 !XTerm*color1:           #9e1828
 !XTerm*color2:           #aece92

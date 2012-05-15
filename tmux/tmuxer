@@ -1,20 +1,20 @@
 #!/bin/sh
  
-tmux new-session -d -s root
-tmux new-session -d -s webtainment
-tmux new-session -d -s work
+tmux new-session -d -s root&
+tmux new-session -d -s webtainment&
+tmux new-session -d -s work&
 
-tmux new-window -t root:1 -n '#' 'su -'
-tmux new-window -t root:2 -n 'htop' 'sudo htop'
+tmux new-window -t root:1 -n '#' 'su -'&
+tmux new-window -t root:2 -n 'htop' 'sudo htop'&
 
-tmux new-window -t webtainment:1 -n 'shell' 'bash' 
-tmux new-window -t webtainment:2 -n 'browse' 'w3m -v' 
-tmux new-window -t webtainment:3 -n 'irc' 'irssi'
-tmux new-window -t webtainment:4 -n 'music' 'ncmpc -c' 
+tmux new-window -t webtainment:1 -n 'shell' 'bash' &
+tmux new-window -t webtainment:2 -n 'browse' 'w3m -v' &
+tmux new-window -t webtainment:3 -n 'irc' 'irssi'&
+tmux new-window -t webtainment:4 -n 'music' 'ncmpc -c' &
 
-tmux new-window -t work:1 -n 'shell' 'bash' 
-tmux new-window -t work:2 -n 'python' 'ipython2'
-tmux new-window -t work:3 -n 'vim' 'vim'
+tmux new-window -t work:1 -n 'shell' 'bash' &
+tmux new-window -t work:2 -n 'python' 'ipython2'&
+tmux new-window -t work:3 -n 'vim' 'vim'&
 
-tmux select-window -t work:1
-tmux attach-session
+tmux select-window -t work:1&
+tmux attach-session&
