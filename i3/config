@@ -16,6 +16,9 @@ set $mod Mod4
 # font for window titles. ISO 10646 = Unicode
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id nm-applet
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -27,6 +30,15 @@ bindsym $mod+Shift+Q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
+
+# lock the screen
+bindsym $mod+control+l exec `i3lock -c 000000 -p win -i Arch.png && echo mem > /sys/power/state` 
+
+#class                  border      background      text
+client.focused          #91ab34     #91ab34         #000000
+client.focused_inactive #000000     #000000         #91a3b4
+client.unfocused        #000000     #000000         #aaaaaa
+client.urgent           #870000     #870000         #ffffff
 
 # change focus
 bindsym $mod+j focus left
@@ -72,11 +84,14 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
+# rule for notification
+for_window [class="Xfce4-notifyd"] floating enable; border none;
+
 # focus the parent container
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindcode $mod+d focus child
+#bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -145,5 +160,7 @@ bindsym $mod+minus scratchpad show
 # finds out, if available)
 bar {
         #status_command i3status
+        #mode hide
+        #modifier Mod1
         status_command conky
 }

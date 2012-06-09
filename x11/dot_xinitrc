@@ -17,12 +17,13 @@ eval "$(gpg-agent --daemon)" &
 feh --bg-scale Arch.jpg & 
 
 ## now being started from .bash_profile, YES, I login to console now.
+
 #sh ~/.tmuxer& # start tmux with 3 sessions  
 
 # starts a urxvt deamon and starts an instance of urxvtc
-urxvtd -q -o -f && urxvtc -e tmux attach &
+#urxvtd -q -o -f  &
 
-xrdb -merge $HOME/.Xresources &
+#xrdb -merge $HOME/.Xresources &
 
 # exec gnome-session
 # exec startkde
@@ -30,18 +31,20 @@ xrdb -merge $HOME/.Xresources &
 # ...or the Window Manager of your choice
 #exec ck-launch-session gnome-session
 
-if [[ $1 == "gnome" ]] 
-then
-    exec ck-launch-session gnome-session
-elif [[ $1 == "xfce" ]] 
-then
-    exec startxfce4 --with-ck-launch
-elif [[ $1 == "dwm" ]] 
-then
-    exec dwm
-elif [[ $1 == "i3" ]] 
-then
-    exec ck-launch-session i3
-else
-    exec ck-launch-session i3
-fi
+#echo $@
+
+#if [[ $2 == "gnome" ]] 
+#then
+#    exec ck-launch-session gnome-session
+#elif [[ $2 == "xfce" ]] 
+#then
+#    exec startxfce4 --with-ck-launch
+#elif [[ $2 == "dwm" ]] 
+#then
+#    exec dwm
+#elif [[ $2 == "i3" ]] 
+#then
+#    exec ck-launch-session dbus-launch i3
+#else
+#    exec ck-launch-session gnome-session
+#fi
