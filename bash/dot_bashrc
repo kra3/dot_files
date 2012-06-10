@@ -65,8 +65,7 @@ alias ......="cd ../../../../.."
 
 #export JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 export PATH=$PATH:$HOME/libs/google_appengine
-export PATH=$PATH:$HOME/.rbenv/bin
-export PATH=$PATH:$HOME/.gem/ruby/1.9.1/bin
+#export PATH=$PATH:$HOME/.gem/ruby/1.9.1/bin
 export EDITOR="vim"
 
 #Login greeting ------------------
@@ -88,3 +87,6 @@ export SVN_MERGE=vimdiff
 function lock(){
     i3lock -c 000000 -p win -i Arch.png && sudo pm-suspend
 }
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PATH=$PATH:$HOME/.rbenv/bin
