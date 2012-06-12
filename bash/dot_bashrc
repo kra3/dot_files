@@ -9,15 +9,15 @@
 #[[ $TERM != "screen" ]] && exec tmux
 # Or try one below, which is more advanced than above. only use one of two at a time
 # you can also start urxvt -e tmux, I chose to use this with dwm & i3, for xface/gnome I use below one
-if which tmux 2>&1 >/dev/null; then
-    # if no session is started, start a new session
-    test -z ${TMUX} && ~/.tmuxer
-
-    # when quitting tmux, try to attach
-    while test -z ${TMUX}; do
-        tmux attach || break
-    done
-fi
+#if which tmux 2>&1 >/dev/null; then
+#    # if no session is started, start a new session
+#    test -z ${TMUX} && ~/.tmuxer
+#
+#    # when quitting tmux, try to attach
+#    while test -z ${TMUX}; do
+#        tmux attach || break
+#    done
+#fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -64,7 +64,8 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
 #export JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
-export PATH=$PATH:~/libs/google_appengine
+export PATH=$PATH:$HOME/libs/google_appengine
+#export PATH=$PATH:$HOME/.gem/ruby/1.9.1/bin
 export EDITOR="vim"
 
 #Login greeting ------------------
@@ -82,3 +83,10 @@ export EDITOR="vim"
 #fi
 
 export SVN_MERGE=vimdiff
+
+function lock(){
+    i3lock -c 000000 -p win -i Arch.png && sudo pm-suspend
+}
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PATH=$PATH:$HOME/.rbenv/bin
