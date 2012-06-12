@@ -25,7 +25,7 @@ filetype indent on
 syntax on
 
 set background=dark
-colorscheme baycomb
+"colorscheme baycomb
 set ruler 
 set number
 
