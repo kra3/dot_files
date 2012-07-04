@@ -42,7 +42,7 @@ filetype plugin indent on
 set fileformat=unix
 au BufNewFile * set fileformat=unix
 
-"set background=dark
+set background=dark
 colorscheme solarized
 set ruler 
 set number
