@@ -4,8 +4,11 @@
 #exec screen
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
+feh --bg-scale Arch.jpg &
 
-#sh ~/.tmuxer >/dev/null # start tmux with 3 sessions 
+eval "$(gpg-agent --daemon)" &  
+
+#sh ~/.tmuxer > /dev/null # start tmux with 3 sessions 
 
 #remove following from inittab, if you first wanted to login to console 
 # kra3 being my username

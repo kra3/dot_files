@@ -1,0 +1,6 @@
+Copy irssi directory to your home directory and rename it from 'irssi' to '.irssi'
+
+Edit '.irssi/config': which autologins to irc.freenod.net with my nick (kra3)
+Change those settings to which ever server you want and your nick.
+
+Good luck.
