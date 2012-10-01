@@ -65,7 +65,6 @@ alias ......="cd ../../../../.."
 
 #export JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 export PATH=$PATH:$HOME/libs/google_appengine
-#export PATH=$PATH:$HOME/.gem/ruby/1.9.1/bin
 export EDITOR="vim"
 
 #Login greeting ------------------
@@ -82,11 +81,23 @@ export EDITOR="vim"
 #  export SHOWED_SCREEN_MESSAGE="true"
 #fi
 
+# enable bash completion in interactive shells
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
 export SVN_MERGE=vimdiff
 
-function lock(){
-    i3lock -c 000000 -p win -i Arch.png && sudo pm-suspend
-}
+# if the command-not-found package is installed, use it
+if [ -x /usr/lib/command-not-found ]; then
+	function command_not_found_handle {
+	        # check because c-n-f could've been removed in the meantime
+                if [ -x /usr/lib/command-not-found ]; then
+		   /usr/bin/python /usr/lib/command-not-found -- $1
+                   return $?
+		else
+		   return 127
+		fi
+	}
+fi
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-export PATH=$PATH:$HOME/.rbenv/bin
