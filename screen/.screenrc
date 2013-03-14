@@ -1,20 +1,10 @@
 ## Start with a couple of windows
 
 # default windows (name, index, command)
-screen -t root		0 su -
-screen -t htop		1 sudo htop
-screen -t web		2 w3m -v
-screen -t irc		3 irssi
-screen -t music 	4 ncmpc -c
-screen -t ipython	5 ipython2
-screen -t bpython	6 bpython
-screen -t bash1         7 
-screen -t bash2         8
-screen -t bash3         9
+screen -t bash         0
 
 # selects 7th window
-select 7
-
+select 0
 
 ## status bar 
 
