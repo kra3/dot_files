@@ -30,6 +30,14 @@ servers = (
     use_ssl = "no";
     ssl_verify = "no";
     autoconnect = "yes";
+  },
+  {
+    address = "irc.wyplay.net";
+    chatnet = "wp";
+    port = "6667";
+    use_ssl = "yes";
+    ssl_verify = "no";
+    autoconnect = "yes";
   }
 );
 
@@ -96,12 +104,23 @@ chatnets = {
     max_whois = "30";
   };
   SILC = { type = "SILC"; };
-  fn = { type = "IRC"; };
+  fn = {
+    type = "IRC";
+    autosendcmd = "/^msg nickserv identify yourpassword;wait 2000";
+  };
+  wp = {
+    type = "IRC";
+    autosendcmd = "/^msg nickserv identify yourpassword;wait 2000";
+  };
 };
 
 channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
-  { name = "silc"; chatnet = "silc"; autojoin = "No"; }
+  { name = "silc"; chatnet = "silc"; autojoin = "No"; },
+  { name = "#leon"; chatnet = "wp"; autojoin = "yes"; },
+  { name = "#wyplay"; chatnet = "wp"; autojoin = "yes"; },
+  { name = "#adele"; chatnet = "wp"; autojoin = "yes"; },
+  { name = "#musique"; chatnet = "wp"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -152,6 +171,7 @@ aliases = {
   ATAG = "WINDOW SERVER";
   UNSET = "set -clear";
   RESET = "set -default";
+  NNTP = "window new hide;window name news;exec printf 'article <$0>\\\\nquit\\\\n'|nc news.helsinki.fi nntp|tr -d '\\\\r'";
 };
 
 statusbar = {
@@ -270,21 +290,48 @@ statusbar = {
         barend = { priority = "100"; alignment = "right"; };
       };
     };
+    awl_1 = {
+      items = {
+        barstart = { priority = "100"; };
+        awl_1 = { };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
   };
 };
 settings = {
-  core = { real_name = "Arun K.R."; user_name = "kra3"; nick = "kra3"; };
-  "fe-text" = { actlist_sort = "refnum"; term_force_colors = "yes"; };
+  core = {
+    real_name = "Arun K.R.";
+    user_name = "kra3";
+    nick = "kra3";
+    timestamp_format = "%H:%M:00";
+  };
+  "fe-text" = {
+    actlist_sort = "refnum";
+    term_force_colors = "yes";
+    autostick_split_windows = "yes";
+  };
   "fe-common/core" = {
     autolog = "yes";
     autoclose_windows = "no";
     reuse_unused_windows = "yes";
     windows_auto_renumber = "no";
     print_active_channel = "yes";
+    beep_when_window_active = "yes";
+    beep_when_away = "yes";
+    beep_msg_level = "MSGS NOTICES DCC DCCMSGS HILIGHT";
+    bell_beeps = "yes";
+    autocreate_own_query = "no";
+    use_status_window = "yes";
+    use_msgs_window = "no";
+    autocreate_query_level = "MSGS";
+    autolog_path = "~/irclogs/%Y/$tag/$0.%m-%d.log";
   };
   "perl/core/scripts" = {
-    awl_display_key = "$Q%K|%n$H$C$S";
-    awl_block = "-15";
+    awl_display_key = "$Q%K|$N%n $H$C$S";
+    awl_block = "-14";
+    awl_display_key_active = "$Q%K|$N%n $H%U$C%n$S";
+    awl_display_nokey = "[$N]$H$C$S";
   };
 };
 logs = {
@@ -293,14 +340,14 @@ logs = {
     items = ( { type = "window"; name = "3"; } );
   };
 };
-hilights = ( { text = "kra3"; nick = "yes"; word = "yes"; } );
+hilights = ( { text = "kra3"; nick = "no"; word = "yes"; } );
 windows = {
   1 = {
     immortal = "yes";
     name = "(status)";
     level = "ALL";
     sticky = "yes";
-    parent = "3";
+    parent = "5";
   };
   2 = {
     items = (
@@ -308,26 +355,62 @@ windows = {
         type = "QUERY";
         chat_type = "IRC";
         name = "NickServ";
-        tag = "freenode";
+        tag = "WyPlay";
       }
     );
     sticky = "yes";
     parent = "3";
   };
-  3 = {
+  3 = { name = "hilight"; sticky = "yes"; };
+  4 = {
     items = (
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#ubiqurio";
-        tag = "freenode";
+        name = "#wyplay";
+        tag = "wp";
+      }
+    );
+    sticky = "yes";
+    parent = "5";
+  };
+  5 = {
+    items = (
+      { 
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#leon";
+        tag = "wp";
       }
     );
     sticky = "yes";
   };
-  4 = { name = "hilight"; sticky = "yes"; };
+  6 = {
+    items = (
+      { 
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#adele";
+        tag = "wp";
+      }
+    );
+    sticky = "yes";
+    parent = "5";
+  };
+  7 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#musique";
+        tag = "wp";
+      }
+    );
+    sticky = "yes";
+    parent = "5";
+  };
 };
 mainwindows = {
-  3 = { first_line = "8"; lines = "42"; };
-  4 = { first_line = "1"; lines = "7"; };
+  5 = { first_line = "11"; lines = "9"; };
+  3 = { first_line = "1"; lines = "10"; };
 };
