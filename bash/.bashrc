@@ -105,8 +105,6 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-
-
 export SVN_MERGE=vimdiff
 
 # if the command-not-found package is installed, use it

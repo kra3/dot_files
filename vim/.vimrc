@@ -13,6 +13,8 @@ Bundle 'Lokaltog/vim-easymotion'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'tpope/vim-rails.git'
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'jnurmine/Zenburn'
+Bundle 'tomasr/molokai'
 Bundle 'scrooloose/syntastic'
 Bundle 'sjl/gundo.vim'
 "Bundle 'pope/vim-fugitive'
@@ -20,6 +22,7 @@ Bundle 'tpope/vim-surround'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-fugitive'
 Bundle 'jmcantrell/vim-virtualenv'
+Bundle 'mileszs/ack.vim'
 
 " Bundle 'git://git.wincent.com/command-t.git'
 
@@ -31,8 +34,8 @@ filetype plugin indent on
 set fileformat=unix
 au BufNewFile * set fileformat=unix
 
+colorscheme molokai
 set background=dark
-colorscheme solarized
 set ruler 
 set number
 
@@ -43,16 +46,17 @@ set expandtab
 set smarttab
 set autoindent
 set smartindent
+set shiftround
 
 set nocompatible
 
 set hlsearch  			"highlight search results
 set incsearch 			"incremental search
-set ignorecase 			"d
-set smartcase 
+set ignorecase 			"do case insensitive matching
+set smartcase           "do smart case matching
 
-set showcmd 			"always show the command
-set showmatch 
+set showcmd 			" Show (partial) command in status line.
+set showmatch           " Show matching brackets.
 set mat=5
 set showmode
 
@@ -75,15 +79,28 @@ set history=50
 set textwidth=0
 set wrap
 
-set cursorline
+set cursorline                  " Highlight current line
+set cursorcolumn                " Highlight current column
 set encoding=utf-8
 set wildmenu
+set autoread                    " Automatically read new changes to a file
 
 " To save, ctrl-s.
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 
-" Bundle 'scrooloose/syntastic'
+nnoremap <F5> :GundoToggle<CR>
+
+"open nerdTree with Ctrl + n
+map <C-n> :NERDTreeToggle<CR>
+"open nerdTree automatically on vim startup
+"autocmd vimenter * NERDTree
+"Open nerdTree automatically at startup if no file is specified
+autocmd vimenter * if !argc() | NERDTree | endif
+" Close vim if NerdTree is the only window open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
  
 " Sudo to write
@@ -99,5 +116,4 @@ fun! RangerChooser()
     redraw!
 endfun
 map ,r :call RangerChooser()<CR>
-
 

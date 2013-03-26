@@ -2,13 +2,13 @@
 
 !Xft settings:
 
-!Xft*dpi:                96
-!Xft*hinting:            true
+Xft*dpi:                96
+Xft*hinting:            true
 ! hintstyle 3 for flat-panel displays 
-!Xft*hintstyle:          2
-!Xft*antialias:          true
+Xft*hintstyle:          2
+Xft*antialias:          true
 ! uncomment/adjust for flat-panel display
-!Xft*rgba:              rgb
+Xft*rgba:              rgb
 
 
 ! URxvt settings
@@ -22,62 +22,111 @@ URxvt*scrollBar:        false
 !URxvt*scrollBar_right:  true
 URxvt*termName:         rxvt
 URxvt.buffered:         true
-URxvt.background:       black
-URxvt.foreground:       green
-URxvt.cursorColor:      white
-URxvt.underlineColor:   red
 URxvt.perl-ext:         default,matcher
 URxvt.urlLauncher:      /usr/bin/firefox
 URxvt.matcher.button:   1 
 URxvt.transparent:      True
 URxvt.shading:          25
-!URxvt*color0:           #000000
-!URxvt*color1:           #9e1828
-!URxvt*color2:           #aece92
-!URxvt*color3:           #968a38
-!URxvt*color4:           #414171
-!URxvt*color5:           #963c59
-!URxvt*color6:           #418179
-!URxvt*color7:           #bebebe
-!URxvt*color8:           #666666
-!URxvt*color9:           #cf6171
-!URxvt*color10:          #c5f779
-!URxvt*color11:          #fff796
-!URxvt*color12:          #4186be
-!URxvt*color13:          #cf9ebe
-!URxvt*color14:          #71bebe
-!URxvt*color15:          #ffffff
+URxvt*background: #3f3f3f
+URxvt*foreground: #dcdccc
+URxvt*cursorColor: #aaaaaa
+URxvt*colorUL: #366060
+URxvt*underlineColor: #dfaf8f
+URxvt*color0: #3f3f3f
+URxvt*color1: #cc9393
+URxvt*color2: #7f9f7f
+URxvt*color3: #d0bf8f
+URxvt*color4: #6ca0a3
+URxvt*color5: #dc8cc3
+URxvt*color6: #93e0e3
+URxvt*color7: #dcdccc
+URxvt*color8: #000000
+URxvt*color9: #dca3a3
+URxvt*color10: #bfebbf
+URxvt*color11: #f0dfaf
+URxvt*color12: #8cd0d3
+URxvt*color13: #dc8cc3
+URxvt*color14: #93e0e3
+URxvt*color15: #ffffff
 
 
 ! XTerm settings:
 
+UXTerm*loginShell:       true
+UXTerm*termName:         xterm-256color
 UXTerm*faceName:         Bitstream Vera Sans Mono
 UXTerm*faceSize:         10
 UXTerm*font: xft:        Bitstream Vera Sans Mono:pixelsize=14
 UXTerm*saveLines:        32767
-UXTerm*scrollTtyKeypress:true
+UXTerm*scrollTtyKey:     true
 UXTerm*scrollTtyOutput:  false
-UXTerm*scrollBar:        false
+UXTerm*scrollBar:        false 
 UXTerm*jumpScroll:       true
 UXTerm*multiScroll:      true
 UXTerm*toolBar:          false
 UXTerm*metaSendsEscape:  true
-UXTerm*background:       black 
-UXTerm*foreground:       green 
-UXTerm*cursorColor:      white 
-UXTerm*color0:           #000000
-UXTerm*color1:           #9e1828
-UXTerm*color2:           #aece92
-UXTerm*color3:           #968a38
-UXTerm*color4:           #414171
-UXTerm*color5:           #963c59
-UXTerm*color6:           #418179
-UXTerm*color7:           #bebebe
-UXTerm*color8:           #666666
-UXTerm*color9:           #cf6171
-UXTerm*color10:          #c5f779
-UXTerm*color11:          #fff796
-UXTerm*color12:          #4186be
-UXTerm*color13:          #cf9ebe
-UXTerm*color14:          #71bebe
-UXTerm*color15:          #ffffff
+!UXTerm*foreground:       gray60
+!UXTerm*background:       black
+!UXTerm*cursorColor:      green
+UXTerm*cursorBlink:      true
+UXTerm*cursorOffTime:    500
+UXTerm*cursorOnTime:     500
+UXTerm*reverseVideo:     false
+UXTerm*colorBD:          white
+UXTerm*colorBDMode:      true
+UXTerm*colorRVMode:      false
+UXTerm*colorULMode:      true
+!UXTerm*colorUL:          red
+UXTerm*wideChars:        false
+UXTerm*boldMode:         false
+UXTerm*background: #3f3f3f
+UXTerm*foreground: #dcdccc
+UXTerm*cursorColor: #aaaaaa
+UXTerm*colorUL: #366060
+UXTerm*underlineColor: #dfaf8f
+UXTerm*color0: #3f3f3f
+UXTerm*color1: #cc9393
+UXTerm*color2: #7f9f7f
+UXTerm*color3: #d0bf8f
+UXTerm*color4: #6ca0a3
+UXTerm*color5: #dc8cc3
+UXTerm*color6: #93e0e3
+UXTerm*color7: #dcdccc
+UXTerm*color8: #000000
+UXTerm*color9: #dca3a3
+UXTerm*color10: #bfebbf
+UXTerm*color11: #f0dfaf
+UXTerm*color12: #8cd0d3
+UXTerm*color13: #dc8cc3
+UXTerm*color14: #93e0e3
+UXTerm*color15: #ffffff
+
+! http://blog.ssokolow.com/archives/2011/05/01/modernizing-xterms-paste/
+! {{{ Quick Reference
+!
+! Scrolling:
+!   Scroll Wheel
+!   Shift-PgUp/PgDn
+!
+! Copy/Paste:
+!   Mouse-Select        : Copy to PRIMARY
+!   Shift + Mouse-Select: Copy to CLIPBOARD
+!
+!   Middle-Click        : Paste from PRIMARY
+!   Shift + Middle-Click: Paste from CLIPBOARD
+!
+!   Ctrl+Shift+V        : Paste from CLIPBOARD
+!   Ctrl+Alt+Shift+V    : Paste from PRIMARY
+!
+
+*VT100.Translations: #override \
+                    Shift <Key>Up:              scroll-back(1) \n\
+                    Shift <Key>Down:            scroll-forw(1) \n\
+                    ~Meta Shift Ctrl <Key>V:    insert-selection(CLIPBOARD) \n\
+                     Meta Shift Ctrl <Key>V:    insert-selection(PRIMARY) \n\
+                    ~Shift <Btn1Up>:            select-end(PRIMARY, CUT_BUFFER0) \n\
+                     Shift <Btn1Up>:            select-end(CLIPBOARD, CUT_BUFFER1) \n\
+                    ~Shift ~Ctrl ~Meta <Btn2Up>:insert-selection(PRIMARY, CUT_BUFFER0) \n\
+                     Shift ~Ctrl ~Meta <Btn2Up>:insert-selection(CLIPBOARD, CUT_BUFFER1)
+                     
+
