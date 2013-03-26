@@ -34,7 +34,7 @@ filetype plugin indent on
 set fileformat=unix
 au BufNewFile * set fileformat=unix
 
-colorscheme molokai
+colorscheme zenburn
 set background=dark
 set ruler 
 set number
