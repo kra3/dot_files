@@ -1,2 +1,5 @@
 #! /bin/bash
-/usr/bin/i3lock -c 000000 -p win
+
+# Take a screen shot of current desktop to set as lock screen wallpaper ;-)
+import -window root ~/.desktop.png
+/usr/bin/i3lock -c 000000 -p win -i .desktop.png &
