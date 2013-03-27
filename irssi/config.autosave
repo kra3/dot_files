@@ -98,7 +98,7 @@ chatnets = {
   SILC = { type = "SILC"; };
   fn = {
     type = "IRC";
-    autosendcmd = "/^msg nickserv identify yourpassword;wait 2000";
+    autosendcmd = "/^msg nickserv ident yourpassword;wait 2000";
   };
 };
 
@@ -156,7 +156,6 @@ aliases = {
   UNSET = "set -clear";
   RESET = "set -default";
   NNTP = "window new hide;window name news;exec printf 'article <$0>\\\\nquit\\\\n'|nc news.helsinki.fi nntp|tr -d '\\\\r'";
-  wg = "/window goto";
 };
 
 statusbar = {
@@ -286,16 +285,12 @@ statusbar = {
 };
 settings = {
   core = {
-    real_name = "Arun Karunagath";
+    real_name = "Arun K.R.";
     user_name = "kra3";
     nick = "kra3";
     timestamp_format = "%H:%M:00";
   };
-  "fe-text" = {
-    actlist_sort = "refnum";
-    term_force_colors = "yes";
-    autostick_split_windows = "yes";
-  };
+  "fe-text" = { actlist_sort = "refnum"; term_force_colors = "yes"; };
   "fe-common/core" = {
     autolog = "yes";
     autoclose_windows = "no";
@@ -309,19 +304,12 @@ settings = {
     autocreate_own_query = "no";
     use_status_window = "yes";
     use_msgs_window = "no";
-    autocreate_query_level = "MSGS";
-    autolog_path = "~/irclogs/%Y/$tag/$0.%m-%d.log";
-    theme = "xchat";
   };
   "perl/core/scripts" = {
-    awl_display_key = "$Q%K|%n$H$C$S";
+    awl_display_key = "$Q%K|$N%n $H$C$S";
     awl_block = "-14";
     awl_display_key_active = "$Q%K|$N%n $H%U$C%n$S";
     awl_display_nokey = "[$N]$H$C$S";
-    screen_away_active = "yes";
-    screen_away_nick = "kra3";
-    bitlbee_autoreply_duration = "yes";
-    nicklist_automode = "SCREEN";
   };
 };
 logs = {
@@ -330,51 +318,17 @@ logs = {
     items = ( { type = "window"; name = "3"; } );
   };
 };
-hilights = (
-  { text = "mbensi"; nick = "yes"; word = "yes"; },
-  { text = "kra3"; nick = "no"; word = "yes"; }
-);
-keyboard = (
-  { key = "^up"; id = "command"; data = "nicklist scroll -10"; },
-  { key = "^down"; id = "command"; data = "nicklist scroll +10"; },
-  { key = "^."; id = "command"; data = "nicklist scroll -10"; },
-  { key = "^,"; id = "command"; data = "nicklist scroll +10"; }
-);
+hilights = ( { text = "kra3"; nick = "no"; word = "yes"; } );
 windows = {
-  1 = {
+  1 = { 
     immortal = "yes";
     name = "(status)";
     level = "ALL";
     sticky = "yes";
-    parent = "5";
   };
-  2 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "&bitlbee";
-        tag = "localhost";
-      }
-    );
-    sticky = "yes";
-    parent = "5";
-  };
-  3 = { name = "hilight"; sticky = "yes"; };
-  4 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#twitter_kra3";
-        tag = "localhost";
-      }
-    );
-    sticky = "yes";
-    parent = "5";
-  };
+  4 = { name = "hilight"; sticky = "yes"; };
 };
 mainwindows = {
-  5 = { first_line = "11"; lines = "47"; };
-  3 = { first_line = "1"; lines = "10"; };
+  1 = { first_line = "4"; lines = "17"; };
+  4 = { first_line = "1"; lines = "3"; };
 };
