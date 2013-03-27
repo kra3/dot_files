@@ -1,10 +1,11 @@
 ## Start with a couple of windows
 
 # default windows (name, index, command)
-screen -t bash         0
+screen -t bash         9
+screen -t irc          8   irssi
 
-# selects 7th window
-select 0
+# selects 8th window
+select 8
 
 ## status bar 
 
