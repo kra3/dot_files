@@ -3,4 +3,10 @@ Copy irssi directory to your home directory and rename it from 'irssi' to '.irss
 Edit '.irssi/config': which autologins to irc.freenod.net with my nick (kra3)
 Change those settings to which ever server you want and your nick.
 
+install following packages if you are in debian based systems (if not find proper packages for your system) to have bitlbee server installed. That's required if you want to configure twitter, YM, AIM, gtalk etc inside irssi. This also includes plugins for encrypted communication (OTR) - I don't use it as of now; so don't ask me questions about it :-P
+
+sudo apt-get install irssi bitlbee screen bitlbee-plugin-otr libtime-duration-perl libnotify-bin irssi-plugin-otr
+
+Bitlbee: http://www.antonfagerberg.com/archive/my-perfect-irssi-setup for more information
+
 Good luck.
