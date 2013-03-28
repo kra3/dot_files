@@ -2,7 +2,7 @@
 
 sleep 15 && conky | while read -r; do xsetroot -name "$REPLY"; done &
 
-trayer --edge top --align right --SetDockType true --SetPartialStrut true    --expand true --width 2 --transparent true --tint 0x000000 --height 6 &
+trayer --edge top --align center --SetDockType true --SetPartialStrut true    --expand true --widthtype request --transparent true --tint 0xffffff --height 6 &
 
 nm-applet --sm-disable &
 
@@ -13,7 +13,7 @@ xrdb -merge ~/.Xresources
 xautolock -time 5 -locker i3lock &
 
 #eval "$(gpg-agent --daemon)" &
-eval "$(/usr/bin/ssh-agent)" &
+eval `ssh-agent`
 
 if test -f /usr/lib/ssh/x11-ssh-askpass # Debian
 then

@@ -23,6 +23,7 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-fugitive'
 Bundle 'jmcantrell/vim-virtualenv'
 Bundle 'mileszs/ack.vim'
+Bundle 'taglist.vim'
 
 " Bundle 'git://git.wincent.com/command-t.git'
 

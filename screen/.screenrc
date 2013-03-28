@@ -2,10 +2,9 @@
 
 # default windows (name, index, command)
 screen -t bash         9
-screen -t irc          8   irssi
 
 # selects 8th window
-select 8
+select 9
 
 ## status bar 
 
