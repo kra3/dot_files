@@ -8,22 +8,43 @@ set autoindent 		"automatically intend next line
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Bundle 'gmarik/vundle'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'tpope/vim-rails.git'
+" the package manager
+Bundle 'gmarik/vundle'   
+
+" moving around in the file
+Bundle 'Lokaltog/vim-easymotion'  
+
+" html zen edit
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}    
+
+" syntax checker
+Bundle 'scrooloose/syntastic'                  
+
+" undo list
+Bundle 'sjl/gundo.vim'                         
+
+" block navigation/creation
+Bundle 'tpope/vim-surround'                    
+
+" file browser   
+Bundle 'scrooloose/nerdtree'                    
+
+" git support
+Bundle 'tpope/vim-fugitive'                    
+
+" python virtual env support
+Bundle 'jmcantrell/vim-virtualenv'             
+
+" ack - the better grep
+Bundle 'mileszs/ack.vim'                       
+
+" code browsing
+Bundle 'taglist.vim'                           
+
+" Color schemes: solarized, zenburn & molokai/monokai
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
 Bundle 'tomasr/molokai'
-Bundle 'scrooloose/syntastic'
-Bundle 'sjl/gundo.vim'
-"Bundle 'pope/vim-fugitive'
-Bundle 'tpope/vim-surround'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-fugitive'
-Bundle 'jmcantrell/vim-virtualenv'
-Bundle 'mileszs/ack.vim'
-Bundle 'taglist.vim'
 
 " Bundle 'git://git.wincent.com/command-t.git'
 
