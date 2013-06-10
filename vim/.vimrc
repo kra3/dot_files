@@ -41,6 +41,9 @@ Bundle 'mileszs/ack.vim'
 " code browsing
 Bundle 'taglist.vim'                           
 
+"Buffer explorer
+Bundle 'fholgado/minibufexpl.vim'
+
 " Color schemes: solarized, zenburn & molokai/monokai
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
