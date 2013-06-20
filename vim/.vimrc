@@ -110,20 +110,43 @@ set encoding=utf-8
 set wildmenu
 set autoread                    " Automatically read new changes to a file
 
+" Sets <Leader> - It's the default, but I used to forget; poor memory ;)
+let  mapleader = "\\"
+
+" EasyMotion
+let g:EasyMotion_leader_key = ','
+
+imap <C-w> <C-o><C-w>
+
+" MiniBuffer Mappings
+noremap <C-Down>  <C-W>j
+noremap <C-Up>    <C-W>k
+noremap <C-Left>  <C-W>h
+noremap <C-Right> <C-W>l
+noremap <C-TAB>   :MBEbn<CR>
+noremap <C-S-TAB> :MBEbp<CR>
+
 " To save, ctrl-s.
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 
 nnoremap <F5> :GundoToggle<CR>
+nnoremap <silent> <F8> :TlistToggle<CR>
 
-"open nerdTree with Ctrl + n
+" open nerdTree with Ctrl + n
 map <C-n> :NERDTreeToggle<CR>
-"open nerdTree automatically on vim startup
-"autocmd vimenter * NERDTree
-"Open nerdTree automatically at startup if no file is specified
+" open nerdTree automatically on vim startup
+" autocmd vimenter * NERDTree
+" Open nerdTree automatically at startup if no file is specified
 autocmd vimenter * if !argc() | NERDTree | endif
 " Close vim if NerdTree is the only window open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Taglist settings.
+let Tlist_Highlight_Tag_On_BufEnter = 1
+let Tlist_GainFocus_On_ToggleOpen = 1
+let Tlist_File_Fold_Auto_Close = 1
+let Tlist_Exit_OnlyWindow = 1
 
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
