@@ -110,8 +110,33 @@ set encoding=utf-8
 set wildmenu
 set autoread                    " Automatically read new changes to a file
 
+" Tab completion
+" will insert tab at beginning of line,
+" will use completion if not at beginning
+set wildmode=list:longest,list:full
+set complete=.,w,t
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+
 " Sets <Leader> - It's the default, but I used to forget; poor memory ;)
 let  mapleader = "\\"
+
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+" index ctags from any project
+map <Leader>ct :!ctags -R .<CR>
+
+" More natural split opening
+"set splitbelow
+"set splitright
 
 " EasyMotion
 let g:EasyMotion_leader_key = ','
@@ -130,7 +155,14 @@ noremap <C-S-TAB> :MBEbp<CR>
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 
+" Undo list
 nnoremap <F5> :GundoToggle<CR>
+
+" Easier split window navigation
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 
 " open nerdTree with Ctrl + n
 map <C-n> :NERDTreeToggle<CR>
@@ -151,11 +183,15 @@ let Tlist_Exit_OnlyWindow = 1
 
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
+let g:syntastic_check_on_open=1
  
 " Sudo to write
 cmap w!! w !sudo tee % >/dev/null
 
 " Open ranger to choose file, map it to ,r
+" Install `ranger` on your system first, It's a curl based file manager.
+" I can live with NerdTree rather than have to ever open ranger, but just in
+" case
 fun! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
     if filereadable('/tmp/chosenfile')
@@ -165,4 +201,14 @@ fun! RangerChooser()
     redraw!
 endfun
 map ,r :call RangerChooser()<CR>
+
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+if executable('ag')
+  " Use Ag over Grep
+    set grepprg=ag\ --nogroup\ --nocolor
+
+    " Use ag in CtrlP for listing files. Lightning fast and respects
+"       .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
