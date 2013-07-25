@@ -9,6 +9,10 @@ gnome-sound-applet &
 
 feh --bg-scale ~/.dwm.jpg &
 
+# This is where Terminus is installed by ubunutu
+xset +fp /usr/share/fonts/X11/misc/
+xset fp rehash
+
 xrdb -merge ~/.Xresources
 
 xautolock -time 5 -locker i3lock &
