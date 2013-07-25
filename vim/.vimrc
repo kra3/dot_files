@@ -131,7 +131,6 @@ nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 
 nnoremap <F5> :GundoToggle<CR>
-nnoremap <silent> <F8> :TlistToggle<CR>
 
 " open nerdTree with Ctrl + n
 map <C-n> :NERDTreeToggle<CR>
@@ -143,6 +142,8 @@ autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Taglist settings.
+nnoremap <silent> <F8> :TlistToggle<CR>
+
 let Tlist_Highlight_Tag_On_BufEnter = 1
 let Tlist_GainFocus_On_ToggleOpen = 1
 let Tlist_File_Fold_Auto_Close = 1
