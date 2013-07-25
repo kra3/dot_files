@@ -1,0 +1,31 @@
+[extensions]
+fetch =
+hgext.rebase =
+hgext.mq =
+hgext.schemes =
+hggit = ~/libs/hg-git/hggit/
+hgshelve = ~/libs/hgshelve.py
+checkfiles = ~/libs/checkfiles.py
+
+[ui]
+username = Arun K. R.(kra3) <the1.arun@gmail.com>
+ignore = ~/.hgignore
+
+[alias]
+slog = log --template '{rev}:{node|short} {desc|firstline}\n'
+qstatus = status --rev -2
+
+[schemes]
+src = http://sources.wyplay.int/hg/
+
+[hooks]
+#pretxnchangegroup.checkfiles = python:~/libs/checkfiles.py:check_hook # enables hook to check incoming changeset
+#pretxncommit.checkfiles = python:~/libs/checkfiles.py:check_hook # enables hook to stop bad commits
+#precommit.checkfiles = python:~/libs/checkfiles.py:fixup_hook # enables hook to fix files before creating commit
+
+[checkfiles]
+checked_exts = .py 
+use_spaces = True
+
+[diff]
+nodates = 1
