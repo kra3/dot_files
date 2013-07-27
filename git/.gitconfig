@@ -1,0 +1,13 @@
+[Alias]
+    st = status
+    ci = commit
+    df = diff
+    changes = diff - name-status
+    oneline = log - pretty = online - abbrev-commit - graph
+    undo = git reset - soft HEAD ^
+    amend = commit - amend
+[user]
+	name = Arun K. R. <kra3>
+    email = the1.arun@gmail.com
+[push]
+	default = simple
