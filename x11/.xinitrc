@@ -20,10 +20,19 @@ feh --bg-scale ~/.dwm.jpg &
 xset +fp /usr/share/fonts/X11/misc/
 xset fp rehash
 
+# Update Xresources - for urxvt and uxterm
 xrdb -merge ~/.Xresources
 
+# Set to lock automatically after 5min of incativity 
 xautolock -time 5 -locker i3lock &
 
+# Hide mouse icons after 5sec
+unclutter -idle 5 &
+
+# Start urxvt in deamon mode
+urxvtd -q -f -o
+
+# Put number lock key, on startup
 # setxkbmap -option 'grp:alt_shift_toggle'
 setxkbmap -layout "us, fr" -option "grp:alt_shift_toggle"
 
