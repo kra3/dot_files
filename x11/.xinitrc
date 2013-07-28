@@ -21,7 +21,7 @@ xset +fp /usr/share/fonts/X11/misc/
 xset fp rehash
 
 # Update Xresources - for urxvt and uxterm
-xrdb -merge ~/.Xresources
+xrdb -merge ~/.Xresources &
 
 # Set to lock automatically after 5min of incativity 
 xautolock -time 5 -locker i3lock &
@@ -30,9 +30,11 @@ xautolock -time 5 -locker i3lock &
 unclutter -idle 5 &
 
 # Start urxvt in deamon mode
-urxvtd -q -f -o
+urxvtd -q -f -o &
 
 # Put number lock key, on startup
+numlockx &
+
 # setxkbmap -option 'grp:alt_shift_toggle'
 setxkbmap -layout "us, fr" -option "grp:alt_shift_toggle"
 
