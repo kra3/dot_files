@@ -1,5 +1,6 @@
 [Alias]
     st = status
+    ctags = !.git/hooks/ctags
     ci = commit
     df = diff
     changes = diff - name-status
@@ -11,3 +12,5 @@
     email = the1.arun@gmail.com
 [push]
 	default = simple
+[init]
+            templatedir = ~/.git_template
