@@ -1,10 +1,5 @@
 runtime! debian.vim
 
-set backupdir=~/.vim/backup,/tmp
-set wrapscan   		"continue searching at top when hitting bottom
-set spell
-set autoindent 		"automatically intend next line
-
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -51,43 +46,55 @@ Bundle 'tomasr/molokai'
 
 " Bundle 'git://git.wincent.com/command-t.git'
 
+set nocompatible
+set encoding=utf-8
+set shortmess+=I     		"remove message at startup
+
 syntax on
 
+" Enable filetype plugins
 filetype on 
 filetype plugin indent on
 
 set fileformat=unix
 au BufNewFile * set fileformat=unix
 
+" set backup off, most of my work is with version controlled files
+set nobackup
+set nowb
+set noswapfile
+
 colorscheme zenburn
 set background=dark
-set ruler 
+
+set ruler "Always show current position 
 set number
 
 set tabstop=4
-set shiftwidth=4
 set softtabstop=4 
-set expandtab
+set shiftwidth=4
+set expandtab " Use spaces instead of tabs
 set smarttab
-set autoindent
+
+set spell
+
+set autoindent 		"automatically intend next line
 set smartindent
 set shiftround
-
-set nocompatible
 
 set hlsearch  			"highlight search results
 set incsearch 			"incremental search
 set ignorecase 			"do case insensitive matching
 set smartcase           "do smart case matching
+set wrapscan   		"continue searching at top when hitting bottom
 
 set showcmd 			" Show (partial) command in status line.
 set showmatch           " Show matching brackets.
-set mat=5
+set mat=2
 set showmode
 
-map ;  :
+map ; :
 
-set shortmess+=I     		"remove message at startup
 set complete+=k
 set completeopt+=longest
 set backspace=indent,eol,start
@@ -106,9 +113,11 @@ set wrap
 
 set cursorline                  " Highlight current line
 set cursorcolumn                " Highlight current column
-set encoding=utf-8
 set wildmenu
 set autoread                    " Automatically read new changes to a file
+
+" A buffer becomes hidden when it is abandoned
+set hid
 
 " Tab completion
 " will insert tab at beginning of line,
@@ -126,7 +135,10 @@ endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
 " Sets <Leader> - It's the default, but I used to forget; poor memory ;)
-let  mapleader = "\\"
+let mapleader = "\\"
+
+" EasyMotion
+let g:EasyMotion_leader_key = ','
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
@@ -137,9 +149,6 @@ map <Leader>ct :!ctags -R .<CR>
 " More natural split opening
 "set splitbelow
 "set splitright
-
-" EasyMotion
-let g:EasyMotion_leader_key = ','
 
 imap <C-w> <C-o><C-w>
 
@@ -164,6 +173,24 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+" Remember info about open buffers on close
+set viminfo^=%
+
 " open nerdTree with Ctrl + n
 map <C-n> :NERDTreeToggle<CR>
 " open nerdTree automatically on vim startup
@@ -187,6 +214,8 @@ let g:syntastic_check_on_open=1
  
 " Sudo to write
 cmap w!! w !sudo tee % >/dev/null
+" Fast saving
+nmap <leader>w :w!<cr>
 
 " Open ranger to choose file, map it to ,r
 " Install `ranger` on your system first, It's a curl based file manager.
