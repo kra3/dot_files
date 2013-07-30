@@ -17,8 +17,8 @@ backtick 2 0 0 /usr/local/bin/screen-cpu-usage
 #hardstatus off
 hardstatus alwayslastline
 #hardstatus string '%{= kG}[%{G}%H%{g}][%{W}%l%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%1`%{-} %2`%{-}][%{G}%C:%s%a | %M %d(%D), %Y%{g}]'
-hardstatus string '%{= kG}[%{G}%H%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{W}%1`%{-} %2`%{-}%{w}][%{G}%C:%s%a | %D, %d/%m/%Y%{g}]'
-
+hardstatus string '%{= kG}[%{G}%H%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{W}%1`%{-} %2`%{-}%{w}]'
+#[%{G}%C:%s%a | %D, %d/%m/%Y%{g}]
 ## Misc settings
 
 # To clear the screen after closing some programs
@@ -29,11 +29,10 @@ startup_message off
 
 # erase background with current bg color
 defbce "on" 
+
 # set TERM
 term screen-256color-bce
 
-#use scroll wheel
-#termcapinfo xterm ti@:te@
 # tell screen how to set colors. AB = background, AF=foreground
 # termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 
@@ -54,4 +53,6 @@ autodetach on
 # Use a 30000-line scrollback buffer
 defscrollback 30000 
 
+#use scroll wheel
 termcapinfo xterm ti@:te@
+
