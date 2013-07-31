@@ -40,6 +40,11 @@ setxkbmap -layout "us, fr" -option "grp:alt_shift_toggle"
 
 ~/bin/notify-listener.py & 
 
+# A place for your distro/box specific startup scripts
+if [ -f "$HOME/.xinitrc_local" ]; then
+   . "$HOME/.xinitrc_local"
+fi
+
 exec dwm
 
 #while true; do
