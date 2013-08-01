@@ -7,8 +7,6 @@ if [ -d /etc/X11/Xsession.d ]; then
    unset f
 fi
 
-sleep 5 && conky | while read -r; do xsetroot -name "$REPLY"; done &
-
 #trayer --edge top --align center --SetDockType true --SetPartialStrut true    --expand true --widthtype request --transparent true --tint 0xffffff --height 6 &
 
 nm-applet --sm-disable &
@@ -44,6 +42,8 @@ setxkbmap -layout "us, fr" -option "grp:alt_shift_toggle"
 if [ -f "$HOME/.xinitrc_local" ]; then
    . "$HOME/.xinitrc_local"
 fi
+
+sleep 5 && conky | while read -r; do xsetroot -name "$REPLY"; done &
 
 exec dwm
 
