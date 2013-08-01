@@ -1,0 +1,21 @@
+#!/usr/bin/env bash 
+
+# Start zicbee music player server, play music with wasp
+zicserve &
+
+# create a tmux session 'work' with a shell
+tmux new-session -d -s work -n 'Shell'  'bash'
+# create a window & run vim
+tmux new-window -t work -n 'Edit'   'vim'
+# create a split & run ipython in it.
+tmux split-window -h -t work 'ipython'
+# create another window for Serial connection to DTV boards 'screen /dev/ttyUSB0'
+tmux new-window -t work -n 'Serial'
+
+# Another session for common activities with a file manager 
+tmux new-session -d -s others -n 'Files'  'ranger'
+# A window for irc
+tmux new-window -t others -n 'IRC'   'irssi'
+# Another window for music, runs wasp client, used for zicbee music server. Try mpd?.
+tmux new-window -t others -n 'Music' 'wasp'
+
