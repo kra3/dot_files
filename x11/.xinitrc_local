@@ -7,10 +7,12 @@ zicserve &
 tmux new-session -d -s work -n 'Shell'  'bash'
 # create a window & run vim
 tmux new-window -t work -n 'Edit'   'vim'
-# create a split & run ipython in it.
-tmux split-window -h -t work 'ipython'
+# create a split & run ipython in it, take 25% screen space.
+tmux split-window -h -p 25  -t work 'ipython'
 # create another window for Serial connection to DTV boards 'screen /dev/ttyUSB0'
 tmux new-window -t work -n 'Serial'
+#select shell by default
+tmux select-window -t work:1
 
 # Another session for common activities with a file manager 
 tmux new-session -d -s others -n 'Files'  'ranger'
@@ -18,4 +20,13 @@ tmux new-session -d -s others -n 'Files'  'ranger'
 tmux new-window -t others -n 'IRC'   'irssi'
 # Another window for music, runs wasp client, used for zicbee music server. Try mpd?.
 tmux new-window -t others -n 'Music' 'wasp'
+#select irc by default
+tmux select-window -t others:2
+
+# Auto start apps
+uxterm -e 'tmux attach -t work'
+uxterm -e 'tmux attach -t others'
+chromium-browser &
+firefox &
+thunderbird &
 
