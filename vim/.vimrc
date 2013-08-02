@@ -149,7 +149,7 @@ inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 let mapleader = ","
 
 " EasyMotion
-let g:EasyMotion_leader_key = ';'
+let g:EasyMotion_leader_key = '.'
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
