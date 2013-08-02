@@ -38,11 +38,6 @@ setxkbmap -layout "us, fr" -option "grp:alt_shift_toggle"
 
 ~/bin/notify-listener.py & 
 
-# A place for your distro/box specific startup scripts
-if [ -f "$HOME/.xinitrc_local" ]; then
-   . "$HOME/.xinitrc_local"
-fi
-
 sleep 5 && conky | while read -r; do xsetroot -name "$REPLY"; done &
 
 exec dwm
@@ -53,3 +48,8 @@ exec dwm
 #   # No error logging
 #   #dwm >/dev/null 2>&1
 #done
+
+# A place for your distro/box specific startup scripts
+if [ -f "$HOME/.xinitrc_local" ]; then
+   . "$HOME/.xinitrc_local"
+fi
