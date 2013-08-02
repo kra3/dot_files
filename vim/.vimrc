@@ -156,6 +156,7 @@ nnoremap <leader><leader> <c-^>
 
 " index ctags from any project
 map <Leader>ct :!ctags -R .<CR>
+set tags=./tags;/    " look for tags from current dir to upwards
 
 " More natural split opening
 "set splitbelow
