@@ -39,10 +39,37 @@ Bundle 'taglist.vim'
 "Buffer explorer
 Bundle 'fholgado/minibufexpl.vim'
 
+" Smart Space key utilization
+" Bundle 'spiiph/vim-space'
+
+" Increments/decrements dates, time rather than treating them as numbers on
+" <C-A> and <C-X> respectively
+Bundle 'tpope/vim-speeddating'
+
+" repeat whole commands in the plug-in mapping
+Bundle 'tpope/vim-repeat'
+
+" Three separate functions: coercion, substitution, & abbreviation
+" Bundle 'tpope/vim-abolish'
+
+" relative / Normal line numbering
+Bundle "myusuf3/numbers.vim"
+
+" Comment toggling - gcc 
+Bundle 'tpope/vim-commentary'
+
+" Ctrlp search buffer, mru files, files
+Bundle 'kien/ctrlp.vim'
+
+" indexed search
+Bundle 'vim-scripts/IndexedSearch'
+
+" Arrange code, eg., aligning '=' or ':' in a class/function 
+Bundle 'godlygeek/tabular'
+
 " Color schemes: solarized, zenburn & molokai/monokai
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
-Bundle 'tomasr/molokai'
 
 " Bundle 'git://git.wincent.com/command-t.git'
 
@@ -176,6 +203,10 @@ noremap <C-S-TAB> :MBEbp<CR>
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 
+" numbers.vim
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
+
 " Undo list
 nnoremap <F5> :GundoToggle<CR>
 
@@ -213,6 +244,7 @@ autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 let NERDTreeWinSize = 20
+let NERDTreeChDirMode=2  " use the new dir as cwd
 
 " Taglist settings.
 nnoremap <silent> <F8> :TlistToggle<CR>
@@ -225,7 +257,11 @@ let Tlist_Exit_OnlyWindow = 1
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
 let g:syntastic_check_on_open=1
- 
+
+" For ctrlp
+" let g:ctrlp_cmd = 'CtrlP' " set to CtrlPMixed to search all at once
+let g:ctrlp_working_path_mode = 'ra'
+
 " Sudo to write
 cmap w!! w !sudo tee % >/dev/null
 " Fast saving
