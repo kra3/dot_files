@@ -19,7 +19,7 @@ URxvt*loginShell:        true
 URxvt*scrollBar:         false 
 !URxvt*scrollstyle:      plain 
 !URxvt*scrollBar_right:  true
-URxvt*termName:          rxvt
+URxvt*termName:          rxvt-unicode-256color
 URxvt.buffered:          true
 URxvt.perl-ext:          default,matcher
 URxvt.urlLauncher:       /usr/bin/firefox
