@@ -24,8 +24,9 @@ tmux new-window -t others -n 'Music' 'wasp'
 tmux select-window -t others:2
 
 # Auto start apps
-uxterm -e 'tmux attach -t work'
-uxterm -e 'tmux attach -t others'
+uxterm -e 'tmux attach -t work' &
+uxterm -e 'tmux attach -t others' &
+sublime_text &
 chromium-browser &
 firefox &
 thunderbird &

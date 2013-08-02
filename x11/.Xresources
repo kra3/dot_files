@@ -67,8 +67,6 @@ UXTerm*jumpScroll:       true
 UXTerm*multiScroll:      true
 UXTerm*toolBar:          false
 UXTerm*metaSendsEscape:  true
-!UXTerm*foreground:       gray60
-!UXTerm*background:       black
 !UXTerm*cursorColor:      green
 UXTerm*cursorBlink:      true
 UXTerm*cursorOffTime:    500
