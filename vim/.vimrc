@@ -49,6 +49,7 @@ Bundle 'tomasr/molokai'
 set nocompatible
 set encoding=utf-8
 set shortmess+=I     		"remove message at startup
+set t_Co=256
 
 syntax on
 
@@ -64,8 +65,10 @@ set nobackup
 set nowb
 set noswapfile
 
-colorscheme zenburn
 set background=dark
+"let g:solarized_termcolors=256     " to use degraded color pallette if
+"terminal is not using solorized color pallette
+colorscheme solarized
 
 set ruler "Always show current position 
 set number
@@ -77,6 +80,7 @@ set expandtab " Use spaces instead of tabs
 set smarttab
 
 set spell
+set spelllang=en
 
 set autoindent 		"automatically intend next line
 set smartindent
@@ -99,6 +103,7 @@ set complete+=k
 set completeopt+=longest
 set backspace=indent,eol,start
 set history=50
+set undolevels=500
 
 " Show special characters
 "if v:version >= 700
@@ -111,18 +116,24 @@ set history=50
 set textwidth=0
 set wrap
 
+set scrolloff=5      " Minimal number of screen lines to keep above and below the cursor.
+
+set autoread                    " Automatically read new changes to a file
+"set autowrite
 set cursorline                  " Highlight current line
 set cursorcolumn                " Highlight current column
-set wildmenu
-set autoread                    " Automatically read new changes to a file
-
-" A buffer becomes hidden when it is abandoned
-set hid
-
-" Tab completion
+set wildmenu                    " command line completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
 set wildmode=list:longest,list:full
+set wildignorecase   " When set case is ignored when completing file names and directories.
+set wildignore+=*.swp,*.bak,*.pyc,*.class,.git,.hg
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " images
+set wildignore+=*.o,*.exe,*.dll,*.manifest " compiled object files
+
+" A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
+set hidden
+
 set complete=.,w,t
 function! InsertTabWrapper()
     let col = col('.') - 1
@@ -134,11 +145,11 @@ function! InsertTabWrapper()
 endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
-" Sets <Leader> - It's the default, but I used to forget; poor memory ;)
-let mapleader = "\\"
+" Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
+let mapleader = ","
 
 " EasyMotion
-let g:EasyMotion_leader_key = ','
+let g:EasyMotion_leader_key = ';'
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
@@ -199,6 +210,8 @@ map <C-n> :NERDTreeToggle<CR>
 autocmd vimenter * if !argc() | NERDTree | endif
 " Close vim if NerdTree is the only window open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+let NERDTreeWinSize = 20
 
 " Taglist settings.
 nnoremap <silent> <F8> :TlistToggle<CR>
