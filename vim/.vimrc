@@ -6,26 +6,41 @@ call vundle#rc()
 " the package manager
 Bundle 'gmarik/vundle'   
 
-" moving around in the file
-Bundle 'Lokaltog/vim-easymotion'  
-
-" html zen edit
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}    
-
-" syntax checker
-Bundle 'scrooloose/syntastic'                  
+" Ctrlp search buffer, mru files, files
+Bundle 'kien/ctrlp.vim'
 
 " undo list
 Bundle 'sjl/gundo.vim'                         
 
+" git support
+Bundle 'tpope/vim-fugitive'                    
+
+"Buffer explorer
+Bundle 'fholgado/minibufexpl.vim'
+
+" better taglist
+Bundle 'majutsushi/tagbar'
+
+" moving around in the file
+Bundle 'Lokaltog/vim-easymotion'  
+
 " block navigation/creation
 Bundle 'tpope/vim-surround'                    
 
-" file browser   
-Bundle 'scrooloose/nerdtree'                    
+" syntax checker
+Bundle 'scrooloose/syntastic'                  
 
-" git support
-Bundle 'tpope/vim-fugitive'                    
+" indexed search
+Bundle 'vim-scripts/IndexedSearch'
+
+" repeat whole commands in the plug-in mapping
+Bundle 'tpope/vim-repeat'
+
+" relative / Normal line numbering
+Bundle "myusuf3/numbers.vim"
+
+" Comment toggling - gcc 
+Bundle 'tpope/vim-commentary'
 
 " python virtual env support
 Bundle 'jmcantrell/vim-virtualenv'             
@@ -33,11 +48,8 @@ Bundle 'jmcantrell/vim-virtualenv'
 " ack - the better grep
 Bundle 'mileszs/ack.vim'                       
 
-" code browsing
-Bundle 'taglist.vim'                           
-
-"Buffer explorer
-Bundle 'fholgado/minibufexpl.vim'
+" html zen edit
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}    
 
 " Smart Space key utilization
 " Bundle 'spiiph/vim-space'
@@ -46,28 +58,16 @@ Bundle 'fholgado/minibufexpl.vim'
 " <C-A> and <C-X> respectively
 Bundle 'tpope/vim-speeddating'
 
-" repeat whole commands in the plug-in mapping
-Bundle 'tpope/vim-repeat'
-
 " Three separate functions: coercion, substitution, & abbreviation
 " Bundle 'tpope/vim-abolish'
-
-" relative / Normal line numbering
-Bundle "myusuf3/numbers.vim"
-
-" Comment toggling - gcc 
-Bundle 'tpope/vim-commentary'
-
-" Ctrlp search buffer, mru files, files
-Bundle 'kien/ctrlp.vim'
-
-" indexed search
-Bundle 'vim-scripts/IndexedSearch'
 
 " Arrange code, eg., aligning '=' or ':' in a class/function 
 Bundle 'godlygeek/tabular'
 
-" Color schemes: solarized, zenburn & molokai/monokai
+" file browser - using CtrlP now   
+"Bundle 'scrooloose/nerdtree'                    
+
+" Color schemes: solarized, zenburn 
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
 
@@ -276,29 +276,29 @@ try
 catch
 endtry
 
-" open nerdTree with Ctrl + n
-map <C-n> :NERDTreeToggle<CR>
-" open nerdTree automatically on vim startup
-" autocmd vimenter * NERDTree
-" Open nerdTree automatically at startup if no file is specified
-autocmd vimenter * if !argc() | NERDTree | endif
-" Close vim if NerdTree is the only window open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" I'm using Ctrl-P now {{{
+    " open nerdTree with Ctrl + n
+    " map <C-n> :NERDTreeToggle<CR>
+    " Open nerdTree automatically at startup if no file is specified
+    "autocmd vimenter * if !argc() | NERDTree | endif
+    " Close vim if NerdTree is the only window open
+    "atocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+    "let NERDTreeWinSize = 20
+    "let NERDTreeChDirMode=2  " use the new dir as cwd
+" }}}
 
-let NERDTreeWinSize = 20
-let NERDTreeChDirMode=2  " use the new dir as cwd
+" Tagbar settings.
+nnoremap <silent> <F8> :TagbarToggle<CR>
 
-" Taglist settings.
-nnoremap <silent> <F8> :TlistToggle<CR>
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
+let g:tagbar_singleclick = 1
+let g:tagbar_iconchars = ['+', '-']
 
-let Tlist_Highlight_Tag_On_BufEnter = 1
-let Tlist_GainFocus_On_ToggleOpen = 1
-let Tlist_File_Fold_Auto_Close = 1
-let Tlist_Exit_OnlyWindow = 1
 
 " Bundld 'scrooloose/syntastic'
-let g:syntastic_enable_signs=1
-let g:syntastic_check_on_open=1
+let g:syntastic_enable_signs = 1
+let g:syntastic_check_on_open = 1
 
 " For ctrlp
 " let g:ctrlp_cmd = 'CtrlP' " set to CtrlPMixed to search all at once
@@ -335,5 +335,4 @@ fun! RangerChooser()
     redraw!
 endfun
 map ,r :call RangerChooser()<CR>
-
 
