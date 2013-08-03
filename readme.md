@@ -13,7 +13,7 @@ git submodule update
 Change dir to tmux-mem-cpu-load:
 
 ```bash
-cd ~/.tmux-tony/vendor/tmux-mem-cpu-load
+cd tmux/addon
 ```
 
 General make file:
