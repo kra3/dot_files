@@ -42,7 +42,7 @@ Bundle 'fholgado/minibufexpl.vim'
 " Smart Space key utilization
 " Bundle 'spiiph/vim-space'
 
-" Increments/decrements dates, time rather than treating them as numbers on
+"Increments/decrements dates, time rather than treating them as numbers on
 " <C-A> and <C-X> respectively
 Bundle 'tpope/vim-speeddating'
 
@@ -107,28 +107,29 @@ set smarttab
 set spell
 set spelllang=en
 
-set autoindent 		"automatically intend next line
-set smartindent
-set shiftround
+set autoindent 		    "automatically intend next line
+set smartindent         "be smart while doing so 
+set shiftround          
 
 set hlsearch  			"highlight search results
 set incsearch 			"incremental search
 set ignorecase 			"do case insensitive matching
 set smartcase           "do smart case matching
-set wrapscan   		"continue searching at top when hitting bottom
+set wrapscan   		    "continue searching at top when hitting bottom
 
 set showcmd 			" Show (partial) command in status line.
 set showmatch           " Show matching brackets.
-set mat=2
+set mat=2               " How many tenths of a second to blink when matching brackets
 set showmode
-
-map ; :
 
 set complete+=k
 set completeopt+=longest
 set backspace=indent,eol,start
-set history=50
+set whichwrap+=<,>,h,l
+set history=500
 set undolevels=500
+
+set lazyredraw   " don't redraw while executing macros
 
 " Show special characters
 "if v:version >= 700
@@ -136,6 +137,8 @@ set undolevels=500
 "else
 "  set list listchars=tab:>-,trail:.,extends:>
 "endif
+
+map ; :
 
 " Don't break up long lines, but visually wrap them.
 set textwidth=0
@@ -172,6 +175,7 @@ inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
 " Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
 let mapleader = ","
+let g:mapleader = ","
 
 " EasyMotion
 let g:EasyMotion_leader_key = '.'
@@ -190,10 +194,6 @@ set tags=./tags;/    " look for tags from current dir to upwards
 imap <C-w> <C-o><C-w>
 
 " MiniBuffer Mappings
-noremap <C-Down>  <C-W>j
-noremap <C-Up>    <C-W>k
-noremap <C-Left>  <C-W>h
-noremap <C-Right> <C-W>l
 noremap <C-TAB>   :MBEbn<CR>
 noremap <C-S-TAB> :MBEbp<CR>
 
@@ -208,11 +208,24 @@ nnoremap <F4> :NumbersOnOff<CR>
 " Undo list
 nnoremap <F5> :GundoToggle<CR>
 
+" treat long lines as break lines = easier navigation
+map j gj
+map k gk
+
+map <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pressed
+"map <leader>bd :MBEClose<cr> " Close the current buffer
+"map <leader>ba :1,1000 bd!<cr> " Close all the buffers
+map <leader>cd :cd %:p:h<cr>:pwd<cr> " Switch CWD to the directory of the open buffer
+
 " Easier split window navigation
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
+nnoremap <C-j>      <C-w>j
+nnoremap <C-k>      <C-w>k
+nnoremap <C-h>      <C-w>h
+nnoremap <C-l>      <C-w>l
+nnoremap <C-Down>   <C-W>j
+nnoremap <C-Up>     <C-W>k
+nnoremap <C-Left>   <C-W>h
+nnoremap <C-Right>  <C-W>l
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -224,13 +237,44 @@ map <leader>tm :tabmove
 " Super useful when editing files in the same directory
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
+" Move a line of text using ALT+[jk]
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+map <leader>ss :setlocal spell!<cr> " Pressing ,ss will toggle and untoggle spell checking
+
+map <leader>sn ]s       " Next spell error
+map <leader>sp [s       " Prev spell error
+map <leader>sa zg       " Add word to dictionary
+map <leader>s? z=       " Correct given word to <from list>
+
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \ if line("'\"") > 1 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
+
 " Remember info about open buffers on close
 set viminfo^=%
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+
+autocmd BufWrite *.py :call DeleteTrailingWS()
+"autocmd BufWrite *.coffee :call DeleteTrailingWS()
+
+" Specify the behavior when switching between buffers 
+try
+  set switchbuf=useopen,usetab,split           " newtab - instead of split open a new tab page for quickfix
+  set stal=1   " showtabline       2 - always, 1 - more than 1, 0 - never 
+catch
+endtry
 
 " open nerdTree with Ctrl + n
 map <C-n> :NERDTreeToggle<CR>
@@ -260,6 +304,7 @@ let g:syntastic_check_on_open=1
 " let g:ctrlp_cmd = 'CtrlP' " set to CtrlPMixed to search all at once
 let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_show_hidden = 1
+let g:ctrlp_max_files = 0 " No upper limit
 let ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo']
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
