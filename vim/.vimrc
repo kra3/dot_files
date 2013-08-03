@@ -71,8 +71,6 @@ Bundle 'godlygeek/tabular'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
 
-" Bundle 'git://git.wincent.com/command-t.git'
-
 set nocompatible
 set encoding=utf-8
 set shortmess+=I     		"remove message at startup
@@ -261,6 +259,18 @@ let g:syntastic_check_on_open=1
 " For ctrlp
 " let g:ctrlp_cmd = 'CtrlP' " set to CtrlPMixed to search all at once
 let g:ctrlp_working_path_mode = 'ra'
+" let g:ctrlp_show_hidden = 1
+let ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo']
+
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+if executable('ag')
+  " Use Ag over Grep
+    set grepprg=ag\ --nogroup\ --nocolor
+
+    " Use ag in CtrlP for listing files. Lightning fast and respects
+"       .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
 " Sudo to write
 cmap w!! w !sudo tee % >/dev/null
@@ -281,13 +291,4 @@ fun! RangerChooser()
 endfun
 map ,r :call RangerChooser()<CR>
 
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  " Use Ag over Grep
-    set grepprg=ag\ --nogroup\ --nocolor
-
-    " Use ag in CtrlP for listing files. Lightning fast and respects
-"       .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
 
