@@ -9,9 +9,8 @@ Bundle 'gmarik/vundle'
 " Ctrlp search buffer, mru files, files
 Bundle 'kien/ctrlp.vim'
 
-" undo list
-Bundle 'sjl/gundo.vim'                         
-" Bundle 'mbbill/undotree'     " claims to be faster and fully vimscript.
+" claims to be faster and fully vimscript.
+Bundle 'mbbill/undotree'     
 
 " git support
 Bundle 'tpope/vim-fugitive'                    
@@ -23,7 +22,7 @@ Bundle 'majutsushi/tagbar'
 Bundle 'Lokaltog/vim-easymotion'  
 
 " moving in a line
-" Bundle 'goldfeld/vim-seek'
+Bundle 'goldfeld/vim-seek'
 
 " block navigation/creation
 Bundle 'tpope/vim-surround'                    
@@ -34,13 +33,16 @@ Bundle 'scrooloose/syntastic'
 " indexed search
 Bundle 'vim-scripts/IndexedSearch'
 
-" repeat whole commands in the plug-in mapping
+" useful for python
+Bundle "michaeljsmith/vim-indent-object"
+
+" repeat whole scommands in the plug-in mapping
 Bundle 'tpope/vim-repeat'
 
 " relative / Normal line numbering
 Bundle "myusuf3/numbers.vim"
 
-" Comment toggling - gcc 
+" Comments toggling - gcc 
 Bundle 'tpope/vim-commentary'
 
 " python virtual env support
@@ -55,15 +57,12 @@ Bundle 'rking/ag.vim'
 " html zen edit
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}    
 
-" Smart Space key utilization
-" Bundle 'spiiph/vim-space'
-
 "Increments/decrements dates, time rather than treating them as numbers on
 " <C-A> and <C-X> respectively
 Bundle 'tpope/vim-speeddating'
 
 " Three separate functions: coercion, substitution, & abbreviation
-" Bundle 'tpope/vim-abolish'
+Bundle 'tpope/vim-abolish'
 
 " Arrange code, eg., aligning '=' or ':' in a class/function 
 Bundle 'godlygeek/tabular'
@@ -73,6 +72,9 @@ Bundle 'godlygeek/tabular'
 
 " file browser - using CtrlP now   
 "Bundle 'scrooloose/nerdtree'                    
+
+" undo list
+" Bundle 'sjl/gundo.vim'                         
 
 " Color schemes: solarized, zenburn 
 Bundle 'altercation/vim-colors-solarized'
@@ -191,12 +193,6 @@ inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 let mapleader = ","
 let g:mapleader = ","
 
-" EasyMotion
-let g:EasyMotion_leader_key = '.'
-
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
-
 " index ctags from any project
 map <Leader>ct :!ctags -R .<CR>
 set tags=./tags;/    " look for tags from current dir to upwards
@@ -216,7 +212,12 @@ nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
 
 " Undo list
-nnoremap <F5> :GundoToggle<CR>
+nnoremap <F5> :UndotreeToggle<CR>
+
+if has("persistent_undo")
+    set undodir = "~/.vim/undofiles"
+    set undofile
+endif
 
 " treat long lines as break lines = easier navigation
 map j gj
