@@ -13,6 +13,9 @@
 [push]
 	default = simple
 [merge]
+    tool = mymeld
 	conflictstyle = diff3
+[mergetool "mymeld"]
+    cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
 [init]
     templatedir = ~/.git_template
