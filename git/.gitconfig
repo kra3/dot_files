@@ -12,5 +12,7 @@
     email = the1.arun@gmail.com
 [push]
 	default = simple
+[merge]
+	conflictstyle = diff3
 [init]
-            templatedir = ~/.git_template
+    templatedir = ~/.git_template
