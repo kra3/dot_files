@@ -16,9 +16,6 @@ Bundle 'sjl/gundo.vim'
 " git support
 Bundle 'tpope/vim-fugitive'                    
 
-"Buffer explorer
-Bundle 'fholgado/minibufexpl.vim'
-
 " better taglist
 Bundle 'majutsushi/tagbar'
 
@@ -143,9 +140,8 @@ set undolevels=100
 
 set lazyredraw   " don't redraw while executing macros
 
-" Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
-" scroll in the terminal
-set mouse=a
+" To scroll in the terminul
+"set mouse=a
 
 " Show special characters
 "if v:version >= 700
@@ -208,10 +204,6 @@ set tags=./tags;/    " look for tags from current dir to upwards
 
 imap <C-w> <C-o><C-w>
 
-" MiniBuffer Mappings
-noremap <C-TAB>   :MBEbn<CR>
-noremap <C-S-TAB> :MBEbp<CR>
-
 " To save, ctrl-s.
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
@@ -228,7 +220,6 @@ map j gj
 map k gk
 
 map <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pressed
-"map <leader>bd :MBEClose<cr> " Close the current buffer
 "map <leader>ba :1,1000 bd!<cr> " Close all the buffers
 map <leader>cd :cd %:p:h<cr>:pwd<cr> " Switch CWD to the directory of the open buffer
 
@@ -252,13 +243,24 @@ map <leader>tm :tabmove
 " Super useful when editing files in the same directory
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
+" Fugitive tricks
+" to go to parent tree while in :Gedit
+autocmd User fugitive
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \ endif
+" delete :Gedit buffers when moving to another object
+autocmd BufReadPost fugitive://* set bufhidden=delete
+" Show git branch in status line
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
 " Move a line of text using ALT+[jk]
-nmap <M-j> mz:m+<cr>`z
-nmap <M-k> mz:m-2<cr>`z
-vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-"nnoremap <silent> <M-j> mzyyp`zj         " Alt-Shift-j: Duplicate line down
-"nnoremap <silent> <M-k> mzyyp`z          " Alt-Shift-k: Duplicate line up
+nnoremap <silent> <C-S-j> :move .-2<CR>|
+nnoremap <silent> <C-S-k> :move .+1<CR>|
+vnoremap <silent> <C-S-j> :move '<-2<CR>gv|
+vnoremap <silent> <C-S-k> :move '>+1<CR>gv|
+inoremap <silent> <C-S-k> <C-o>:move .+1<CR>|
+inoremap <silent> <C-S-j> <C-o>:move .-2<CR>|
 
 map <leader>ss :setlocal spell!<cr> " Pressing ,ss will toggle and untoggle spell checking
 
@@ -269,7 +271,7 @@ map <leader>s? z=       " Correct given word to <from list>
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
-     \ if line("'\"") > 1 && line("'\"") <= line("$") |
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
 
@@ -316,6 +318,14 @@ let g:tagbar_iconchars = ['+', '-']
 let g:syntastic_enable_signs = 1
 let g:syntastic_check_on_open = 1
 
+" Configure vim's builtin netrw file browser - it can work across various
+" protocols. So read the docs.
+let g:netrw_liststyle=3
+let g:netrw_browse_split=4
+let g:netrw_preview=1
+let g:netrw_winsize=20
+map <C-n> :Ve<CR>     " Open a Vertical split at current files path
+
 " For ctrlp
 " let g:ctrlp_cmd = 'CtrlP' " set to CtrlPMixed to search all at once
 let g:ctrlp_working_path_mode = 'ra'
@@ -328,8 +338,7 @@ if executable('ag')
   " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
 
-    " Use ag in CtrlP for listing files. Lightning fast and respects
-"       .gitignore
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
