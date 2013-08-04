@@ -11,6 +11,7 @@ Bundle 'kien/ctrlp.vim'
 
 " undo list
 Bundle 'sjl/gundo.vim'                         
+" Bundle 'mbbill/undotree'     " claims to be faster and fully vimscript.
 
 " git support
 Bundle 'tpope/vim-fugitive'                    
@@ -23,6 +24,9 @@ Bundle 'majutsushi/tagbar'
 
 " moving around in the file
 Bundle 'Lokaltog/vim-easymotion'  
+
+" moving in a line
+" Bundle 'goldfeld/vim-seek'
 
 " block navigation/creation
 Bundle 'tpope/vim-surround'                    
@@ -64,6 +68,9 @@ Bundle 'tpope/vim-speeddating'
 " Arrange code, eg., aligning '=' or ':' in a class/function 
 Bundle 'godlygeek/tabular'
 
+" awesome completion, but need a recent vim version
+" Valloric/YouCompleteMe 
+
 " file browser - using CtrlP now   
 "Bundle 'scrooloose/nerdtree'                    
 
@@ -81,6 +88,11 @@ syntax on
 " Enable filetype plugins
 filetype on 
 filetype plugin indent on
+
+try
+  source ~/.vimrc.local
+catch
+endtry
 
 set fileformat=unix
 au BufNewFile * set fileformat=unix
@@ -122,14 +134,18 @@ set showmatch           " Show matching brackets.
 set mat=2               " How many tenths of a second to blink when matching brackets
 set showmode
 
-set complete+=k
+set complete+=k    " default is ".,w,b,u,t,i"
 set completeopt+=longest
 set backspace=indent,eol,start
 set whichwrap+=<,>,h,l
-set history=500
-set undolevels=500
+set history=50
+set undolevels=100
 
 set lazyredraw   " don't redraw while executing macros
+
+" Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
+" scroll in the terminal
+set mouse=a
 
 " Show special characters
 "if v:version >= 700
@@ -162,7 +178,6 @@ set wildignore+=*.o,*.exe,*.dll,*.manifest " compiled object files
 " A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
 set hidden
 
-set complete=.,w,t
 function! InsertTabWrapper()
     let col = col('.') - 1
     if !col || getline('.')[col - 1] !~ '\k'
@@ -242,6 +257,8 @@ nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+"nnoremap <silent> <M-j> mzyyp`zj         " Alt-Shift-j: Duplicate line down
+"nnoremap <silent> <M-k> mzyyp`z          " Alt-Shift-k: Duplicate line up
 
 map <leader>ss :setlocal spell!<cr> " Pressing ,ss will toggle and untoggle spell checking
 
@@ -295,7 +312,6 @@ let g:tagbar_autoclose = 1
 let g:tagbar_singleclick = 1
 let g:tagbar_iconchars = ['+', '-']
 
-
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs = 1
 let g:syntastic_check_on_open = 1
@@ -317,10 +333,27 @@ if executable('ag')
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
+" Ctrl-r: Easier search and replace
+vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
+
+" Ctrl-s: Easier substitue
+vnoremap <c-s> :s/\%V//g<left><left><left>
+
 " Sudo to write
 cmap w!! w !sudo tee % >/dev/null
 " Fast saving
 nmap <leader>w :w!<cr>
+
+" Cursor settings. This makes terminal vim sooo much nicer!
+" Tmux will only forward escape sequences to the terminal if surrounded by a DCS
+" sequence
+"if exists('$TMUX')
+"  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"else
+"  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"endif
 
 " Open ranger to choose file, map it to ,r
 " Install `ranger` on your system first, It's a curl based file manager.
