@@ -49,6 +49,9 @@ Bundle 'jmcantrell/vim-virtualenv'
 " ack - the better grep
 Bundle 'mileszs/ack.vim'                       
 
+" ag - the better Ack
+Bundle 'rking/ag.vim'                       
+
 " html zen edit
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}    
 
