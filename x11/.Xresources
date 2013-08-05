@@ -97,7 +97,7 @@ URxvt.transparent:       True
 URxvt.shading:           25
 URxvt*colorUL:           #366060
 URxvt*underlineColor:    #dfaf8f
-
+URxvt.intensityStyles:   false
 
 ! UXTerm settings:
 
