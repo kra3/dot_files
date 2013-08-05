@@ -24,6 +24,9 @@ Bundle 'majutsushi/tagbar'
 " git support
 Bundle 'tpope/vim-fugitive'                    
 
+" mercurial (hg) support
+Bundle 'ludovicchabant/vim-lawrencium'
+
 " moving around in the file
 Bundle 'Lokaltog/vim-easymotion'  
 
@@ -67,6 +70,12 @@ Bundle 'tpope/vim-abolish'
 " Arrange code, eg., aligning '=' or ':' in a class/function 
 Bundle 'godlygeek/tabular'
 
+" Air-line
+Bundle 'bling/vim-airline'
+
+" Buffers list - Sure minibuffer explorer is ultimate
+Bundle 'bling/vim-bufferline'
+
 " awesome completion, but need a recent vim version
 " Valloric/YouCompleteMe 
 
@@ -78,6 +87,9 @@ Bundle 'godlygeek/tabular'
 
 " undo list
 " Bundle 'sjl/gundo.vim'                         
+
+" minibuffer explorer
+" Bundle 'techlivezheng/vim-plugin-minibufexpl'
 
 " Color schemes: solarized, zenburn 
 Bundle 'altercation/vim-colors-solarized'
@@ -137,7 +149,11 @@ set wrapscan   		    "continue searching at top when hitting bottom
 set showcmd 			" Show (partial) command in status line.
 set showmatch           " Show matching brackets.
 set mat=2               " How many tenths of a second to blink when matching brackets
-set showmode
+set noshowmode          " airline takes care of modes, so no need to display them again
+set laststatus=2        " Always show status line - and pep it with airline ;)
+" Show git branch in status line
+"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+set ttimeoutlen=50
 
 set complete+=k    " default is ".,w,b,u,t,i"
 set completeopt+=longest
@@ -278,8 +294,6 @@ autocmd User fugitive
   \ endif
 " delete :Gedit buffers when moving to another object
 autocmd BufReadPost fugitive://* set bufhidden=delete
-" Show git branch in status line
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 nnoremap <Leader>gb :Gblame<cr>
 nnoremap <Leader>gc :Gcommit<cr>
@@ -332,6 +346,9 @@ try
   set stal=1   " showtabline       2 - always, 1 - more than 1, 0 - never 
 catch
 endtry
+
+" vim-bufferline
+let g:bufferline_echo = 0
 
 " I'm using Ctrl-P now {{{
     " open nerdTree with Ctrl + n
