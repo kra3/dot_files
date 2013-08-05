@@ -40,6 +40,8 @@ setxkbmap -layout "us, fr" -option "grp:alt_shift_toggle"
 
 # export CLICOLOR=TRUE 
 
+eval `ssh-agent`
+
 sleep 5 && conky | while read -r; do xsetroot -name "$REPLY"; done &
 
 # A place for your distro/box specific startup scripts
