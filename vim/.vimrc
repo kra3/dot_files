@@ -192,6 +192,23 @@ function! InsertTabWrapper()
 endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
+" Enable omni completion
+augroup MyAutoCmd
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+  " autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
+augroup END
+
+" Turn on cursorline only on active window
+augroup MyAutoCmd
+  autocmd WinLeave * setlocal nocursorline
+  autocmd WinEnter,BufRead * setlocal cursorline
+augroup END
+
 " Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
 let mapleader = ","
 let g:mapleader = ","
@@ -206,7 +223,7 @@ set tags=./tags;/    " look for tags from current dir to upwards
 
 imap <C-w> <C-o><C-w>
 
-" To save, ctrl-s.
+" To save, ctrl-s. Terminals may freeze, ctrl+q to rescue
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 
@@ -374,21 +391,8 @@ cmap w!! w !sudo tee % >/dev/null
 " Fast saving
 nmap <leader>w :w!<cr>
 
-" Cursor settings. This makes terminal vim sooo much nicer!
-" Tmux will only forward escape sequences to the terminal if surrounded by a DCS
-" sequence
-"if exists('$TMUX')
-"  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-"  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-"else
-"  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-"  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-"endif
-
 " Open ranger to choose file, map it to ,r
 " Install `ranger` on your system first, It's a curl based file manager.
-" I can live with NerdTree rather than have to ever open ranger, but just in
-" case
 fun! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
     if filereadable('/tmp/chosenfile')
