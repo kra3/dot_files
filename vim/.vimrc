@@ -9,14 +9,20 @@ Bundle 'gmarik/vundle'
 " Ctrlp search buffer, mru files, files
 Bundle 'kien/ctrlp.vim'
 
+" ack - the better grep
+Bundle 'mileszs/ack.vim'                       
+
+" ag - the better Ack
+Bundle 'rking/ag.vim'                       
+
 " claims to be faster and fully vimscript.
 Bundle 'mbbill/undotree'     
 
-" git support
-Bundle 'tpope/vim-fugitive'                    
-
 " better taglist
 Bundle 'majutsushi/tagbar'
+
+" git support
+Bundle 'tpope/vim-fugitive'                    
 
 " moving around in the file
 Bundle 'Lokaltog/vim-easymotion'  
@@ -27,11 +33,14 @@ Bundle 'tpope/vim-surround'
 " syntax checker
 Bundle 'scrooloose/syntastic'                  
 
-" indexed search
+" show search item index
 Bundle 'vim-scripts/IndexedSearch'
 
 " useful for python
 Bundle "michaeljsmith/vim-indent-object"
+
+" seamless motion between tmux panes and vim panes
+Bundle "christoomey/vim-tmux-navigator"
 
 " repeat whole scommands in the plug-in mapping
 Bundle 'tpope/vim-repeat'
@@ -44,12 +53,6 @@ Bundle 'tpope/vim-commentary'
 
 " python virtual env support
 Bundle 'jmcantrell/vim-virtualenv'             
-
-" ack - the better grep
-Bundle 'mileszs/ack.vim'                       
-
-" ag - the better Ack
-Bundle 'rking/ag.vim'                       
 
 " html zen edit
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}    
@@ -228,14 +231,17 @@ map <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pres
 map <leader>cd :cd %:p:h<cr>:pwd<cr> " Switch CWD to the directory of the open buffer
 
 " Easier split window navigation
-nnoremap <C-j>      <C-w>j
-nnoremap <C-k>      <C-w>k
-nnoremap <C-h>      <C-w>h
-nnoremap <C-l>      <C-w>l
 nnoremap <C-Down>   <C-W>j
 nnoremap <C-Up>     <C-W>k
 nnoremap <C-Left>   <C-W>h
 nnoremap <C-Right>  <C-W>l
+
+" vim-tmux-navigatior conflict with my default Ctrl+hjkl commands, I'm
+" redefining the bindings to keep consistent key bindings with tmux and vim.
+nnoremap <leader>j      <C-w>j
+nnoremap <leader>k      <C-w>k
+nnoremap <leader>h      <C-w>h
+nnoremap <leader>l      <C-w>l
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -344,9 +350,9 @@ map <C-n> :Ve<CR>     " Open a Vertical split at current files path
 " For ctrlp
 " let g:ctrlp_cmd = 'CtrlP' " set to CtrlPMixed to search all at once
 let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_show_hidden = 1
+" let g:ctrlp_show_hidden = 0
 let g:ctrlp_max_files = 0 " No upper limit
-let ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo']
+let g:ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo']
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
