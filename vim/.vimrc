@@ -21,9 +21,6 @@ Bundle 'majutsushi/tagbar'
 " moving around in the file
 Bundle 'Lokaltog/vim-easymotion'  
 
-" moving in a line
-Bundle 'goldfeld/vim-seek'
-
 " block navigation/creation
 Bundle 'tpope/vim-surround'                    
 
@@ -69,6 +66,9 @@ Bundle 'godlygeek/tabular'
 
 " awesome completion, but need a recent vim version
 " Valloric/YouCompleteMe 
+
+" moving in a line
+" Bundle 'goldfeld/vim-seek'
 
 " file browser - using CtrlP now   
 "Bundle 'scrooloose/nerdtree'                    
@@ -258,6 +258,14 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 " Show git branch in status line
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
+nnoremap <Leader>gb :Gblame<cr>
+nnoremap <Leader>gc :Gcommit<cr>
+nnoremap <Leader>gd :Gdiff<cr>
+nnoremap <Leader>gp :Git push<cr>
+nnoremap <Leader>gr :Gremove<cr>
+nnoremap <Leader>gs :Gstatus<cr>
+nnoremap <Leader>gw :Gwrite<cr>
+
 " Move a line of text using ALT+[jk]
 nnoremap <silent> <C-S-j> :move .-2<CR>|
 nnoremap <silent> <C-S-k> :move .+1<CR>|
@@ -265,6 +273,9 @@ vnoremap <silent> <C-S-j> :move '<-2<CR>gv|
 vnoremap <silent> <C-S-k> :move '>+1<CR>gv|
 inoremap <silent> <C-S-k> <C-o>:move .+1<CR>|
 inoremap <silent> <C-S-j> <C-o>:move .-2<CR>|
+
+" Toggle between paste mode
+nnoremap <silent> <Leader>p :set paste!<cr>
 
 map <leader>ss :setlocal spell!<cr> " Pressing ,ss will toggle and untoggle spell checking
 
