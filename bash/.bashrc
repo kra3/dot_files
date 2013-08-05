@@ -33,7 +33,6 @@ shopt -s checkwinsize
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -46,6 +45,10 @@ fi
 PROMPT_COMMAND='DIR=`pwd|sed -e "s!$HOME!~!"`; if [ ${#DIR} -gt 30 ]; then CurDir=${DIR:0:12}...${DIR:${#DIR}-15}; else CurDir=$DIR; fi'
 PS1="[\u@\h: \$CurDir] \$ "
 #PS1='[\u@\h: \W]\$ '
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
