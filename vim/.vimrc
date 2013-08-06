@@ -382,9 +382,10 @@ let g:netrw_winsize=20
 map <C-n> :Ve<CR>     " Open a Vertical split at current files path
 
 " For ctrlp
-" let g:ctrlp_cmd = 'CtrlP' " set to CtrlPMixed to search all at once
+let g:ctrlp_cmd = 'CtrlPLastMode' " set to CtrlPMixed to search all at once
 let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_show_hidden = 0
+let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0 " No upper limit
 let g:ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo']
 
