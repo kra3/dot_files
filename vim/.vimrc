@@ -113,7 +113,6 @@ filetype plugin indent on
 set encoding=utf-8
 set shortmess+=I     		"remove message at startup
 set t_Co=256
-
 syntax on
 
 try
@@ -436,8 +435,8 @@ endfunction
 au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-ultisnips-snippets"]
-let g:UltiSnipsExpandTrigger="<space>"
-let g:UltiSnipsJumpForwardTrigger="<space>"
+let g:UltiSnipsExpandTrigger="<C-e>"
+let g:UltiSnipsJumpForwardTrigger="<C-e>"
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
