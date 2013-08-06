@@ -82,30 +82,30 @@ Xft*rgba:              rgb
 
 ! URxvt settings
 
-URxvt*font:              -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
-URxvt*boldFont:          -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
-URxvt*loginShell:        true
-URxvt*scrollBar:         false 
-!URxvt*scrollstyle:      plain 
-!URxvt*scrollBar_right:  true
-URxvt*termName:          rxvt-unicode-256color
+URxvt.font:              -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
+URxvt.boldFont:          -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
+URxvt.loginShell:        true
+URxvt.scrollBar:         false 
+!URxvt.scrollstyle:      plain 
+!URxvt.scrollBar_right:  true
+URxvt.termName:          rxvt-unicode-256color
 URxvt.buffered:          true
 URxvt.perl-ext:          default,matcher
 URxvt.urlLauncher:       /usr/bin/firefox
 URxvt.matcher.button:    1 
-URxvt.transparent:       True
+URxvt.transparent:       False 
 URxvt.shading:           25
-URxvt*colorUL:           #366060
-URxvt*underlineColor:    #dfaf8f
+URxvt.colorUL:           #366060
+URxvt.underlineColor:    #dfaf8f
 URxvt.intensityStyles:   false
 
 ! UXTerm settings:
 
 UXTerm*loginShell:       true
 UXTerm*termName:         xterm-256color
-UXTerm*faceName:         Terminus (TTF)
+UXTerm*faceName:         Terminus
 UXTerm*faceSize:         12
-UXTerm*font:             xft:Terminus (TTF)
+UXTerm*font:             xft:Terminus
 UXTerm*saveLines:        32767
 UXTerm*scrollTtyKeypress:     true
 UXTerm*scrollTtyOutput:  false
