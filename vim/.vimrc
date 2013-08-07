@@ -51,6 +51,9 @@ Bundle 'nathanaelkane/vim-indent-guides'
 " seamless motion between tmux panes and vim panes
 Bundle "christoomey/vim-tmux-navigator"
 
+" Lots of bindings for [ & ] very useful
+Bundle 'tpope/vim-unimpaired'
+
 " repeat whole scommands in the plug-in mapping
 Bundle 'tpope/vim-repeat'
 
@@ -185,6 +188,10 @@ set lazyredraw   " don't redraw while executing macros
 
 map ; :
 
+" Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
+let mapleader = ","
+let g:mapleader = ","
+
 " Don't break up long lines, but visually wrap them.
 set textwidth=0
 set wrap
@@ -214,15 +221,25 @@ set nofoldenable        "don't fold by default
 " A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
 set hidden
 
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+" treat long lines as break lines = easier navigation
+map j gj
+map k gk
+
+" More natural split opening
+set splitbelow
+set splitright
+
+imap <C-w> <C-o><C-w>
+
+" function! InsertTabWrapper()
+"     let col = col('.') - 1
+"     if !col || getline('.')[col - 1] !~ '\k'
+"         return "\<tab>"
+"     else
+"         return "\<c-p>"
+"     endif
+" endfunction
+" inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
 " Enable omni completion
 augroup MyAutoCmd
@@ -241,27 +258,9 @@ augroup MyAutoCmd
   autocmd WinEnter,BufRead * setlocal cursorline
 augroup END
 
-" Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
-let mapleader = ","
-let g:mapleader = ","
-
 " Toggle between paste mode
 nnoremap <silent> <Leader>p :set paste!<cr>
 set pastetoggle=<F2>     " both F2 and <leader>p does same thing now. Probably I'll remap above to CtrlP
-
-" index ctags from any project
-map <Leader>ct :!ctags -R .<CR>
-set tags=./tags;/    " look for tags from current dir to upwards
-
-" More natural split opening
-"set splitbelow
-"set splitright
-
-imap <C-w> <C-o><C-w>
-
-" To save, ctrl-s. Terminals may freeze, ctrl+q to rescue
-nmap <c-s> :w<CR>
-imap <c-s> <Esc>:w<CR>a
 
 " numbers.vim
 nnoremap <F3> :NumbersToggle<CR>
@@ -270,14 +269,26 @@ nnoremap <F4> :NumbersOnOff<CR>
 " Undo list
 nnoremap <F5> :UndotreeToggle<CR>
 
+" Tagbar settings.
+nnoremap <silent> <F8> :TagbarToggle<CR>
+
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
+let g:tagbar_singleclick = 1
+let g:tagbar_iconchars = ['+', '-']
+
+" index ctags from any project
+map <Leader>ct :!ctags -R .<CR>
+set tags=./tags;/    " look for tags from current dir to upwards
+
+" To save, ctrl-s. Terminals may freeze, ctrl+q to rescue
+nmap <c-s> :w<CR>
+imap <c-s> <Esc>:w<CR>a
+
 if has("persistent_undo")
     set undodir = "~/.vim/undofiles"
     set undofile
 endif
-
-" treat long lines as break lines = easier navigation
-map j gj
-map k gk
 
 map <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pressed
 "map <leader>ba :1,1000 bd!<cr> " Close all the buffers
@@ -323,18 +334,6 @@ nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
-" Move a line of text using ALT+[jk]
-nnoremap <silent> <C-S-j> :move .-2<CR>|
-nnoremap <silent> <C-S-k> :move .+1<CR>|
-vnoremap <silent> <C-S-j> :move '<-2<CR>gv|
-vnoremap <silent> <C-S-k> :move '>+1<CR>gv|
-inoremap <silent> <C-S-k> <C-o>:move .+1<CR>|
-inoremap <silent> <C-S-j> <C-o>:move .-2<CR>|
-
-map <leader>ss :setlocal spell!<cr> " Pressing ,ss will toggle and untoggle spell checking
-
-map <leader>sn ]s       " Next spell error
-map <leader>sp [s       " Prev spell error
 map <leader>sa zg       " Add word to dictionary
 map <leader>s? z=       " Correct given word to <from list>
 
@@ -377,14 +376,6 @@ let g:bufferline_echo = 0
     "let NERDTreeWinSize = 20
     "let NERDTreeChDirMode=2  " use the new dir as cwd
 " }}}
-
-" Tagbar settings.
-nnoremap <silent> <F8> :TagbarToggle<CR>
-
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
-let g:tagbar_singleclick = 1
-let g:tagbar_iconchars = ['+', '-']
 
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs = 1
