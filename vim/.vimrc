@@ -1,5 +1,8 @@
 runtime! debian.vim
 
+set nocompatible
+filetype off  "required 
+
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -42,6 +45,9 @@ Bundle 'vim-scripts/IndexedSearch'
 " useful for python
 Bundle "michaeljsmith/vim-indent-object"
 
+" Visual indentations
+Bundle 'nathanaelkane/vim-indent-guides'
+
 " seamless motion between tmux panes and vim panes
 Bundle "christoomey/vim-tmux-navigator"
 
@@ -77,7 +83,12 @@ Bundle 'bling/vim-airline'
 Bundle 'bling/vim-bufferline'
 
 " awesome completion, but need a recent vim version
-" Valloric/YouCompleteMe 
+Bundle 'Valloric/YouCompleteMe' 
+
+" Snippets - I never used textmate, so that style doesn't matter to me :P
+" snipmates is good, herd nested snippets are a tough game, so ultisnips
+Bundle 'SirVer/ultisnips'
+Bundle 'paraqles/vim-ultisnips-snippets'   
 
 " moving in a line
 " Bundle 'goldfeld/vim-seek'
@@ -95,16 +106,14 @@ Bundle 'bling/vim-bufferline'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
 
-set nocompatible
-set encoding=utf-8
-set shortmess+=I     		"remove message at startup
-set t_Co=256
-
-syntax on
-
 " Enable filetype plugins
 filetype on 
 filetype plugin indent on
+
+set encoding=utf-8
+set shortmess+=I     		"remove message at startup
+set t_Co=256
+syntax on
 
 try
   source ~/.vimrc.local
@@ -181,11 +190,14 @@ set textwidth=0
 set wrap
 
 set scrolloff=5      " Minimal number of screen lines to keep above and below the cursor.
+set sidescrolloff=7
+set sidescroll=1
 
 set autoread                    " Automatically read new changes to a file
 "set autowrite
 set cursorline                  " Highlight current line
 set cursorcolumn                " Highlight current column
+set colorcolumn=+1              " ideal max text width
 set wildmenu                    " command line completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
@@ -194,6 +206,10 @@ set wildignorecase   " When set case is ignored when completing file names and d
 set wildignore+=*.swp,*.bak,*.pyc,*.class,.git,.hg
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " images
 set wildignore+=*.o,*.exe,*.dll,*.manifest " compiled object files
+"folding settings
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "don't fold by default
 
 " A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
 set hidden
@@ -228,6 +244,10 @@ augroup END
 " Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
 let mapleader = ","
 let g:mapleader = ","
+
+" Toggle between paste mode
+nnoremap <silent> <Leader>p :set paste!<cr>
+set pastetoggle=<F2>     " both F2 and <leader>p does same thing now. Probably I'll remap above to CtrlP
 
 " index ctags from any project
 map <Leader>ct :!ctags -R .<CR>
@@ -310,9 +330,6 @@ vnoremap <silent> <C-S-j> :move '<-2<CR>gv|
 vnoremap <silent> <C-S-k> :move '>+1<CR>gv|
 inoremap <silent> <C-S-k> <C-o>:move .+1<CR>|
 inoremap <silent> <C-S-j> <C-o>:move .-2<CR>|
-
-" Toggle between paste mode
-nnoremap <silent> <Leader>p :set paste!<cr>
 
 map <leader>ss :setlocal spell!<cr> " Pressing ,ss will toggle and untoggle spell checking
 
@@ -397,6 +414,29 @@ if executable('ag')
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
+
+" Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
+
+function! g:UltiSnips_Complete()
+    call UltiSnips_ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips_JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-ultisnips-snippets"]
+let g:UltiSnipsExpandTrigger="<C-e>"
+let g:UltiSnipsJumpForwardTrigger="<C-e>"
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
