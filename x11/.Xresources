@@ -93,7 +93,7 @@ URxvt.buffered:          true
 URxvt.perl-ext:          default,matcher
 URxvt.urlLauncher:       /usr/bin/firefox
 URxvt.matcher.button:    1 
-URxvt.transparent:       False 
+URxvt.transparent:       True 
 URxvt.shading:           25
 URxvt.colorUL:           #366060
 URxvt.underlineColor:    #dfaf8f
