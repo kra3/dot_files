@@ -60,6 +60,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+    # install  colordiff package :)
+    alias diff='colordiff'
 fi
 
 alias l='ls'
@@ -79,6 +81,15 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
+
+alias h='history'
+alias j='jobs -l'
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T'
+alias today='date +"%d-%m-%Y"'
+
+alias mount='mount |column -t'
+
 
 alias urxvt='urxvtc'
 
