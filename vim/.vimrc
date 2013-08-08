@@ -30,6 +30,9 @@ Bundle 'tpope/vim-fugitive'
 " mercurial (hg) support
 Bundle 'ludovicchabant/vim-lawrencium'
 
+" Never lose a yank/cut again
+Bundle 'maxbrunsfeld/vim-yankstack'
+
 " moving around in the file
 Bundle 'Lokaltog/vim-easymotion'  
 
@@ -231,15 +234,10 @@ set splitright
 
 imap <C-w> <C-o><C-w>
 
-" function! InsertTabWrapper()
-"     let col = col('.') - 1
-"     if !col || getline('.')[col - 1] !~ '\k'
-"         return "\<tab>"
-"     else
-"         return "\<c-p>"
-"     endif
-" endfunction
-" inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+call yankstack#setup()        " a much needed work around 
+"let g:yankstack_map_keys = 0
+nmap <leader>p <Plug>yankstack_substitute_older_paste
+nmap <leader>P <Plug>yankstack_substitute_newer_paste
 
 " Enable omni completion
 augroup MyAutoCmd
@@ -259,7 +257,7 @@ augroup MyAutoCmd
 augroup END
 
 " Toggle between paste mode
-nnoremap <silent> <Leader>p :set paste!<cr>
+"nnoremap <silent> <Leader>p :set paste!<cr>
 set pastetoggle=<F2>     " both F2 and <leader>p does same thing now. Probably I'll remap above to CtrlP
 
 " numbers.vim
