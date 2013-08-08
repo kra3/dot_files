@@ -25,7 +25,7 @@ xrdb -merge ~/.Xresources &
 xautolock -time 5 -locker i3lock &
 
 # Hide mouse icons after 5sec
-unclutter -idle 5 &
+unclutter -root -idle 5 &
 
 # Start urxvt in deamon mode
 urxvtd -q -f -o &
