@@ -1,3 +1,6 @@
+Icons: AwOken -  http://gnome-look.org/content/show.php?content=126344
+Gtk-theme - Malys-rought-dark-left
+
 Prep ourself to download submodule:
 
 ```bash
