@@ -103,9 +103,9 @@ URxvt.intensityStyles:   false
 
 UXTerm*loginShell:       true
 UXTerm*termName:         xterm-256color
-UXTerm*faceName:         Terminus
+UXTerm*faceName:         Terminus (TTF)
 UXTerm*faceSize:         12
-UXTerm*font:             xft:Terminus
+UXTerm*font:             xft:Terminus (TTF)
 !UXTerm*altSendsEscape:   true
 ! stop eating ALT-
 UXTerm*eightBitInput:    false

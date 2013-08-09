@@ -3,9 +3,8 @@ fetch =
 hgext.rebase =
 hgext.mq =
 hgext.schemes =
-hggit = ~/libs/hg-git/hggit/
-hgshelve = ~/libs/hgshelve.py
-checkfiles = ~/libs/checkfiles.py
+hgshelve = ~/src/dot_files/hg/hgshelve.py
+checkfiles = ~/src/dot_files/hg/checkfiles.py
 
 [ui]
 username = Arun K. R.(kra3) <the1.arun@gmail.com>
@@ -19,9 +18,9 @@ qstatus = status --rev -2
 src = http://sources.wyplay.int/hg/
 
 [hooks]
-#pretxnchangegroup.checkfiles = python:~/libs/checkfiles.py:check_hook # enables hook to check incoming changeset
-#pretxncommit.checkfiles = python:~/libs/checkfiles.py:check_hook # enables hook to stop bad commits
-#precommit.checkfiles = python:~/libs/checkfiles.py:fixup_hook # enables hook to fix files before creating commit
+#pretxnchangegroup.checkfiles = python:~/src/dot_files/hg/checkfiles.py:check_hook # enables hook to check incoming changeset
+#pretxncommit.checkfiles = python:~/src/dot_files/hg/checkfiles.py:check_hook # enables hook to stop bad commits
+#precommit.checkfiles = python:~/src/dot_files/hg/checkfiles.py:fixup_hook # enables hook to fix files before creating commit
 
 [checkfiles]
 checked_exts = .py 
