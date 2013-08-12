@@ -364,6 +364,9 @@ endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 "autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
+" Automatically cd into the directory that the file is in
+autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
+
 " Specify the behavior when switching between buffers 
 try
   set switchbuf=useopen,usetab,split           " newtab - instead of split open a new tab page for quickfix

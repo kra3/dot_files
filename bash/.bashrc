@@ -3,20 +3,6 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-# TMUX
-#[[ $TERM != "screen" ]] && exec tmux
-# Or try one below, which is more advanced than above. only use one of two at a time
-# you can also start urxvt -e tmux, I chose to use this with dwm & i3, for xface/gnome I use below one
-#if which tmux 2>&1 >/dev/null; then
-#    # if no session is started, start a new session
-#    test -z ${TMUX} && ~/.tmuxer
-#
-#    # when quitting tmux, try to attach
-#    while test -z ${TMUX}; do
-#        tmux attach || break
-#    done
-#fi
-
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoreboth #ignoredups:ignorespace
@@ -50,6 +36,9 @@ PS1="[\u@\h: \$CurDir] \$ "
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
+
+# directory management
+source ~/bin/z.sh 
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then

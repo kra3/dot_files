@@ -49,3 +49,4 @@ Update config:
 tmux source-file ~/.tmux.conf
 ```
 
+I don't use zsh, it's just a curiosity
