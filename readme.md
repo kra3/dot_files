@@ -1,52 +1,28 @@
-Icons: AwOken -  http://gnome-look.org/content/show.php?content=126344
-Gtk-theme - Malys-rought-dark-left
+There are 3 other projects in use as of now, (2 to show cpu & mem load and one for dir management)
+- screen-cpu-mem-load
+- tmux-cpu-mem-load
+- z 
 
-Prep ourself to download submodule:
+To get them:
 
 ```bash
 git submodule init
-```
-
-Download submodule:
-
-```bash
 git submodule update
 ```
 
-Change dir to tmux-mem-cpu-load:
+You have to compile cpu-mem-load plugins ( I may write a script for it to avoid this step. )
+You need cmake to generate make files
 
 ```bash
-cd tmux/addon
-```
-
-General make file:
-
-```bash
+cd tmux/addon            # or screen  if you prefer it - cd screen/addon  
 cmake .
-```
-
-Compile our binary:
-
-```bash
 make
-```
-
-Install our binary to `/usr/local/bin/tmux-mem-cpu-load`:
-
-```bash
 sudo make install
 ```
 
-Go home:
+For GUI goodness
+- Icons: AwOken -  http://gnome-look.org/content/show.php?content=126344
+- Gtk-theme - Malys-rought-dark-left - http://malysss.deviantart.com/art/malys-rought-2-0-for-gnome-3-6-337626780
 
-```bash
-cd ~
-```
 
-Update config:
-
-```bash
-tmux source-file ~/.tmux.conf
-```
-
-I don't use zsh, it's just a curiosity
+NB: I don't use zsh, it's just a curiosity
