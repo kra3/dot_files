@@ -224,6 +224,16 @@ set nofoldenable        "don't fold by default
 " A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
 set hidden
 
+" http://vim.wikia.com/wiki/VimTip738
+" http://vim.wikia.com/wiki/Get_Alt_key_to_work_in_terminal
+" fix meta-keys which generate <Esc>a .. <Esc>z
+let c='a'
+while c <= 'z'
+  exec "set <M-".toupper(c).">=\e".c
+  exec "imap \e".c." <M-".toupper(c).">"
+  let c = nr2char(1+char2nr(c))
+endw
+
 " treat long lines as break lines = easier navigation
 map j gj
 map k gk
@@ -234,7 +244,7 @@ set splitright
 
 imap <C-w> <C-o><C-w>
 
-call yankstack#setup()        " a much needed work around 
+"call yankstack#setup()        " a much needed work around 
 "let g:yankstack_map_keys = 0
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
