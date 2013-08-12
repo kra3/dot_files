@@ -45,6 +45,7 @@ fi
 PROMPT_COMMAND='DIR=`pwd|sed -e "s!$HOME!~!"`; if [ ${#DIR} -gt 30 ]; then CurDir=${DIR:0:12}...${DIR:${#DIR}-15}; else CurDir=$DIR; fi'
 PS1="[\u@\h: \$CurDir] \$ "
 #PS1='[\u@\h: \W]\$ '
+#PS1="\n\[\033[0;30m\]\[\033[1;34m\](\[\033[1;32m\]\u\[\033[1;37m\]@\[\033[1;32m\]\h\[\033[1;34m\])\[\033[0;30m\] \[\033[1;30m\](\[\033[0;37m\]$OSTYPE\[\033[1;30m\])\[\033[0;30 m\] \[\033[1;31m\](\[\033[1;34m\]\t \d\[\033[1;31m\])\[\033[0;30m\] \[\033[0;30m\]\n \[\033[1;30m\](\[\033[1;37m\]\w/\[\033[1;30m\])\[\033[0;30m\]\[\033[0;32m\] "
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -85,7 +86,7 @@ alias ......="cd ../../../../.."
 alias h='history'
 alias j='jobs -l'
 alias path='echo -e ${PATH//:/\\n}'
-alias now='date +"%T'
+alias now='date +"%T"'
 alias today='date +"%d-%m-%Y"'
 
 alias mount='mount |column -t'
