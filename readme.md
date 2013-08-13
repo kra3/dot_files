@@ -23,7 +23,15 @@ make
 sudo make install
 ```
 
-For GUI goodness
+### Python development: 
+
+install virtualenv & virtualenvwrapper.
+Follow the directions in the readme on my [gist](https://gist.github.com/kra3/6224580) for virtualenvwrapper hooks
+for installation, follow the readme, now located at `./virtualenv_wrapper_hooks/readme.md`
+
+
+### For GUI goodness
+
 - Icons: AwOken -  http://gnome-look.org/content/show.php?content=126344
 - Gtk-theme - Malys-rought-dark-left - http://malysss.deviantart.com/art/malys-rought-2-0-for-gnome-3-6-337626780
 
@@ -44,11 +52,24 @@ wget -O bahamas-font.zip http://dl.dropbox.com/u/53319850/NoobsLab.com/bahamas-f
 unzip bahamas-font.zip -d ~/.fonts
 ```
 
-Python development: 
-
-install virtualenv & virtualenvwrapper.
-Follow the directions in the readme on my [gist](https://gist.github.com/kra3/6224580) for virtualenvwrapper hooks
-for installation, follow the readme, now located at `./virtualenv_wrapper_hooks/readme.md`
 
 
 NB: I don't use zsh, it's just a curiosity
+
+### Screenshots
+
+This one shows almost all of the configurations, may be not in a best way
+- DWM window manager
+- Conky -  for status line
+- tmux - bottom terminal with 2 panes open
+- Vim (shows undotree, tagbar, youcompleteme, airline in action)
+- Fully solarized! including dwm, vim, bash, tmux, screen & what not entire x11 apps.
+- Ues terminus font everywhere (except gtk theme - theme uses bahamas fonts for extra symbols)
+
+![DWM, Conky, tmux, Vim (shows undotree, tagbar, youcompleteme, airline in action), Fully solarized! uses terminus font](screenshots/vim-bash-tmux.jpg)
+
+Nautilus as an example of gtk theme and icons: 
+For those rare instances you need a gui app other than browser & media player, you shouldn't be embarrassed ;-)
+
+![Nautilus as an example of gtk theme and icons](screenshots/gtk.jpg)
+
