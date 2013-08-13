@@ -42,5 +42,16 @@ wget -O bahamas-font.zip http://dl.dropbox.com/u/53319850/NoobsLab.com/bahamas-f
 unzip bahamas-font.zip -d ~/.fonts
 ```
 
+Python development: 
+
+install virtualenv and virtualenvwrapper & follow the directions in the readme on my [gist](https://gist.github.com/kra3/6224580) for virtualenvwrapper hooks
+
+
+```
+git submodule init     # if you haven't done already
+git submodule update   # get all submodules including above mentioned gist
+# for installation, follow the readme, now located at ./virtualenv_wrapper_hooks/readme.md
+```
+
 
 NB: I don't use zsh, it's just a curiosity

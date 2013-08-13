@@ -10,3 +10,6 @@
 [submodule "liquidprompt"]
 	path = liquidprompt
 	url = https://github.com/nojhan/liquidprompt
+[submodule "virtualenv_wrapper_hooks"]
+	path = virtualenv_wrapper_hooks
+	url = https://gist.github.com/6224580.git

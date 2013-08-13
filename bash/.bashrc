@@ -83,7 +83,6 @@ alias today='date +"%d-%m-%Y"'
 
 alias mount='mount |column -t'
 
-
 alias urxvt='urxvtc'
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -96,21 +95,14 @@ winprop(){
 
 #export JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 #export PATH=$PATH:$HOME/libs/google_appengine
+export WORKON_HOME=~/.envs
+export PROJECT_HOME=~/src
+source /usr/local/bin/virtualenvwrapper.sh 
+
 export EDITOR="vim"
 
-#Login greeting ------------------
-#if [ "$TERM" = "screen" -a ! "$SHOWED_SCREEN_MESSAGE" = "true" ]; then
-#  detached_screens=`screen -list | grep Detached`
-#  if [ ! -z "$detached_screens" ]; then
-#    echo "+---------------------------------------+"
-#    echo "| Detached screens are available:       |"
-#    echo "$detached_screens"
-#    echo "+---------------------------------------+"
-#  else
-#    echo "[ screen is activated ]"
-#  fi
-#  export SHOWED_SCREEN_MESSAGE="true"
-#fi
+export SVN_MERGE=vimdiff
+
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -127,8 +119,6 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-
-export SVN_MERGE=vimdiff
 
 # if the command-not-found package is installed, use it
 if [ -x /usr/lib/command-not-found ]; then
