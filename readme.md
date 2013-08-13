@@ -4,6 +4,8 @@ There are 4 other projects in use as of now, (2 to show cpu & mem load and one f
 - z 
 - liquidprompt 
 
+Also, one gist of virtualenvwrapper hooks for python development
+
 To get them:
 
 ```bash
@@ -44,14 +46,9 @@ unzip bahamas-font.zip -d ~/.fonts
 
 Python development: 
 
-install virtualenv and virtualenvwrapper & follow the directions in the readme on my [gist](https://gist.github.com/kra3/6224580) for virtualenvwrapper hooks
-
-
-```
-git submodule init     # if you haven't done already
-git submodule update   # get all submodules including above mentioned gist
-# for installation, follow the readme, now located at ./virtualenv_wrapper_hooks/readme.md
-```
+install virtualenv & virtualenvwrapper.
+Follow the directions in the readme on my [gist](https://gist.github.com/kra3/6224580) for virtualenvwrapper hooks
+for installation, follow the readme, now located at `./virtualenv_wrapper_hooks/readme.md`
 
 
 NB: I don't use zsh, it's just a curiosity
