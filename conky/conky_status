@@ -7,5 +7,5 @@ total_run_times 0
 use_spacer none
 
 TEXT
-Lan: ${downspeed eth0}- ${upspeed eth0}| ${wireless_essid wlan0}: ${downspeed wlan0}-${upspeed wlan0}| Power: $battery_short| CPU $cpu% @ ${freq_g}GHz| T: ${acpitemp}c| M: $memperc%| /: ${fs_used_perc /}%  /share: ${fs_used_perc /share}% | ${time %a %b %d %I:%M%P} 
+Lan: ${downspeed eth0}- ${upspeed eth0}| ${wireless_essid wlan0}: ${downspeed wlan0}-${upspeed wlan0}| Power: $battery_short| CPU $cpu% @ ${freq_g}GHz|  M: $memperc%| /: ${fs_used_perc /}%  /share: ${fs_used_perc /share}% | ${time %a %b %d %I:%M%P} 
 
