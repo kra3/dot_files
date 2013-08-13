@@ -40,6 +40,9 @@ export LANGUAGE=en_US.UTF-8
 # directory management
 source ~/bin/z.sh 
 
+# awesome prompt
+source ~/liquidprompt/liquidprompt
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
