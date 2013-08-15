@@ -27,7 +27,7 @@ sudo make install
 
 install virtualenv & virtualenvwrapper.
 Follow the directions in the readme on my [gist](https://gist.github.com/kra3/6224580) for virtualenvwrapper hooks
-for installation, follow the readme, now located at `./virtualenv_wrapper_hooks/readme.md`
+for installation, follow the readme, now located at `./virtualenv_wrapper_hooks/readme.md`; it explains the modules used.
 
 
 ### For GUI goodness
@@ -51,7 +51,6 @@ mkdir ~/.fonts
 wget -O bahamas-font.zip http://dl.dropbox.com/u/53319850/NoobsLab.com/bahamas-font.zip
 unzip bahamas-font.zip -d ~/.fonts
 ```
-
 
 
 NB: I don't use zsh, it's just a curiosity
