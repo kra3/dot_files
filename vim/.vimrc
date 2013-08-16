@@ -189,7 +189,7 @@ set lazyredraw   " don't redraw while executing macros
 "  set list listchars=tab:>-,trail:.,extends:>
 "endif
 
-map ; :
+noremap ; :
 
 " Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
 let mapleader = ","
@@ -235,19 +235,19 @@ while c <= 'z'
 endw
 
 " treat long lines as break lines = easier navigation
-map j gj
-map k gk
+noremap j gj
+noremap k gk
 
 " More natural split opening
 set splitbelow
 set splitright
 
-imap <C-w> <C-o><C-w>
+inoremap <C-w> <C-o><C-w>
 
 "call yankstack#setup()        " a much needed work around 
 "let g:yankstack_map_keys = 0
-nmap <leader>p <Plug>yankstack_substitute_older_paste
-nmap <leader>P <Plug>yankstack_substitute_newer_paste
+nnoremap <leader>p <Plug>yankstack_substitute_older_paste
+nnoremap <leader>P <Plug>yankstack_substitute_newer_paste
 
 " Enable omni completion
 augroup MyAutoCmd
@@ -286,21 +286,21 @@ let g:tagbar_singleclick = 1
 let g:tagbar_iconchars = ['+', '-']
 
 " index ctags from any project
-map <Leader>ct :!ctags -R .<CR>
+noremap <Leader>ct :!ctags -R .<CR>
 set tags=./tags;/    " look for tags from current dir to upwards
 
 " To save, ctrl-s. Terminals may freeze, ctrl+q to rescue
-nmap <c-s> :w<CR>
-imap <c-s> <Esc>:w<CR>a
+nnoremap <c-s> :w<CR>
+inoremap <c-s> <Esc>:w<CR>a
 
 if has("persistent_undo")
     set undodir = "~/.vim/undofiles"
     set undofile
 endif
 
-map <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pressed
+noremap <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pressed
 "map <leader>ba :1,1000 bd!<cr> " Close all the buffers
-map <leader>cd :cd %:p:h<cr>:pwd<cr> " Switch CWD to the directory of the open buffer
+noremap <leader>cd :cd %:p:h<cr>:pwd<cr> " Switch CWD to the directory of the open buffer
 
 " Easier split window navigation
 nnoremap <C-Down>   <C-W>j
@@ -316,14 +316,14 @@ nnoremap <leader>h      <C-w>h
 nnoremap <leader>l      <C-w>l
 
 " Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
+noremap <leader>tn :tabnew<cr>
+noremap <leader>to :tabonly<cr>
+noremap <leader>tc :tabclose<cr>
+noremap <leader>tm :tabmove
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+noremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Fugitive tricks
 " to go to parent tree while in :Gedit
@@ -342,8 +342,8 @@ nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
-map <leader>sa zg       " Add word to dictionary
-map <leader>s? z=       " Correct given word to <from list>
+noremap <leader>sa zg       " Add word to dictionary
+noremap <leader>s? z=       " Correct given word to <from list>
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -379,7 +379,7 @@ let g:bufferline_echo = 0
 
 " I'm using Ctrl-P now {{{
     " open nerdTree with Ctrl + n
-    " map <C-n> :NERDTreeToggle<CR>
+    " noremap <C-n> :NERDTreeToggle<CR>
     " Open nerdTree automatically at startup if no file is specified
     "autocmd vimenter * if !argc() | NERDTree | endif
     " Close vim if NerdTree is the only window open
@@ -398,7 +398,7 @@ let g:netrw_liststyle=3
 let g:netrw_browse_split=4
 let g:netrw_preview=1
 let g:netrw_winsize=20
-map <C-n> :Ve<CR>     " Open a Vertical split at current files path
+noremap <C-n> :Ve<CR>     " Open a Vertical split at current files path
 
 " For ctrlp
 let g:ctrlp_cmd = 'CtrlPLastMode' " set to CtrlPMixed to search all at once
@@ -449,7 +449,7 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 " Sudo to write
 cmap w!! w !sudo tee % >/dev/null
 " Fast saving
-nmap <leader>w :w!<cr>
+nnoremap <leader>w :w!<cr>
 
 " Open ranger to choose file, map it to ,r
 " Install `ranger` on your system first, It's a curl based file manager.
@@ -461,5 +461,5 @@ fun! RangerChooser()
     endif
     redraw!
 endfun
-map ,r :call RangerChooser()<CR>
+noremap ,r :call RangerChooser()<CR>
 
