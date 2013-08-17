@@ -105,12 +105,13 @@ Bundle 'paraqles/vim-ultisnips-snippets'
 " undo list
 " Bundle 'sjl/gundo.vim'                         
 
-" minibuffer explorer
-" Bundle 'techlivezheng/vim-plugin-minibufexpl'
-
 " Color schemes: solarized, zenburn 
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
+
+" Haskell specific
+" Bundle 'dag/vim2hs'
+" Bundle 'lukerandall/haskellmode-vim'
 
 " Enable filetype plugins
 filetype on 
@@ -142,18 +143,19 @@ colorscheme solarized
 set ruler "Always show current position 
 set number
 
-set tabstop=4
-set softtabstop=4 
-set shiftwidth=4
-set expandtab " Use spaces instead of tabs
-set smarttab
+set tabstop=4           "A tab is 8 spaces
+set softtabstop=4       "Insert 4 spaces when a Tab is pressed
+set shiftwidth=4        "An indent is 4 spaces
+set shiftround          "Round spaces to nearest shiftwidth multiple
+set expandtab           "Use spaces instead of tabs
+set smarttab            "Indent instead of tab at start of line
+set nojoinspaces        "Don't convert spaces to tabs
 
 set spell
 set spelllang=en
 
 set autoindent 		    "automatically intend next line
 set smartindent         "be smart while doing so 
-set shiftround          
 
 set hlsearch  			"highlight search results
 set incsearch 			"incremental search
@@ -439,6 +441,9 @@ au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:U
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-ultisnips-snippets"]
 let g:UltiSnipsExpandTrigger="<C-e>"
 let g:UltiSnipsJumpForwardTrigger="<C-e>"
+
+let g:indent_guides_guide_size=1
+let g:indent_guides_start_level=2
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
