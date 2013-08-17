@@ -85,6 +85,7 @@ URxvt.font:              -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
 URxvt.boldFont:          -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
 URxvt.loginShell:        true
 URxvt.scrollBar:         false 
+URxvt.secondaryScroll:   true
 URxvt.scrollTtyKeypress: true
 URxvt.scrollstyle:       plain 
 !URxvt.scrollBar_right:  true
@@ -104,6 +105,8 @@ URxvt.colorUL:           #366060
 URxvt.underlineColor:    #dfaf8f
 URxvt.intensityStyles:   true
 !URxvt.reverseVideo:      true
+URxvt.keysym.C-A-c:      perl:clipboard:copy
+URxvt.keysym.C-A-v:      perl:clipboard:paste
 
 ! UXTerm settings:
 
