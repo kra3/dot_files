@@ -3,6 +3,8 @@ fetch =
 hgext.rebase =
 hgext.mq =
 hgext.schemes =
+hgext.bookmarks =
+hggit = 
 hgshelve = ~/src/dot_files/hg/hgshelve.py
 checkfiles = ~/src/dot_files/hg/checkfiles.py
 
