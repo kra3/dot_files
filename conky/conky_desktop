@@ -3,13 +3,13 @@ uppercase no
 
 # Locale, fonts and font sizes.
 use_xft yes
-xftfont Inconsolata:size=10.5
+xftfont Inconsolata:size=10
 xftalpha 0.9
 override_utf8_locale yes
 text_buffer_size 2048
 
 # Conky performance
-update_interval 3
+update_interval 5
 update_interval_on_battery 60
 total_run_times 0
 double_buffer yes
@@ -29,7 +29,7 @@ draw_borders no
 draw_outline no
 draw_shades no
 draw_graph_borders yes
-default_color white 
+default_color green 
 #1BEA4B
 #own_window_colour 393834
 #default_outline_color green
@@ -37,7 +37,7 @@ color0 black
 color1 green
 
 minimum_size 180 5
-maximum_width 210
+maximum_width 275
 alignment bottom_right
 gap_x 5
 gap_y 5
