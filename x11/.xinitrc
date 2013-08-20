@@ -44,6 +44,11 @@ eval `ssh-agent`
 
 sleep 5 && conky | while read -r; do xsetroot -name "$REPLY"; done &
 
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+ibus-daemon -drx 
+
 # A place for your distro/box specific startup scripts
 if [ -f "$HOME/.xinitrc_local" ]; then
    . "$HOME/.xinitrc_local"
