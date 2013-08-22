@@ -181,15 +181,20 @@ set undolevels=100
 
 set lazyredraw   " don't redraw while executing macros
 
-" To scroll in the terminul
+" To scroll in the terminal
 "set mouse=a
 
-" Show special characters
-"if v:version >= 700
-"  set list listchars=tab:>-,trail:.,extends:>,nbsp:_
-"else
-"  set list listchars=tab:>-,trail:.,extends:>
-"endif
+" Show special characters (⤶ ‽ ˑ ·) 
+" set list    " on it with [ol - thnx to vim-unimpired
+if v:version >= 700
+  set listchars=tab:→\ ,trail:ˑ,nbsp:ˑ,eol:⤶,extends:>
+else
+  set listchars=tab:>-,trail:.,extends:>
+endif
+
+" To highlight whitespace
+"highlight WhiteSpaces ctermbg=green guibg=#55aa55
+"match WhiteSpaces /\s\+$/
 
 noremap ; :
 
