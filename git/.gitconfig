@@ -3,15 +3,13 @@
     ctags = !.git/hooks/ctags
     ci = commit
     df = diff
-    changes = diff - name-status
-    oneline = log - pretty = online - abbrev-commit - graph
-    undo = git reset - soft HEAD ^
-    amend = commit - amend
+    changes = diff --name-status
+    oneline = log --pretty=oneline --abbrev-commit --graph
+    undo = reset --soft HEAD ^
+    amend = commit --amend
 [user]
 	name = Arun K. R. <kra3>
     email = the1.arun@gmail.com
-[push]
-	default = simple
 [merge]
     tool = mymeld
 	conflictstyle = diff3
