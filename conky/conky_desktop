@@ -3,13 +3,13 @@ uppercase no
 
 # Locale, fonts and font sizes.
 use_xft yes
-xftfont Droid Sans:size=10.5
+xftfont Inconsolata:size=10
 xftalpha 0.9
 override_utf8_locale yes
 text_buffer_size 2048
 
 # Conky performance
-update_interval 3
+update_interval 5
 update_interval_on_battery 60
 total_run_times 0
 double_buffer yes
@@ -19,7 +19,7 @@ cpu_avg_samples 2
 
 
 # Execute it in its own window
-own_window yes
+own_window no 
 own_window_type desktop
 own_window_transparent yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
@@ -29,7 +29,7 @@ draw_borders no
 draw_outline no
 draw_shades no
 draw_graph_borders yes
-default_color white 
+default_color green 
 #1BEA4B
 #own_window_colour 393834
 #default_outline_color green
@@ -37,25 +37,29 @@ color0 black
 color1 green
 
 minimum_size 180 5
-maximum_width 210
+maximum_width 275
 alignment bottom_right
 gap_x 5
 gap_y 5
 
+
 TEXT
+${font Inconsolata:size=12}${color1}kra3@$nodename${color}${font} 
+$sysname $color1$kernel ($machine)$color
+$battery | Users: $user_number
+Load: $loadavg |uptime: $uptime_short
 
-
-
-${font Droid Sans:style=Bold:size=12.5}${color1}root@$nodename${color}${font} $alignr $battery
-$color1$kernel ($machine)$color $alignr $sysname Users:  $user_number
-Load:  $loadavg | $alignr uptime:  $uptime_short
-
-Processes: $running_processes / $processes $alignr Threads: $running_threads / $threads
+Processes: $running_processes / $processes 
+Threads: $running_threads / $threads
 
 CPU1: ${freq_g cpu1}GHz|${cpu cpu1}% ${alignr} CPU2: ${freq_g cpu2}GHz|${cpu cpu2}%
 ${cpugraph cpu1 5,100}    ${cpugraph cpu2 5,100}
 CPU3: ${freq_g cpu3}GHz|${cpu cpu3}% ${alignr} CPU4: ${freq_g cpu4}GHz|${cpu cpu4}%
 ${cpugraph cpu3 5,100}    ${cpugraph cpu4 5,100}
+CPU1: ${freq_g cpu5}GHz|${cpu cpu5}% ${alignr} CPU2: ${freq_g cpu6}GHz|${cpu cpu6}%
+${cpugraph cpu5 5,100}    ${cpugraph cpu6 5,100}
+CPU3: ${freq_g cpu7}GHz|${cpu cpu7}% ${alignr} CPU4: ${freq_g cpu8}GHz|${cpu cpu8}%
+${cpugraph cpu7 5,100}    ${cpugraph cpu8 5,100}
 
 Ram ${alignr}$mem / $memmax ($memperc%)
 ${membar 2}
@@ -72,26 +76,21 @@ ${top_mem name 1}$alignr${top_mem pid 1}${top_mem cpu 1}${top_mem mem 1}
 ${top_mem name 2}$alignr${top_mem pid 2}${top_mem cpu 2}${top_mem mem 2}
 ${top_mem name 3}$alignr${top_mem pid 3}${top_mem cpu 3}${top_mem mem 3}
 
-${font Droid Sans:style=Bold:size=14}${color0}File System ${font style=size=12}(${hddtemp /dev/sda}C)${font}${hr 1}${color}${font}
-
 Root: ${alignr}${fs_free /} / ${fs_size /}
 ${fs_bar 2 /}
-Home: ${alignr}${fs_free /home} / ${fs_size /home}
-${fs_bar 2 /home}
+Share: ${alignr}${fs_free /share} / ${fs_size /share}
+${fs_bar 2 /share}
 
-${font Droid Sans:style=Bold:size=14}${color0}Network ${hr 1}${color}${font}
+Local IP: ${alignr}${addr wlan0}
+Public IP: ${alignr} ${execi 360 wget -q -O - checkip.dyndns.org | sed -e 's/[^[:digit:]\|.]//g'}
 
-Local IP: ${alignr}${addr eth0}
-Public IP: ${alignr} ${curl http://riivo.eu/php/ip.php 3600}
-#${execi 360 curl http://automation.whatismyip.com/n09230945.asp}
-
-Down ${downspeed eth0} k/s ${alignr}Up ${upspeed eth0} k/s
-${downspeedgraph eth0 10,87} ${alignr}${upspeedgraph eth0 10,87}
-Total ${totaldown eth0} ${alignr}Total ${totalup eth0}
+Down ${downspeed wlan0} k/s ${alignr}Up ${upspeed wlan0} k/s
+${downspeedgraph wlan0 10,87} ${alignr}${upspeedgraph wlan0 10,87}
+Total ${totaldown wlan0} ${alignr}Total ${totalup wlan0}
 
 ${font Droid Sand:style=Bold:size=14}${color0}Misc ${hr 1}${color}${font}
 
 MPD ($mpd_vol %): ${if_running mpd}${if_mpd_playing} ${mpd_smart} |${endif}${endif}
 ${mpd_bar 2}
-#{font Droid Sans:style=Bold:size=14}${color0} Time & Date ${hr 1}${color}${font}
+#{font Inconsolata:style=Bold:size=14}${color0} Time & Date ${hr 1}${color}${font}
 #${time %H:%M}  ${time %A, %d %B %Y}

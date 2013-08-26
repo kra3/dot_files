@@ -4,9 +4,6 @@
 [submodule "screen/addon"]
 	path = screen/addon
 	url = git://github.com/thewtex/screen-cpu-mem.git
-[submodule "z"]
-	path = z
-	url = https://github.com/rupa/z
 [submodule "liquidprompt"]
 	path = liquidprompt
 	url = https://github.com/nojhan/liquidprompt

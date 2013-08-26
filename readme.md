@@ -1,7 +1,6 @@
-There are 4 other projects in use as of now, (2 to show cpu & mem load and one for dir management & another for a better prompt.)
+There are 3 other projects in use as of now, (2 to show cpu & mem load and & another for a better prompt.)
 - screen-cpu-mem-load
 - tmux-cpu-mem-load
-- z 
 - liquidprompt 
 
 Also, one gist of virtualenvwrapper hooks for python development

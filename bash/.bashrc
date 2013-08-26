@@ -37,9 +37,6 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
-# directory management
-source ~/bin/z.sh 
-
 # awesome prompt
 source ~/bin/liquidprompt/liquidprompt
 
@@ -103,7 +100,7 @@ export EDITOR="vim"
 
 export SVN_MERGE=vimdiff
 
-
+export NNTPSERVER=news.gmane.org
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.

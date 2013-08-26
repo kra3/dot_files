@@ -81,7 +81,8 @@ Xft*rgba:              rgb
 
 ! URxvt settings
 
-URxvt.font:              -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
+!URxvt.font:              -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
+URxvt.font:              xft:Terminus:size=12:hinting=true;xft:AnjaliOldLipi:style=Regular:hinting=true
 URxvt.boldFont:          -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
 URxvt.loginShell:        true
 URxvt.scrollBar:         false 
@@ -105,6 +106,8 @@ URxvt.colorUL:           #366060
 URxvt.underlineColor:    #dfaf8f
 URxvt.intensityStyles:   true
 !URxvt.reverseVideo:      true
+!URxvt.inputMethod:          ibus
+!URxvt.preeditType:          OverTheSpot
 URxvt.keysym.C-A-c:      perl:clipboard:copy
 URxvt.keysym.C-A-v:      perl:clipboard:paste
 
@@ -112,7 +115,7 @@ URxvt.keysym.C-A-v:      perl:clipboard:paste
 
 UXTerm*loginShell:       true
 UXTerm*termName:         xterm-256color
-UXTerm*faceName:         xft:Terminus:size=12:hinting=true
+UXTerm*faceName:         xft:Terminus:size=12:hinting=true,AnjaliOldLipi:style=Regular:size=12
 !UXTerm*altSendsEscape:   true
 ! stop eating ALT-
 UXTerm*eightBitInput:    false
