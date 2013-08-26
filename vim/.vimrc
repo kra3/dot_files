@@ -91,6 +91,9 @@ Bundle 'bling/vim-bufferline'
 " awesome completion, but need a recent vim version
 Bundle 'Valloric/YouCompleteMe' 
 
+" Show VCS changes right in your vim's sign gutter
+"Bundle 'mhinz/vim-signify' 
+
 " Snippets - I never used textmate, so that style doesn't matter to me :P
 " snipmates is good, herd nested snippets are a tough game, so ultisnips
 Bundle 'SirVer/ultisnips'
