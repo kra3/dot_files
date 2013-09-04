@@ -217,7 +217,7 @@ set autoread                    " Automatically read new changes to a file
 "set autowrite
 set cursorline                  " Highlight current line
 set cursorcolumn                " Highlight current column
-set colorcolumn=+1              " ideal max text width
+set colorcolumn=80              " ideal max text width
 set wildmenu                    " command line completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
@@ -228,8 +228,8 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " images
 set wildignore+=*.o,*.exe,*.dll,*.manifest " compiled object files
 "folding settings
 set foldmethod=indent   "fold based on indent
-set foldnestmax=3       "deepest fold is 3 levels
-set nofoldenable        "don't fold by default
+set foldlevel=1
+set foldclose=all
 
 " A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
 set hidden
@@ -352,8 +352,9 @@ nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
-noremap <leader>sa zg       " Add word to dictionary
-noremap <leader>s? z=       " Correct given word to <from list>
+nnoremap <leader>sa zg       " Add word to dictionary
+nnoremap <leader>s? z=       " Correct given word to <from list>
+nnoremap <leader>f  za       " Fold/UnFold a fold 
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -383,6 +384,14 @@ try
   set stal=1   " showtabline       2 - always, 1 - more than 1, 0 - never 
 catch
 endtry
+
+" Airline
+let g:airline#extensions#virtualenv#enabled = 1
+
+" A corresponding file is in virtualenv directory to handle django
+if filereadable($VIRTUAL_ENV . '/.vimrc')
+   source $VIRTUAL_ENV/.vimrc
+endif
 
 " vim-bufferline
 let g:bufferline_echo = 0
@@ -452,6 +461,7 @@ let g:UltiSnipsJumpForwardTrigger="<C-e>"
 
 let g:indent_guides_guide_size=1
 let g:indent_guides_start_level=2
+let g:syntastic_python_checkers=['pep8', 'pyflakes']    " add 'pylint' too, if you need more checks
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
