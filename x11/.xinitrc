@@ -33,6 +33,9 @@ urxvtd -q -f -o &
 # Put number lock key, on startup
 numlockx &
 
+# My use of this clipboard manager is to unify primary copy to clip board
+parcellite &
+
 # setxkbmap -option 'grp:alt_shift_toggle'
 setxkbmap -layout "us, fr" -option "grp:alt_shift_toggle"
 
