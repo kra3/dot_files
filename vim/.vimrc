@@ -228,7 +228,7 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " images
 set wildignore+=*.o,*.exe,*.dll,*.manifest " compiled object files
 "folding settings
 set foldmethod=indent   "fold based on indent
-set foldlevel=1
+set foldlevel=3
 set foldclose=all
 
 " A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
@@ -352,7 +352,7 @@ nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
-nnoremap <leader>sa zg       " Add word to dictionary
+nnoremap <leader>s+ zg       " Add word to dictionary
 nnoremap <leader>s? z=       " Correct given word to <from list>
 nnoremap <leader>f  za       " Fold/UnFold a fold 
 
