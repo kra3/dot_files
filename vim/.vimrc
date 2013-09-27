@@ -141,12 +141,12 @@ set nowb
 set noswapfile
 
 set background=dark
-"let g:solarized_termcolors=256     " to use degraded color pallette if
-"terminal is not using solorized color pallette
-colorscheme badwolf  " solarized
 " for badwolf color scheme 
 let g:badwolf_darkgutter = 1
 let g:badwolf_tabline = 2
+"let g:solarized_termcolors=256     " to use degraded color pallette if
+"terminal is not using solorized color pallette
+colorscheme badwolf  " solarized
 
 set ruler "Always show current position 
 set number
@@ -392,6 +392,22 @@ endtry
 
 " Airline
 let g:airline#extensions#virtualenv#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+" unicode symbols
+" let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+" let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+" let g:airline_symbols.linenr = '␊'
+" let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+" let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
 
 " A corresponding file is in virtualenv directory to handle django
 if filereadable($VIRTUAL_ENV . '/.vimrc')
@@ -415,6 +431,10 @@ endif
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs = 1
 let g:syntastic_check_on_open = 1
+let g:syntastic_error_symbol='✗'
+" let g:syntastic_warning_symbol='⚠'
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_loc_list_height=5
 
 "{{{ Configure vim's builtin netrw file browser
 " it can work across various protocols. So read the docs.
@@ -442,8 +462,9 @@ if executable('ag')
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-" Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
+let g:ycm_global_ycm_extra_conf = '~/libs/.ycm_extra_conf.py'
 
+" Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
 function! g:UltiSnips_Complete()
     call UltiSnips_ExpandSnippet()
     if g:ulti_expand_res == 0
