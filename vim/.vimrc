@@ -86,7 +86,8 @@ Bundle 'godlygeek/tabular'
 Bundle 'bling/vim-airline'
 
 " Buffers list - Sure minibuffer explorer is ultimate
-Bundle 'bling/vim-bufferline'
+" Bundle 'bling/vim-bufferline'
+" Bundle 'fholgado/minibufexpl.vim'
 
 " awesome completion, but need a recent vim version
 Bundle 'Valloric/YouCompleteMe' 
@@ -103,7 +104,7 @@ Bundle 'paraqles/vim-ultisnips-snippets'
 " Bundle 'goldfeld/vim-seek'
 
 " file browser - using CtrlP now   
-"Bundle 'scrooloose/nerdtree'                    
+Bundle 'scrooloose/nerdtree'                    
 
 " undo list
 " Bundle 'sjl/gundo.vim'                         
@@ -111,6 +112,7 @@ Bundle 'paraqles/vim-ultisnips-snippets'
 " Color schemes: solarized, zenburn 
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
+Bundle 'sjl/badwolf'
 
 " Haskell specific
 " Bundle 'dag/vim2hs'
@@ -141,7 +143,10 @@ set noswapfile
 set background=dark
 "let g:solarized_termcolors=256     " to use degraded color pallette if
 "terminal is not using solorized color pallette
-colorscheme solarized
+colorscheme badwolf  " solarized
+" for badwolf color scheme 
+let g:badwolf_darkgutter = 1
+let g:badwolf_tabline = 2
 
 set ruler "Always show current position 
 set number
@@ -394,30 +399,31 @@ if filereadable($VIRTUAL_ENV . '/.vimrc')
 endif
 
 " vim-bufferline
-let g:bufferline_echo = 0
+" let g:bufferline_echo = 0
 
 " I'm using Ctrl-P now {{{
     " open nerdTree with Ctrl + n
-    " noremap <C-n> :NERDTreeToggle<CR>
+     noremap <C-n> :NERDTreeToggle<CR>
     " Open nerdTree automatically at startup if no file is specified
-    "autocmd vimenter * if !argc() | NERDTree | endif
+    autocmd vimenter * if !argc() | NERDTree | endif
     " Close vim if NerdTree is the only window open
-    "atocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-    "let NERDTreeWinSize = 20
-    "let NERDTreeChDirMode=2  " use the new dir as cwd
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+    let NERDTreeWinSize = 20
+    let NERDTreeChDirMode=2  " use the new dir as cwd
 " }}}
 
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs = 1
 let g:syntastic_check_on_open = 1
 
-" Configure vim's builtin netrw file browser - it can work across various
-" protocols. So read the docs.
-let g:netrw_liststyle=3
-let g:netrw_browse_split=4
-let g:netrw_preview=1
-let g:netrw_winsize=20
-noremap <C-n> :Ve<CR>     " Open a Vertical split at current files path
+"{{{ Configure vim's builtin netrw file browser
+" it can work across various protocols. So read the docs.
+" let g:netrw_liststyle=3
+" let g:netrw_browse_split=4
+" let g:netrw_preview=1
+" let g:netrw_winsize=20
+" noremap <C-n> :Ve<CR>     " Open a Vertical split at current files path
+" }}}
 
 " For ctrlp
 let g:ctrlp_cmd = 'CtrlPLastMode' " set to CtrlPMixed to search all at once
