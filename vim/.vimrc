@@ -86,7 +86,8 @@ Bundle 'godlygeek/tabular'
 Bundle 'bling/vim-airline'
 
 " Buffers list - Sure minibuffer explorer is ultimate
-Bundle 'bling/vim-bufferline'
+" Bundle 'bling/vim-bufferline'
+" Bundle 'fholgado/minibufexpl.vim'
 
 " awesome completion, but need a recent vim version
 Bundle 'Valloric/YouCompleteMe' 
@@ -103,7 +104,7 @@ Bundle 'paraqles/vim-ultisnips-snippets'
 " Bundle 'goldfeld/vim-seek'
 
 " file browser - using CtrlP now   
-"Bundle 'scrooloose/nerdtree'                    
+Bundle 'scrooloose/nerdtree'                    
 
 " undo list
 " Bundle 'sjl/gundo.vim'                         
@@ -111,6 +112,7 @@ Bundle 'paraqles/vim-ultisnips-snippets'
 " Color schemes: solarized, zenburn 
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
+Bundle 'sjl/badwolf'
 
 " Haskell specific
 " Bundle 'dag/vim2hs'
@@ -139,9 +141,12 @@ set nowb
 set noswapfile
 
 set background=dark
+" for badwolf color scheme 
+let g:badwolf_darkgutter = 1
+let g:badwolf_tabline = 2
 "let g:solarized_termcolors=256     " to use degraded color pallette if
 "terminal is not using solorized color pallette
-colorscheme solarized
+colorscheme badwolf  " solarized
 
 set ruler "Always show current position 
 set number
@@ -217,7 +222,7 @@ set autoread                    " Automatically read new changes to a file
 "set autowrite
 set cursorline                  " Highlight current line
 set cursorcolumn                " Highlight current column
-set colorcolumn=+1              " ideal max text width
+set colorcolumn=80              " ideal max text width
 set wildmenu                    " command line completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
@@ -228,8 +233,8 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " images
 set wildignore+=*.o,*.exe,*.dll,*.manifest " compiled object files
 "folding settings
 set foldmethod=indent   "fold based on indent
-set foldnestmax=3       "deepest fold is 3 levels
-set nofoldenable        "don't fold by default
+set foldlevel=3
+set foldclose=all
 
 " A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
 set hidden
@@ -352,8 +357,9 @@ nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
-noremap <leader>sa zg       " Add word to dictionary
-noremap <leader>s? z=       " Correct given word to <from list>
+nnoremap <leader>s+ zg       " Add word to dictionary
+nnoremap <leader>s? z=       " Correct given word to <from list>
+nnoremap <leader>f  za       " Fold/UnFold a fold 
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -384,31 +390,60 @@ try
 catch
 endtry
 
+" Airline
+let g:airline#extensions#virtualenv#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+" unicode symbols
+" let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+" let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+" let g:airline_symbols.linenr = '␊'
+" let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+" let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" A corresponding file is in virtualenv directory to handle django
+if filereadable($VIRTUAL_ENV . '/.vimrc')
+   source $VIRTUAL_ENV/.vimrc
+endif
+
 " vim-bufferline
-let g:bufferline_echo = 0
+" let g:bufferline_echo = 0
 
 " I'm using Ctrl-P now {{{
     " open nerdTree with Ctrl + n
-    " noremap <C-n> :NERDTreeToggle<CR>
+     noremap <C-n> :NERDTreeToggle<CR>
     " Open nerdTree automatically at startup if no file is specified
-    "autocmd vimenter * if !argc() | NERDTree | endif
+    autocmd vimenter * if !argc() | NERDTree | endif
     " Close vim if NerdTree is the only window open
-    "atocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-    "let NERDTreeWinSize = 20
-    "let NERDTreeChDirMode=2  " use the new dir as cwd
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+    let NERDTreeWinSize = 20
+    let NERDTreeChDirMode=2  " use the new dir as cwd
 " }}}
 
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs = 1
 let g:syntastic_check_on_open = 1
+let g:syntastic_error_symbol='✗'
+" let g:syntastic_warning_symbol='⚠'
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_loc_list_height=5
 
-" Configure vim's builtin netrw file browser - it can work across various
-" protocols. So read the docs.
-let g:netrw_liststyle=3
-let g:netrw_browse_split=4
-let g:netrw_preview=1
-let g:netrw_winsize=20
-noremap <C-n> :Ve<CR>     " Open a Vertical split at current files path
+"{{{ Configure vim's builtin netrw file browser
+" it can work across various protocols. So read the docs.
+" let g:netrw_liststyle=3
+" let g:netrw_browse_split=4
+" let g:netrw_preview=1
+" let g:netrw_winsize=20
+" noremap <C-n> :Ve<CR>     " Open a Vertical split at current files path
+" }}}
 
 " For ctrlp
 let g:ctrlp_cmd = 'CtrlPLastMode' " set to CtrlPMixed to search all at once
@@ -427,8 +462,9 @@ if executable('ag')
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-" Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
+let g:ycm_global_ycm_extra_conf = '~/libs/.ycm_extra_conf.py'
 
+" Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
 function! g:UltiSnips_Complete()
     call UltiSnips_ExpandSnippet()
     if g:ulti_expand_res == 0
@@ -452,6 +488,7 @@ let g:UltiSnipsJumpForwardTrigger="<C-e>"
 
 let g:indent_guides_guide_size=1
 let g:indent_guides_start_level=2
+let g:syntastic_python_checkers=['pep8', 'pyflakes']    " add 'pylint' too, if you need more checks
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>

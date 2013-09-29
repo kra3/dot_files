@@ -82,7 +82,7 @@ Share: ${alignr}${fs_free /share} / ${fs_size /share}
 ${fs_bar 2 /share}
 
 Local IP: ${alignr}${addr wlan0}
-Public IP: ${alignr} ${execi 360 wget -q -O - checkip.dyndns.org | sed -e 's/[^[:digit:]\|.]//g'}
+Public IP: ${alignr} ${execi 360 curl ifconfig.me }
 
 Down ${downspeed wlan0} k/s ${alignr}Up ${upspeed wlan0} k/s
 ${downspeedgraph wlan0 10,87} ${alignr}${upspeedgraph wlan0 10,87}
