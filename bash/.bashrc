@@ -19,6 +19,9 @@ shopt -s checkwinsize
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+# no accidental overrites by redirection 
+set -o noclobber
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
