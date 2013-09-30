@@ -93,7 +93,7 @@ Bundle 'bling/vim-airline'
 Bundle 'Valloric/YouCompleteMe' 
 
 " Show VCS changes right in your vim's sign gutter
-"Bundle 'mhinz/vim-signify' 
+Bundle 'mhinz/vim-signify' 
 
 " Snippets - I never used textmate, so that style doesn't matter to me :P
 " snipmates is good, herd nested snippets are a tough game, so ultisnips
@@ -259,8 +259,8 @@ set splitright
 
 inoremap <C-w> <C-o><C-w>
 
-"call yankstack#setup()        " a much needed work around 
-"let g:yankstack_map_keys = 0
+" call yankstack#setup()        " a much needed work around 
+" let g:yankstack_map_keys = 0
 nnoremap <leader>p <Plug>yankstack_substitute_older_paste
 nnoremap <leader>P <Plug>yankstack_substitute_newer_paste
 
@@ -357,6 +357,13 @@ nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
+" {{{ Vim signyfy
+    let g:signify_mapping_next_hunk = '<leader>gj'
+    let g:signify_mapping_prev_hunk = '<leader>gk'
+    let g:signify_mapping_toggle_highlight = '<leader>gh'
+    let g:signify_mapping_toggle = '<leader>gt'
+" }}}
+
 nnoremap <leader>s+ zg       " Add word to dictionary
 nnoremap <leader>s? z=       " Correct given word to <from list>
 nnoremap <leader>f  za       " Fold/UnFold a fold 
@@ -419,7 +426,7 @@ endif
 
 " I'm using Ctrl-P now {{{
     " open nerdTree with Ctrl + n
-     noremap <C-n> :NERDTreeToggle<CR>
+    noremap <C-n> :NERDTreeToggle<CR>
     " Open nerdTree automatically at startup if no file is specified
     autocmd vimenter * if !argc() | NERDTree | endif
     " Close vim if NerdTree is the only window open
