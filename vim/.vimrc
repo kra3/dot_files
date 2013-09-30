@@ -368,6 +368,10 @@ nnoremap <leader>s+ zg       " Add word to dictionary
 nnoremap <leader>s? z=       " Correct given word to <from list>
 nnoremap <leader>f  za       " Fold/UnFold a fold 
 
+" in the spirit of vim-unimpaired
+nnoremap [om  <Esc>:set mouse=a<CR>  " enable mouse for scrolling
+nnoremap ]om  <Esc>:set mouse=<CR>   " disable mouse
+
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -428,7 +432,7 @@ endif
     " open nerdTree with Ctrl + n
     noremap <C-n> :NERDTreeToggle<CR>
     " Open nerdTree automatically at startup if no file is specified
-    autocmd vimenter * if !argc() | NERDTree | endif
+    autocmd vimenter * if !argc() | NERDTree ~/src | endif
     " Close vim if NerdTree is the only window open
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     let NERDTreeWinSize = 20
@@ -469,7 +473,7 @@ if executable('ag')
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-let g:ycm_global_ycm_extra_conf = '~/libs/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 " Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
 function! g:UltiSnips_Complete()
