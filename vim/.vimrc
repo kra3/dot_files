@@ -112,6 +112,14 @@ Bundle 'scrooloose/nerdtree'
 " TaskList
 Bundle 'vim-scripts/TaskList.vim'
 
+" session management - misc is a dependency
+" Bundle 'xolox/vim-session'
+" Bundle 'xolox/vim-misc'
+
+" Python mode  (A lot of features for python
+" support: pylint, rope, pep8, pyflakes, pydoc, mccabe, virtualenv
+" Bundle 'klen/python-mode'
+
 " Color schemes: solarized, zenburn 
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
