@@ -109,6 +109,9 @@ Bundle 'scrooloose/nerdtree'
 " undo list
 " Bundle 'sjl/gundo.vim'                         
 
+" TaskList
+Bundle 'vim-scripts/TaskList.vim'
+
 " Color schemes: solarized, zenburn 
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
@@ -367,6 +370,8 @@ nnoremap <Leader>gw :Gwrite<cr>
 nnoremap <leader>s+ zg       " Add word to dictionary
 nnoremap <leader>s? z=       " Correct given word to <from list>
 nnoremap <leader>f  za       " Fold/UnFold a fold 
+
+map <leader>td <Plug>TaskList
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
