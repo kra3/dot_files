@@ -7,12 +7,13 @@ if [ -d /etc/X11/Xsession.d ]; then
    unset f
 fi
 
-#trayer --edge top --align center --SetDockType true --SetPartialStrut true    --expand true --widthtype request --transparent true --tint 0xffffff --height 6 &
+#trayer --edge top --align center --SetDockType true --SetPartialStrut true --expand true --widthtype request --transparent true --tint 0xffffff --height 6 &
 
 nm-applet --sm-disable &
 gnome-sound-applet &
 
-feh --bg-scale ~/.dwm.jpg &
+semonres  # custom arandr script for my office monitor set-up 
+feh --bg-fill ~/.dwm.jpg &
 
 # This is where Terminus is installed by ubunutu
 xset +fp /usr/share/fonts/X11/misc/

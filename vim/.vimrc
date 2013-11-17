@@ -18,10 +18,10 @@ Bundle 'mileszs/ack.vim'
 " ag - the better Ack
 Bundle 'rking/ag.vim'                       
 
-" claims to be faster and fully vimscript.
+" claims to be faster and fully vimscript.<F5>
 Bundle 'mbbill/undotree'     
 
-" better taglist
+" better taglist <F8>
 Bundle 'majutsushi/tagbar'
 
 " git support
@@ -34,10 +34,10 @@ Bundle 'ludovicchabant/vim-lawrencium'
 " Never lose a yank/cut again
 Bundle 'maxbrunsfeld/vim-yankstack'
 
-" moving around in the file
+" moving around in the file. ,,w
 Bundle 'Lokaltog/vim-easymotion'  
 
-" block navigation/creation
+" block navigation/creation. cs"' cst" ds" ysiw] yss) VS<p>
 Bundle 'tpope/vim-surround'                    
 
 " syntax checker
@@ -46,10 +46,10 @@ Bundle 'scrooloose/syntastic'
 " show search item index
 Bundle 'vim-scripts/IndexedSearch'
 
-" useful for python
+" useful for python. ai ii
 Bundle "michaeljsmith/vim-indent-object"
 
-" Visual indentations
+" Visual indentations. ,ig
 Bundle 'nathanaelkane/vim-indent-guides'
 
 " seamless motion between tmux panes and vim panes
@@ -61,7 +61,7 @@ Bundle 'tpope/vim-unimpaired'
 " repeat whole scommands in the plug-in mapping
 Bundle 'tpope/vim-repeat'
 
-" relative / Normal line numbering
+" relative / Normal line numbering <F3> <F4>
 Bundle "myusuf3/numbers.vim"
 
 " Comments toggling - gcc 
@@ -70,14 +70,14 @@ Bundle 'tpope/vim-commentary'
 " python virtual env support
 Bundle 'jmcantrell/vim-virtualenv'             
 
-" html zen edit
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}    
-
 "Increments/decrements dates, time rather than treating them as numbers on
 " <C-A> and <C-X> respectively
 Bundle 'tpope/vim-speeddating'
 
 " Three separate functions: coercion, substitution, & abbreviation
+" :Abolish {despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}
+" :%Subvert/facilit{y,ies}/building{,s}/g
+" snake_case:crs MixedCase: crm camelCase:crc UPPER CASE:cru
 Bundle 'tpope/vim-abolish'
 
 " Arrange code, eg., aligning '=' or ':' in a class/function 
@@ -107,10 +107,13 @@ Bundle 'paraqles/vim-ultisnips-snippets'
 " file browser - using CtrlP now   
 Bundle 'scrooloose/nerdtree'                    
 
+" high speed html editing: <c-y>,
+Bundle 'mattn/emmet-vim'
+
 " undo list
 " Bundle 'sjl/gundo.vim'                         
 
-" TaskList
+" TaskList ,td
 Bundle 'vim-scripts/TaskList.vim'
 
 " session management - misc is a dependency
@@ -158,7 +161,8 @@ let g:badwolf_darkgutter = 1
 let g:badwolf_tabline = 2
 "let g:solarized_termcolors=256     " to use degraded color pallette if
 "terminal is not using solorized color pallette
-colorscheme badwolf  " solarized
+" colorscheme badwolf 
+colorscheme solarized
 
 set ruler "Always show current position 
 set number
@@ -308,7 +312,7 @@ nnoremap <F5> :UndotreeToggle<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
+" let g:tagbar_autoclose = 1
 let g:tagbar_singleclick = 1
 let g:tagbar_iconchars = ['+', '-']
 
@@ -446,7 +450,7 @@ endif
     " open nerdTree with Ctrl + n
     noremap <C-n> :NERDTreeToggle<CR>
     " Open nerdTree automatically at startup if no file is specified
-    autocmd vimenter * if !argc() | NERDTree ~/src | endif
+    autocmd vimenter * if !argc() | NERDTree ~/libs | endif
     " Close vim if NerdTree is the only window open
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     let NERDTreeWinSize = 20
