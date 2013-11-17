@@ -26,6 +26,7 @@ Bundle 'majutsushi/tagbar'
 
 " git support
 Bundle 'tpope/vim-fugitive'                    
+Bundle 'int3/vim-extradite'
 
 " mercurial (hg) support
 Bundle 'ludovicchabant/vim-lawrencium'
