@@ -450,7 +450,7 @@ endif
     " open nerdTree with Ctrl + n
     noremap <C-n> :NERDTreeToggle<CR>
     " Open nerdTree automatically at startup if no file is specified
-    autocmd vimenter * if !argc() | NERDTree ~/libs | endif
+    autocmd vimenter * if !argc() | NERDTree ~/src | endif
     " Close vim if NerdTree is the only window open
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     let NERDTreeWinSize = 20
