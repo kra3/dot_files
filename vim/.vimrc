@@ -81,6 +81,7 @@ Bundle 'tpope/vim-speeddating'
 Bundle 'tpope/vim-abolish'
 
 " Arrange code, eg., aligning '=' or ':' in a class/function 
+" :Tab /=  :Tab /=\zs :Tab /,/r0
 Bundle 'godlygeek/tabular'
 
 " Air-line
@@ -453,8 +454,9 @@ endif
     autocmd vimenter * if !argc() | NERDTree ~/src | endif
     " Close vim if NerdTree is the only window open
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-    let NERDTreeWinSize = 20
+    let NERDTreeWinSize = 25
     let NERDTreeChDirMode=2  " use the new dir as cwd
+    let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
 " }}}
 
 " Bundld 'scrooloose/syntastic'
@@ -529,6 +531,24 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 cmap w!! w !sudo tee % >/dev/null
 " Fast saving
 nnoremap <leader>w :w!<cr>
+
+"{{{ save & restore folds on exit/enter  + a nice fold line
+" autocmd BufWinLeave *.* mkview
+" autocmd BufWinEnter *.* silent loadview 
+
+function! NeatFoldText() 
+    let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+    let lines_count = v:foldend - v:foldstart + 1
+    let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+    let foldchar = matchstr(&fillchars, 'fold:\zs.')
+    let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+    let foldtextend = lines_count_text . repeat(foldchar, 8)
+    let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+    return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+
+set foldtext=NeatFoldText()
+" }}}
 
 " Open ranger to choose file, map it to ,r
 " Install `ranger` on your system first, It's a curl based file manager.
