@@ -496,26 +496,27 @@ endif
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 " Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
-function! g:UltiSnips_Complete()
-    call UltiSnips_ExpandSnippet()
-    if g:ulti_expand_res == 0
-        if pumvisible()
-            return "\<C-n>"
-        else
-            call UltiSnips_JumpForwards()
-            if g:ulti_jump_forwards_res == 0
-               return "\<TAB>"
-            endif
-        endif
-    endif
-    return ""
-endfunction
+" function! g:UltiSnips_Complete()
+"     call UltiSnips_ExpandSnippet()
+"     if g:ulti_expand_res == 0
+"         if pumvisible()
+"             return "\<C-n>"
+"         else
+"             call UltiSnips_JumpForwards()
+"             if g:ulti_jump_forwards_res == 0
+"                return "\<TAB>"
+"             endif
+"         endif
+"     endif
+"     return ""
+" endfunction
 
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+" au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-ultisnips-snippets"]
 let g:UltiSnipsExpandTrigger="<C-e>"
 let g:UltiSnipsJumpForwardTrigger="<C-e>"
+let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
 let g:indent_guides_guide_size=1
 let g:indent_guides_start_level=2
