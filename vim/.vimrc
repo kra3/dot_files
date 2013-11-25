@@ -456,14 +456,14 @@ endif
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     let NERDTreeWinSize = 25
     let NERDTreeChDirMode=2  " use the new dir as cwd
-    let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+    let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.orig$', '\.rej$']
 " }}}
 
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_error_symbol='✗'
-" let g:syntastic_warning_symbol='⚠'
+let g:syntastic_warning_symbol='⚠'
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_loc_list_height=5
 
