@@ -7,8 +7,6 @@ if [ -d /etc/X11/Xsession.d ]; then
    unset f
 fi
 
-#trayer --edge top --align center --SetDockType true --SetPartialStrut true --expand true --widthtype request --transparent true --tint 0xffffff --height 6 &
-
 nm-applet --sm-disable &
 gnome-sound-applet &
 
@@ -58,11 +56,11 @@ if [ -f "$HOME/.xinitrc_local" ]; then
    . "$HOME/.xinitrc_local"
 fi
 
-exec dwm
+session=${1:-dwm}
 
-#while true; do
-#   # Log stderror to a file 
-#   dwm 2> ~/.dwm.log
-#   # No error logging
-#   #dwm >/dev/null 2>&1
-#done
+case $session in
+    dwm) exec dwm ;; 
+    gnome) exec gnome-session ;;
+    cinnamon) exec gnome-session-cinnamon ;;
+    *) exec $1;;
+esac
