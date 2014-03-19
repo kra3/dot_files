@@ -104,6 +104,8 @@ winprop(){
 #export PATH=$PATH:$HOME/libs/google_appengine
 export WORKON_HOME=~/.envs
 export PROJECT_HOME=~/src
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
+export PIP_RESPECT_VIRTUALENV=true
 source /usr/local/bin/virtualenvwrapper.sh 
 
 export EDITOR="vim"
