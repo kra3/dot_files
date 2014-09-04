@@ -51,7 +51,7 @@ sub enable_nicklist {
   $fifo_path = "$tmpdir/fifo";
   POSIX::mkfifo($fifo_path, 0600) or die "can\'t mkfifo $fifo_path: $!";
   my $cmd = "perl $script_path $fifo_path $ENV{'TMUX_PANE'}";
-  system('tmux', 'split-window', '-dh', '-p', '20', $cmd);
+  system('tmux', 'split-window', '-dh', '-l', '20', $cmd);
   # The next system call will block until the other pane has opened the pipe
   # for reading, so synchronization is not an issue here.
   open (FIFO, "> $fifo_path") or die "can't open $fifo_path: $!";
@@ -166,8 +166,15 @@ sub redraw {
   # redraw visible nicks
   restore_cursor;
   clear_screen;
-  for (my $idx = $current_line; $idx < $last_idx; $idx++) {
-    print "$nicknames[$idx]\n";
+
+  if (($current_line - $last_idx) < scalar(@nicknames)) {
+    for (my $idx = $current_line; $idx < $last_idx; $idx++) {
+      print "$nicknames[$idx]\n";
+    }
+  } else {
+    foreach my $name (@nicknames) {
+      print "$name\n";
+    }
   }
 }
 
