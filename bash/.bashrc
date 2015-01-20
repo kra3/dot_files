@@ -145,3 +145,4 @@ if [ -x /usr/lib/command-not-found ]; then
 	}
 fi
 
+# SVN edit commit msg: svn propedit svn:log --revprop -r N --editor-cmd vim
