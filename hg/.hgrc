@@ -4,20 +4,16 @@ hgext.rebase =
 hgext.mq =
 hgext.schemes =
 hgext.bookmarks =
-hggit = 
-hgshelve = ~/src/dot_files/hg/hgshelve.py
-checkfiles = ~/src/dot_files/hg/checkfiles.py
+hgshelve = ~/src/personal/dot_files/hg/hgshelve.py
+checkfiles = ~/src/personal/dot_files/hg/checkfiles.py
 
 [ui]
-username = Arun K. R.(kra3) <the1.arun@gmail.com>
+username = Arun Karunagath (kra3) <arun.karunagath@option3consulting.com>
 ignore = ~/.hgignore
 
 [alias]
 slog = log --template '{rev}:{node|short} {desc|firstline}\n'
 qstatus = status --rev -2
-
-[schemes]
-src = http://sources.wyplay.int/hg/
 
 [hooks]
 #pretxnchangegroup.checkfiles = python:~/src/dot_files/hg/checkfiles.py:check_hook # enables hook to check incoming changeset
@@ -25,7 +21,7 @@ src = http://sources.wyplay.int/hg/
 #precommit.checkfiles = python:~/src/dot_files/hg/checkfiles.py:fixup_hook # enables hook to fix files before creating commit
 
 [checkfiles]
-checked_exts = .py 
+checked_exts = .py
 use_spaces = True
 
 [diff]

@@ -36,9 +36,9 @@ PS1="[\u@\h: \$CurDir] \$ "
 #PS1='[\u@\h: \W]\$ '
 #PS1="\n\[\033[0;30m\]\[\033[1;34m\](\[\033[1;32m\]\u\[\033[1;37m\]@\[\033[1;32m\]\h\[\033[1;34m\])\[\033[0;30m\] \[\033[1;30m\](\[\033[0;37m\]$OSTYPE\[\033[1;30m\])\[\033[0;30 m\] \[\033[1;31m\](\[\033[1;34m\]\t \d\[\033[1;31m\])\[\033[0;30m\] \[\033[0;30m\]\n \[\033[1;30m\](\[\033[1;37m\]\w/\[\033[1;30m\])\[\033[0;30m\]\[\033[0;32m\] "
 
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
+# export LC_ALL=en_US.UTF-8
+# export LANG=en_US.UTF-8
+# export LANGUAGE=en_US.UTF-8
 
 # for ctags
 export LC_COLLATE=C
@@ -89,6 +89,9 @@ alias mount='mount |column -t'
 
 alias urxvt='urxvtc'
 
+alias sshsimi='ssh simi@192.168.2.16'
+alias sshsrvr='ssh sudhir@192.168.2.81'
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -115,6 +118,15 @@ export SVN_MERGE=vimdiff
 export NNTPSERVER=news.gmane.org
 
 export PYTHONWARNINGS="default"
+
+export ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe
+export ORACLE_SID=XE
+export NLS_LANG=`$ORACLE_HOME/bin/nls_lang.sh`
+export ORACLE_BASE=/u01/app/oracle
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$LD_LIBRARY_PATH
+export PATH=$ORACLE_HOME/bin:$PATH
+
+JAVA_HOME="/usr/lib/jvm/jdk1.6.0_45"
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -145,3 +157,9 @@ if [ -x /usr/lib/command-not-found ]; then
 	}
 fi
 
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+source /home/kra3/.rvm/scripts/rvm
+
+# Added by Canopy installer on 2014-11-11
+# VIRTUAL_ENV_DISABLE_PROMPT can be set to '' to make bashprompt show that Canopy is active, otherwise 1
+# VIRTUAL_ENV_DISABLE_PROMPT='' source /home/kra3/Enthought/Canopy_64bit/User/bin/activate

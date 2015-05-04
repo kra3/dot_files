@@ -30,7 +30,7 @@ servers = (
     use_ssl = "no";
     ssl_verify = "no";
     autoconnect = "yes";
-  },
+  }
 );
 
 chatnets = {
@@ -98,13 +98,13 @@ chatnets = {
   SILC = { type = "SILC"; };
   fn = {
     type = "IRC";
-    autosendcmd = "/^msg nickserv identify yourpassword;wait 2000";
+    autosendcmd = "/^msg nickserv identify code@333;wait 2000";
   };
 };
 
 channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
-  { name = "silc"; chatnet = "silc"; autojoin = "No"; },
+  { name = "silc"; chatnet = "silc"; autojoin = "No"; }
 );
 
 aliases = {
@@ -275,13 +275,6 @@ statusbar = {
         barend = { priority = "100"; alignment = "right"; };
       };
     };
-    awl_1 = {
-      items = {
-        barstart = { priority = "100"; };
-        awl_1 = { };
-        barend = { priority = "100"; alignment = "right"; };
-      };
-    };
   };
 };
 settings = {
@@ -289,7 +282,7 @@ settings = {
     real_name = "Arun Karunagath";
     user_name = "kra3";
     nick = "kra3";
-    timestamp_format = "%H:%M:00";
+    timestamp_format = "10001.101011";
   };
   "fe-text" = {
     actlist_sort = "refnum";

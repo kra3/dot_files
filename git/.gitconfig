@@ -8,7 +8,7 @@
     undo = reset --soft HEAD ^
     amend = commit --amend
 [user]
-	name = Arun K. R. <kra3>
+	name = kra3\n
     email = the1.arun@gmail.com
 [merge]
     tool = mymeld
@@ -19,3 +19,7 @@
     tool = meld
 [init]
     templatedir = ~/.git_template
+[push]
+	default = current
+[http]
+	postBuffer = 524288000

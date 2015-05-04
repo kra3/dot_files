@@ -1,31 +1,32 @@
 runtime! debian.vim
 
 set nocompatible
-filetype off  "required 
+filetype off  "required
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
 " the package manager
-Bundle 'gmarik/vundle'   
+Bundle 'gmarik/Vundle.vim'
 
 " Ctrlp search buffer, mru files, files
 Bundle 'kien/ctrlp.vim'
+Bundle 'DavidEGx/ctrlp-smarttabs'
 
 " ack - the better grep
-Bundle 'mileszs/ack.vim'                       
+" Bundle 'mileszs/ack.vim'
 
 " ag - the better Ack
-Bundle 'rking/ag.vim'                       
+Bundle 'rking/ag.vim'
 
 " claims to be faster and fully vimscript.<F5>
-Bundle 'mbbill/undotree'     
+Bundle 'mbbill/undotree'
 
 " better taglist <F8>
 Bundle 'majutsushi/tagbar'
 
 " git support
-Bundle 'tpope/vim-fugitive'                    
+Bundle 'tpope/vim-fugitive'
 Bundle 'int3/vim-extradite'
 
 " mercurial (hg) support
@@ -35,13 +36,13 @@ Bundle 'ludovicchabant/vim-lawrencium'
 Bundle 'maxbrunsfeld/vim-yankstack'
 
 " moving around in the file. ,,w
-Bundle 'Lokaltog/vim-easymotion'  
+Bundle 'Lokaltog/vim-easymotion'
 
 " block navigation/creation. cs"' cst" ds" ysiw] yss) VS<p>
-Bundle 'tpope/vim-surround'                    
+Bundle 'tpope/vim-surround'
 
 " syntax checker
-Bundle 'scrooloose/syntastic'                  
+Bundle 'scrooloose/syntastic'
 
 " show search item index
 Bundle 'vim-scripts/IndexedSearch'
@@ -58,17 +59,17 @@ Bundle "christoomey/vim-tmux-navigator"
 " Lots of bindings for [ & ] very useful
 Bundle 'tpope/vim-unimpaired'
 
-" repeat whole scommands in the plug-in mapping
+" repeat whole commands in the plug-in mapping
 Bundle 'tpope/vim-repeat'
 
 " relative / Normal line numbering <F3> <F4>
 Bundle "myusuf3/numbers.vim"
 
-" Comments toggling - gcc 
+" Comments toggling - gcc
 Bundle 'tpope/vim-commentary'
 
 " python virtual env support
-Bundle 'jmcantrell/vim-virtualenv'             
+Bundle 'jmcantrell/vim-virtualenv'
 
 "Increments/decrements dates, time rather than treating them as numbers on
 " <C-A> and <C-X> respectively
@@ -80,9 +81,13 @@ Bundle 'tpope/vim-speeddating'
 " snake_case:crs MixedCase: crm camelCase:crc UPPER CASE:cru
 Bundle 'tpope/vim-abolish'
 
-" Arrange code, eg., aligning '=' or ':' in a class/function 
+" Arrange code, eg., aligning '=' or ':' in a class/function
 " :Tab /=  :Tab /=\zs :Tab /,/r0
 Bundle 'godlygeek/tabular'
+
+" Powerline
+" fonts are here https://github.com/powerline/fonts
+" Bundle 'powerline/powerline'
 
 " Air-line
 Bundle 'bling/vim-airline'
@@ -92,40 +97,45 @@ Bundle 'bling/vim-airline'
 " Bundle 'fholgado/minibufexpl.vim'
 
 " awesome completion, but need a recent vim version
-Bundle 'Valloric/YouCompleteMe' 
+Bundle 'Valloric/YouCompleteMe'
 
 " Show VCS changes right in your vim's sign gutter
-Bundle 'mhinz/vim-signify' 
+Bundle 'mhinz/vim-signify'
 
 " Snippets - I never used textmate, so that style doesn't matter to me :P
-" snipmates is good, herd nested snippets are a tough game, so ultisnips
 Bundle 'SirVer/ultisnips'
-Bundle 'paraqles/vim-ultisnips-snippets'   
+Bundle 'honza/vim-snippets'
 
-" moving in a line
-" Bundle 'goldfeld/vim-seek'
-
-" file browser - using CtrlP now   
-Bundle 'scrooloose/nerdtree'                    
+" file browser - using CtrlP now
+Bundle 'scrooloose/nerdtree'
 
 " high speed html editing: <c-y>,
 Bundle 'mattn/emmet-vim'
 
 " undo list
-" Bundle 'sjl/gundo.vim'                         
+" Bundle 'sjl/gundo.vim'
 
 " TaskList ,td
 Bundle 'vim-scripts/TaskList.vim'
 
+" like sublime's ctrl+d. This one uses ctrl+n
+Bundle 'terryma/vim-multiple-cursors'
+
+" How about some repel - 'conque', may be later?
+Bundle 'jpalardy/vim-slime'
+
 " session management - misc is a dependency
-" Bundle 'xolox/vim-session'
-" Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-session'
+Bundle 'xolox/vim-misc'
+
+" Projects - needs to configure the projects inside the vimrc
+" Bundle 'amiorin/vim-project'
 
 " Python mode  (A lot of features for python
 " support: pylint, rope, pep8, pyflakes, pydoc, mccabe, virtualenv
 " Bundle 'klen/python-mode'
-
-" Color schemes: solarized, zenburn 
+ 
+" Color schemes: solarized, zenburn
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
 Bundle 'sjl/badwolf'
@@ -134,8 +144,10 @@ Bundle 'sjl/badwolf'
 " Bundle 'dag/vim2hs'
 " Bundle 'lukerandall/haskellmode-vim'
 
+call vundle#end()
+
 " Enable filetype plugins
-filetype on 
+filetype on
 filetype plugin indent on
 
 set encoding=utf-8
@@ -157,15 +169,15 @@ set nowb
 set noswapfile
 
 set background=dark
-" for badwolf color scheme 
+" for badwolf color scheme
 let g:badwolf_darkgutter = 1
 let g:badwolf_tabline = 2
 "let g:solarized_termcolors=256     " to use degraded color pallette if
 "terminal is not using solorized color pallette
-" colorscheme badwolf 
-colorscheme solarized
+colorscheme badwolf
+" colorscheme solarized
 
-set ruler "Always show current position 
+set ruler "Always show current position
 set number
 
 set tabstop=4           "A tab is 8 spaces
@@ -180,7 +192,7 @@ set spell
 set spelllang=en
 
 set autoindent 		    "automatically intend next line
-set smartindent         "be smart while doing so 
+set smartindent         "be smart while doing so
 
 set hlsearch  			"highlight search results
 set incsearch 			"incremental search
@@ -209,7 +221,7 @@ set lazyredraw   " don't redraw while executing macros
 " To scroll in the terminal
 "set mouse=a
 
-" Show special characters (⤶ ‽ ˑ ·) 
+" Show special characters (⤶ ‽ ˑ ·)
 " set list    " on it with [ol - thnx to vim-unimpired
 if v:version >= 700
   set listchars=tab:→\ ,trail:ˑ,nbsp:ˑ,eol:⤶,extends:>
@@ -230,6 +242,8 @@ let g:mapleader = ","
 " Don't break up long lines, but visually wrap them.
 set textwidth=0
 set wrap
+
+set clipboard=unnamed  "use system register *, not register "
 
 set scrolloff=5      " Minimal number of screen lines to keep above and below the cursor.
 set sidescrolloff=7
@@ -276,8 +290,8 @@ set splitright
 
 inoremap <C-w> <C-o><C-w>
 
-" call yankstack#setup()        " a much needed work around 
-" let g:yankstack_map_keys = 0
+call yankstack#setup()        " a much needed work around
+let g:yankstack_map_keys = 0
 nnoremap <leader>p <Plug>yankstack_substitute_older_paste
 nnoremap <leader>P <Plug>yankstack_substitute_newer_paste
 
@@ -321,6 +335,12 @@ let g:tagbar_iconchars = ['+', '-']
 noremap <Leader>ct :!ctags -R .<CR>
 set tags=./tags;/    " look for tags from current dir to upwards
 
+" easymotion
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_smartsign_us = 1
+nmap <Space> <Plug>(easymotion-s2)
+nmap <Leader>/ <Plug>(easymotion-sn)
+
 " To save, ctrl-s. Terminals may freeze, ctrl+q to rescue
 nnoremap <c-s> :w<CR>
 inoremap <c-s> <Esc>:w<CR>a
@@ -342,10 +362,10 @@ nnoremap <C-Right>  <C-W>l
 
 " vim-tmux-navigatior conflict with my default Ctrl+hjkl commands, I'm
 " redefining the bindings to keep consistent key bindings with tmux and vim.
-nnoremap <leader>j      <C-w>j
-nnoremap <leader>k      <C-w>k
-nnoremap <leader>h      <C-w>h
-nnoremap <leader>l      <C-w>l
+nnoremap <leader>j  <C-w>j
+nnoremap <leader>k  <C-w>k
+nnoremap <leader>h  <C-w>h
+nnoremap <leader>l  <C-w>l
 
 " Useful mappings for managing tabs
 noremap <leader>tn :tabnew<cr>
@@ -383,7 +403,7 @@ nnoremap <Leader>gw :Gwrite<cr>
 
 nnoremap <leader>s+ zg       " Add word to dictionary
 nnoremap <leader>s? z=       " Correct given word to <from list>
-nnoremap <leader>f  za       " Fold/UnFold a fold 
+nnoremap <leader>f  za       " Fold/UnFold a fold
 
 map <leader>td <Plug>TaskList
 
@@ -413,15 +433,19 @@ autocmd BufWrite *.py :call DeleteTrailingWS()
 " Automatically cd into the directory that the file is in
 autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,split           " newtab - instead of split open a new tab page for quickfix
-  set stal=1   " showtabline       2 - always, 1 - more than 1, 0 - never 
+  set stal=1   " showtabline       2 - always, 1 - more than 1, 0 - never
 catch
 endtry
 
 " Airline
 let g:airline#extensions#virtualenv#enabled = 1
+
+" following will use powerline fonts to poulate airline_symbols dict
+" "let g:airline_powerline_fonts = 1
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
@@ -448,24 +472,27 @@ endif
 " let g:bufferline_echo = 0
 
 " I'm using Ctrl-P now {{{
-    " open nerdTree with Ctrl + n
-    noremap <C-n> :NERDTreeToggle<CR>
+    " open nerdTree with Leader + n
+    noremap <Leader>n :NERDTreeToggle<CR>
     " Open nerdTree automatically at startup if no file is specified
     autocmd vimenter * if !argc() | NERDTree ~/src | endif
     " Close vim if NerdTree is the only window open
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     let NERDTreeWinSize = 25
     let NERDTreeChDirMode=2  " use the new dir as cwd
-    let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.orig$', '\.rej$']
+    let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.orig$', '\.rej$', '\~$']
 " }}}
 
 " Bundld 'scrooloose/syntastic'
 let g:syntastic_enable_signs = 1
+" let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_loc_list_height=5
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers=['flake8']  " add 'pep8', 'pyflakes', 'pylint' too, if you need more checks
 
 "{{{ Configure vim's builtin netrw file browser
 " it can work across various protocols. So read the docs.
@@ -482,7 +509,7 @@ let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_show_hidden = 0
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0 " No upper limit
-let g:ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo']
+let g:ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo', 'smarttabs', 'hackernews']
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
@@ -520,7 +547,6 @@ let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
 let g:indent_guides_guide_size=1
 let g:indent_guides_start_level=2
-let g:syntastic_python_checkers=['pep8', 'pyflakes']    " add 'pylint' too, if you need more checks
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
@@ -535,9 +561,9 @@ nnoremap <leader>w :w!<cr>
 
 "{{{ save & restore folds on exit/enter  + a nice fold line
 " autocmd BufWinLeave *.* mkview
-" autocmd BufWinEnter *.* silent loadview 
+" autocmd BufWinEnter *.* silent loadview
 
-function! NeatFoldText() 
+function! NeatFoldText()
     let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
     let lines_count = v:foldend - v:foldstart + 1
     let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
@@ -563,3 +589,13 @@ fun! RangerChooser()
 endfun
 noremap ,r :call RangerChooser()<CR>
 
+" REPEL
+let g:slime_target = "tmux"
+" let g:slime_paste_file = tempname()
+let g:slime_python_ipython = 1  " use ipython's %cpaste
+
+" Session Management
+let g:session_autoload = 'yes'  " load default session on load 
+let g:session_autosave = 'yes'  " save state on quit
+let g:session_default_to_last = 1  " open last session instead of default
+let g:session_command_aliases = 1  " use Session* commands instead of *Session

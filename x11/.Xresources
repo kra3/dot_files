@@ -4,7 +4,7 @@
 
 Xft*dpi:                96
 Xft*hinting:            true
-! hintstyle 3 for flat-panel displays 
+! hintstyle 3 for flat-panel displays
 Xft*hintstyle:          2
 Xft*antialias:          true
 ! uncomment/adjust for flat-panel display
@@ -85,16 +85,16 @@ Xft*rgba:              rgb
 URxvt.font:              xft:Terminus:size=12:hinting=true;xft:AnjaliOldLipi:style=Regular:hinting=true
 URxvt.boldFont:          -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
 URxvt.loginShell:        true
-URxvt.scrollBar:         false 
+URxvt.scrollBar:         false
 URxvt.secondaryScroll:   true
 URxvt.scrollTtyKeypress: true
-URxvt.scrollstyle:       plain 
+URxvt.scrollstyle:       plain
 !URxvt.scrollBar_right:  true
 URxvt.termName:          rxvt-unicode-256color
 URxvt.buffered:          true
 !URxvt.perl-ext:          default,matcher
 URxvt.perl-ext-common:   keyboard-select, url-select, clipboard
-URxvt.matcher.button:    1 
+URxvt.matcher.button:    1
 URxvt.urlLauncher:       /usr/bin/firefox
 URxvt.borderColor:       #000030
 URxvt.internalBorder:    1
@@ -119,40 +119,40 @@ URxvt.keysym.M-v:        perl:clipboard:paste
 URxvt.keysym.M-C-v:      perl:clipboard:paste_escaped
 URxvt.url-select.autocopy:  true
 URxvt.url-select.underline: true
-URxvt.clipboard.autocopy:   true 
+URxvt.clipboard.autocopy:   true
 
-! UXTerm settings:
+! xterm settings:
 
-UXTerm*loginShell:       true
-UXTerm*termName:         xterm-256color
-UXTerm*faceName:         xft:Terminus:size=12:hinting=true,AnjaliOldLipi:style=Regular:size=12
-!UXTerm*altSendsEscape:   true
+xterm*loginShell:       true
+xterm*termName:         xterm-256color
+xterm*faceName:         xft:Terminus:size=12:hinting=true,AnjaliOldLipi:style=Regular:size=12
+!xterm*altSendsEscape:   true
 ! stop eating ALT-
-UXTerm*eightBitInput:    false
-UXTerm*eightBitControl:  false
-UXTerm*eightBitOutput:   true
-UXTerm*saveLines:        32767
-UXTerm*scrollTtyKeypress:true
-UXTerm*scrollTtyOutput:  false
-UXTerm*scrollBar:        false 
-UXTerm*VT100.geometry:   80x24
-UXTerm*rightScrollBar:   true
-UXTerm*jumpScroll:       true
-UXTerm*multiScroll:      true
-UXTerm*toolBar:          false
-UXTerm*metaSendsEscape:  true
-UXTerm*cursorBlink:      true
-UXTerm*cursorOffTime:    500
-UXTerm*cursorOnTime:     500
-UXTerm*reverseVideo:     false
-UXTerm*colorBD:          white
-UXTerm*colorBDMode:      true
-UXTerm*colorRVMode:      false
-UXTerm*colorULMode:      true
-UXTerm*wideChars:        false
-UXTerm*boldMode:         false
-UXTerm*colorUL:          #366060
-UXTerm*underlineColor:   #dfaf8f
+xterm*eightBitInput:    false
+xterm*eightBitControl:  false
+xterm*eightBitOutput:   true
+xterm*saveLines:        32767
+xterm*scrollTtyKeypress:true
+xterm*scrollTtyOutput:  false
+xterm*scrollBar:        false
+xterm*VT100.geometry:   80x24
+xterm*rightScrollBar:   true
+xterm*jumpScroll:       true
+xterm*multiScroll:      true
+xterm*toolBar:          false
+xterm*metaSendsEscape:  true
+xterm*cursorBlink:      true
+xterm*cursorOffTime:    500
+xterm*cursorOnTime:     500
+xterm*reverseVideo:     false
+xterm*colorBD:          white
+xterm*colorBDMode:      true
+xterm*colorRVMode:      false
+xterm*colorULMode:      true
+xterm*wideChars:        false
+xterm*boldMode:         false
+xterm*colorUL:          #366060
+xterm*underlineColor:   #dfaf8f
 
 ! http://blog.ssokolow.com/archives/2011/05/01/modernizing-xterms-paste/
 ! {{{ Quick Reference
@@ -181,5 +181,5 @@ UXTerm*underlineColor:   #dfaf8f
                      Shift <Btn1Up>:            select-end(CLIPBOARD, CUT_BUFFER1) \n\
                     ~Shift ~Ctrl ~Meta <Btn2Up>:insert-selection(PRIMARY, CUT_BUFFER0) \n\
                      Shift ~Ctrl ~Meta <Btn2Up>:insert-selection(CLIPBOARD, CUT_BUFFER1)
-                     
+
 
