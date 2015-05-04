@@ -21,6 +21,15 @@ cmake .
 make
 sudo make install
 ```
+### Vim
+
+link .vimrc and .gvimrc to ~ and run
+
+```bash
+git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+```
+
+Then start vim and execute command BundleInstall in command mode
 
 ### Python development: 
 

@@ -578,7 +578,7 @@ set foldtext=NeatFoldText()
 " }}}
 
 " Open ranger to choose file, map it to ,r
-" Install `ranger` on your system first, It's a curl based file manager.
+" Install `ranger` on your system first, It's a ncurses based file manager.
 fun! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
     if filereadable('/tmp/chosenfile')

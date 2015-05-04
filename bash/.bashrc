@@ -157,9 +157,10 @@ if [ -x /usr/lib/command-not-found ]; then
 	}
 fi
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-source /home/kra3/.rvm/scripts/rvm
+# export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# source /home/kra3/.rvm/scripts/rvm
 
 # Added by Canopy installer on 2014-11-11
 # VIRTUAL_ENV_DISABLE_PROMPT can be set to '' to make bashprompt show that Canopy is active, otherwise 1
 # VIRTUAL_ENV_DISABLE_PROMPT='' source /home/kra3/Enthought/Canopy_64bit/User/bin/activate
+# SVN edit commit msg: svn propedit svn:log --revprop -r N --editor-cmd vim
