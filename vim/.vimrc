@@ -118,6 +118,9 @@ Bundle 'mattn/emmet-vim'
 " TaskList ,td
 Bundle 'vim-scripts/TaskList.vim'
 
+" Swap split windows. ,ww 
+Bundle 'wesQ3/vim-windowswap'
+
 " like sublime's ctrl+d. This one uses ctrl+n
 Bundle 'terryma/vim-multiple-cursors'
 
@@ -208,6 +211,7 @@ set laststatus=2        " Always show status line - and pep it with airline ;)
 " Show git branch in status line
 "set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set ttimeoutlen=50
+set modelines=1  " allow vim specific commands to be given at the end of file.
 
 set complete+=k    " default is ".,w,b,u,t,i"
 set completeopt+=longest
@@ -599,3 +603,6 @@ let g:session_autoload = 'yes'  " load default session on load
 let g:session_autosave = 'yes'  " save state on quit
 let g:session_default_to_last = 1  " open last session instead of default
 let g:session_command_aliases = 1  " use Session* commands instead of *Session
+
+
+" vim:foldmethod=marker:foldlevel=0
