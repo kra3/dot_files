@@ -1,7 +1,8 @@
-There are 3 other projects in use as of now, (2 to show cpu & mem load and & another for a better prompt.)
+There are 4 other projects in use as of now, (2 to show cpu & mem load, one for better directory juggling & another for a better prompt.)
 - screen-cpu-mem-load
 - tmux-cpu-mem-load
 - liquidprompt 
+- autojump
 
 Also, one gist of virtualenvwrapper hooks for python development
 
@@ -10,7 +11,9 @@ To get them:
 ```bash
 git submodule init
 git submodule update
+cd autojump && ./install.py
 ```
+
 
 You have to compile cpu-mem-load plugins ( I may write a script for it to avoid this step. )
 You need cmake to generate make files

@@ -31,7 +31,7 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 #PROMPT_COMMAND='CurDir=`pwd|sed -e "s!$HOME!~!"|sed -re "s!([^/])[^/]+/!\1/!g"`'
-PROMPT_COMMAND='DIR=`pwd|sed -e "s!$HOME!~!"`; if [ ${#DIR} -gt 30 ]; then CurDir=${DIR:0:12}...${DIR:${#DIR}-15}; else CurDir=$DIR; fi'
+export PROMPT_COMMAND='${PROMPT_COMMAND:+$PROMPT_COMMAND ;} DIR=`pwd|sed -e "s!$HOME!~!"`; if [ ${#DIR} -gt 15 ]; then CurDir=${DIR:0:5}...${DIR:${#DIR}-7}; else CurDir=$DIR; fi'
 PS1="[\u@\h: \$CurDir] \$ "
 #PS1='[\u@\h: \W]\$ '
 #PS1="\n\[\033[0;30m\]\[\033[1;34m\](\[\033[1;32m\]\u\[\033[1;37m\]@\[\033[1;32m\]\h\[\033[1;34m\])\[\033[0;30m\] \[\033[1;30m\](\[\033[0;37m\]$OSTYPE\[\033[1;30m\])\[\033[0;30 m\] \[\033[1;31m\](\[\033[1;34m\]\t \d\[\033[1;31m\])\[\033[0;30m\] \[\033[0;30m\]\n \[\033[1;30m\](\[\033[1;37m\]\w/\[\033[1;30m\])\[\033[0;30m\]\[\033[0;32m\] "
@@ -80,7 +80,7 @@ alias ......="cd ../../../../.."
 alias -- -="cd -"
 
 alias h='history'
-alias j='jobs -l'
+# alias j='jobs -l'  # clash with autojump
 alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T"'
 alias today='date +"%d-%m-%Y"'
@@ -164,3 +164,7 @@ fi
 # VIRTUAL_ENV_DISABLE_PROMPT can be set to '' to make bashprompt show that Canopy is active, otherwise 1
 # VIRTUAL_ENV_DISABLE_PROMPT='' source /home/kra3/Enthought/Canopy_64bit/User/bin/activate
 # SVN edit commit msg: svn propedit svn:log --revprop -r N --editor-cmd vim
+
+
+# adding autojump support
+[[ -s /home/kra3/.autojump/etc/profile.d/autojump.sh ]] && source /home/kra3/.autojump/etc/profile.d/autojump.sh

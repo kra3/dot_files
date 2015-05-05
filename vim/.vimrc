@@ -508,12 +508,12 @@ let g:syntastic_python_checkers=['flake8']  " add 'pep8', 'pyflakes', 'pylint' t
 " }}}
 
 " For ctrlp
-let g:ctrlp_cmd = 'CtrlPLastMode' " set to CtrlPMixed to search all at once
+let g:ctrlp_cmd = 'CtrlPMixed' " set to CtrlPLastMode to open last used mode
 let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_show_hidden = 0
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0 " No upper limit
-let g:ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo', 'smarttabs', 'hackernews']
+let g:ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo', 'smarttabs']
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
@@ -521,7 +521,10 @@ if executable('ag')
     set grepprg=ag\ --nogroup\ --nocolor
 
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'  " --hidden
+
+    " open ag
+    nnoremap <leader>a :Ag
 endif
 
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
