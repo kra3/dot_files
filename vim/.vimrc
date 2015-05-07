@@ -11,6 +11,8 @@ Bundle 'gmarik/Vundle.vim'
 
 " Ctrlp search buffer, mru files, files
 Bundle 'kien/ctrlp.vim'
+" Bundle 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
+" let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 Bundle 'DavidEGx/ctrlp-smarttabs'
 
 " ack - the better grep
@@ -18,6 +20,7 @@ Bundle 'DavidEGx/ctrlp-smarttabs'
 
 " ag - the better Ack
 Bundle 'rking/ag.vim'
+" Bundle 'gabesoft/vim-ags'  " another one. their edit mode is cool.
 
 " claims to be faster and fully vimscript.<F5>
 Bundle 'mbbill/undotree'
@@ -33,7 +36,7 @@ Bundle 'int3/vim-extradite'
 Bundle 'ludovicchabant/vim-lawrencium'
 
 " Never lose a yank/cut again
-Bundle 'maxbrunsfeld/vim-yankstack'
+Bundle 'vim-scripts/YankRing.vim'
 
 " moving around in the file. ,,w
 Bundle 'Lokaltog/vim-easymotion'
@@ -121,7 +124,10 @@ Bundle 'vim-scripts/TaskList.vim'
 " Swap split windows. ,ww 
 Bundle 'wesQ3/vim-windowswap'
 
-" like sublime's ctrl+d. This one uses ctrl+n
+" Make current buffer full-screen and otherwise: <C-w> o
+Bundle 'vim-scripts/ZoomWin'
+
+" like sublime's ctrl+d. This one uses ctrl+d
 Bundle 'terryma/vim-multiple-cursors'
 
 " How about some repel - 'conque', may be later?
@@ -134,6 +140,9 @@ Bundle 'xolox/vim-misc'
 " Projects - needs to configure the projects inside the vimrc
 " Bundle 'amiorin/vim-project'
 
+" spent time and configure this instead of vim-session and vim-project
+" Bundle 'szw/vim-ctrlspace'
+
 " Python mode  (A lot of features for python
 " support: pylint, rope, pep8, pyflakes, pydoc, mccabe, virtualenv
 " Bundle 'klen/python-mode'
@@ -142,6 +151,8 @@ Bundle 'xolox/vim-misc'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jnurmine/Zenburn'
 Bundle 'sjl/badwolf'
+" dim everything but focused block
+Bundle 'junegunn/limelight.vim'
 
 " Haskell specific
 " Bundle 'dag/vim2hs'
@@ -210,7 +221,7 @@ set noshowmode          " airline takes care of modes, so no need to display the
 set laststatus=2        " Always show status line - and pep it with airline ;)
 " Show git branch in status line
 "set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-set ttimeoutlen=50
+set ttimeoutlen=10
 set modelines=1  " allow vim specific commands to be given at the end of file.
 
 set complete+=k    " default is ".,w,b,u,t,i"
@@ -237,12 +248,6 @@ endif
 "highlight WhiteSpaces ctermbg=green guibg=#55aa55
 "match WhiteSpaces /\s\+$/
 
-noremap ; :
-
-" Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
-let mapleader = ","
-let g:mapleader = ","
-
 " Don't break up long lines, but visually wrap them.
 set textwidth=0
 set wrap
@@ -254,7 +259,7 @@ set sidescrolloff=7
 set sidescroll=1
 
 set autoread                    " Automatically read new changes to a file
-"set autowrite
+" set autowrite
 set cursorline                  " Highlight current line
 set cursorcolumn                " Highlight current column
 set colorcolumn=80              " ideal max text width
@@ -266,6 +271,7 @@ set wildignorecase   " When set case is ignored when completing file names and d
 set wildignore+=*.swp,*.bak,*.pyc,*.class,.git,.hg
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " images
 set wildignore+=*.o,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*/tmp/* " on windows use *\\tmp\\*
 "folding settings
 set foldmethod=indent   "fold based on indent
 set foldlevel=3
@@ -273,6 +279,16 @@ set foldclose=all
 
 " A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
 set hidden
+
+" More natural split opening
+set splitbelow
+set splitright
+
+noremap ; :
+
+" Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
+let mapleader = ","
+let g:mapleader = ","
 
 " http://vim.wikia.com/wiki/VimTip738
 " http://vim.wikia.com/wiki/Get_Alt_key_to_work_in_terminal
@@ -288,16 +304,7 @@ endw
 noremap j gj
 noremap k gk
 
-" More natural split opening
-set splitbelow
-set splitright
-
 inoremap <C-w> <C-o><C-w>
-
-call yankstack#setup()        " a much needed work around
-let g:yankstack_map_keys = 0
-nnoremap <leader>p <Plug>yankstack_substitute_older_paste
-nnoremap <leader>P <Plug>yankstack_substitute_newer_paste
 
 " Enable omni completion
 augroup MyAutoCmd
@@ -326,6 +333,9 @@ nnoremap <F4> :NumbersOnOff<CR>
 
 " Undo list
 nnoremap <F5> :UndotreeToggle<CR>
+
+" since yankstack uses c-n remaps that to c-d as in sublime
+let g:multi_cursor_next_key='<C-d>'
 
 " Tagbar settings.
 nnoremap <silent> <F8> :TagbarToggle<CR>
@@ -475,6 +485,24 @@ endif
 " vim-bufferline
 " let g:bufferline_echo = 0
 
+" Configure vim's builtin netrw file browser {{{
+    " It can work across various protocols. So read the docs.
+    let g:netrw_liststyle=3  " use tree layout
+    let g:netrw_banner = 0  " do not display info on the top of window
+    let g:netrw_sort_sequence = '[\/]$,*'  " dir first, files second.
+
+    " make it behave like NERDTree
+    " let g:netrw_browse_split=4  " where to open. 4: previous, 0: same buffer
+    " let g:netrw_preview=1  " use vertical preview window
+    " let g:netrw_altv = 1  " split at right.
+    " let g:netrw_winsize=20  " split at right.
+    " noremap <C-l> :Le<CR> " if not above.Open a Vertical split at current files path
+
+    " open tree in same buffer.
+    " let g:netrw_browse_split=0  " where to open. 4: previous, 0: same buffer
+    nnoremap  <leader>e :Explore<CR> " Open tree at current path 
+" }}}
+
 " I'm using Ctrl-P now {{{
     " open nerdTree with Leader + n
     noremap <Leader>n :NERDTreeToggle<CR>
@@ -498,22 +526,21 @@ let g:syntastic_loc_list_height=5
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers=['flake8']  " add 'pep8', 'pyflakes', 'pylint' too, if you need more checks
 
-"{{{ Configure vim's builtin netrw file browser
-" it can work across various protocols. So read the docs.
-" let g:netrw_liststyle=3
-" let g:netrw_browse_split=4
-" let g:netrw_preview=1
-" let g:netrw_winsize=20
-" noremap <C-n> :Ve<CR>     " Open a Vertical split at current files path
-" }}}
-
 " For ctrlp
+let g:ctrlp_map = '<Leader>/'
 let g:ctrlp_cmd = 'CtrlPMixed' " set to CtrlPLastMode to open last used mode
 let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_show_hidden = 0
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0 " No upper limit
-let g:ctrlp_extensions = ['quickfix', 'changes', 'line', 'undo', 'smarttabs']
+let g:ctrlp_extensions = ['buffertag', 'tag', 'quickfix', 'changes', 'smarttabs']
+
+" explore tags in whole project/tagfile.
+nnoremap <Leader>t/   :CtrlPTag<CR>  
+" explore tags in current buffer.
+nnoremap <Leader>b/   :CtrlPBufTag<CR> 
+" tab list
+nnoremap <Leader>tl   :CtrlPSmartTabs<CR> 
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
