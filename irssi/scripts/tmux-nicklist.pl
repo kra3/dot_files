@@ -157,7 +157,7 @@ sub term_row_count {
 
 sub redraw {
   my $rows = term_row_count;
-  my $last_nick_idx = $#nicknames - 1;
+  my $last_nick_idx = $#nicknames;
   my $last_idx = $current_line + $rows;
   # normalize last visible index
   if ($last_idx > ($last_nick_idx)) {
@@ -166,7 +166,7 @@ sub redraw {
   # redraw visible nicks
   restore_cursor;
   clear_screen;
-  for (my $idx = $current_line; $idx < $last_idx; $idx++) {
+  for (my $idx = $current_line; $idx <= $last_idx; $idx++) {
     print "$nicknames[$idx]\n";
   }
 }
