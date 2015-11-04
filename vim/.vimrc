@@ -10,7 +10,7 @@ call vundle#begin()
 Bundle 'gmarik/Vundle.vim'
 
 " Ctrlp search buffer, mru files, files
-Bundle 'kien/ctrlp.vim'
+Bundle 'ctrlpvim/ctrlp.vim'
 " Bundle 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
 " let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 Bundle 'DavidEGx/ctrlp-smarttabs'
