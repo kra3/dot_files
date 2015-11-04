@@ -1,0 +1,8 @@
+# list ambiguous results on single tab press
+set show-all-if-ambiguous on
+
+# character denoting file's type appended to filename (like ls -F)
+set visible-stats on
+
+# vim mode
+# set editing-mode vi
