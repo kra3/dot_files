@@ -152,6 +152,8 @@ Bundle 'xolox/vim-misc'
 
 " Try this: better folding for python
 " Bundle 'tmhedberg/SimpylFold'
+" And this one for pep 8 confirmant intends 
+" Bundle 'vim-scripts/indentpython.vim'
  
 " Color schemes: solarized, zenburn
 Bundle 'altercation/vim-colors-solarized'
