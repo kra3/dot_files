@@ -208,10 +208,15 @@ set expandtab           "Use spaces instead of tabs
 set smarttab            "Indent instead of tab at start of line
 set nojoinspaces        "Don't convert spaces to tabs
 
+au BufNewFile,BufRead *.js, *.html, *.css
+ \ set tabstop=2
+ \ set softtabstop=2
+ \ set shiftwidth=2
+
 set spell
 set spelllang=en
 
-set autoindent 		    "automatically intend next line
+set autoindent 		       "automatically intend next line
 set smartindent         "be smart while doing so
 
 set hlsearch  			"highlight search results
