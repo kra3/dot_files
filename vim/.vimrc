@@ -111,6 +111,7 @@ Bundle 'honza/vim-snippets'
 
 " file browser - using CtrlP now
 Bundle 'scrooloose/nerdtree'
+" Bundle 'jistr/vim-nerdtree-tabs'
 
 " high speed html editing: <c-y>,
 Bundle 'mattn/emmet-vim'
