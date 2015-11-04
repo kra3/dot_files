@@ -137,6 +137,9 @@ Bundle 'jpalardy/vim-slime'
 Bundle 'xolox/vim-session'
 Bundle 'xolox/vim-misc'
 
+" try this as well
+" Bundle 'tpope/vim-obsession'
+
 " Projects - needs to configure the projects inside the vimrc
 " Bundle 'amiorin/vim-project'
 
