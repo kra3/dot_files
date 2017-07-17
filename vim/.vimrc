@@ -3,169 +3,174 @@ runtime! debian.vim
 set nocompatible
 filetype off  "required
 
-set rtp+=~/.vim/bundle/Vundle.vim/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " the package manager
-Bundle 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " Ctrlp search buffer, mru files, files
-Bundle 'ctrlpvim/ctrlp.vim'
-" Bundle 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
+Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
 " let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-Bundle 'DavidEGx/ctrlp-smarttabs'
+Plugin 'DavidEGx/ctrlp-smarttabs'
 
 " ack - the better grep
-" Bundle 'mileszs/ack.vim'
+" Plugin 'mileszs/ack.vim'
 
 " ag - the better Ack
-Bundle 'rking/ag.vim'
-" Bundle 'gabesoft/vim-ags'  " another one. their edit mode is cool.
+Plugin 'rking/ag.vim'
+" Plugin 'gabesoft/vim-ags'  " another one. their edit mode is cool.
 
 " claims to be faster and fully vimscript.<F5>
-Bundle 'mbbill/undotree'
+Plugin 'mbbill/undotree'
 
 " better taglist <F8>
-Bundle 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 
 " git support
-Bundle 'tpope/vim-fugitive'
-Bundle 'int3/vim-extradite'
+Plugin 'tpope/vim-fugitive'
+Plugin 'int3/vim-extradite'
 
 " mercurial (hg) support
-Bundle 'ludovicchabant/vim-lawrencium'
+Plugin 'ludovicchabant/vim-lawrencium'
 
 " Never lose a yank/cut again
-Bundle 'vim-scripts/YankRing.vim'
+Plugin 'vim-scripts/YankRing.vim'
 
 " moving around in the file. ,,w
-Bundle 'Lokaltog/vim-easymotion'
+Plugin 'Lokaltog/vim-easymotion'
 
 " block navigation/creation. cs"' cst" ds" ysiw] yss) VS<p>
-Bundle 'tpope/vim-surround'
+Plugin 'tpope/vim-surround'
 
 " syntax checker
-Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 
 " show search item index
-Bundle 'vim-scripts/IndexedSearch'
+Plugin 'vim-scripts/IndexedSearch'
 
 " useful for python. ai ii
-Bundle "michaeljsmith/vim-indent-object"
+Plugin 'michaeljsmith/vim-indent-object'
 
 " Visual indentations. ,ig
-Bundle 'nathanaelkane/vim-indent-guides'
+Plugin 'nathanaelkane/vim-indent-guides'
 
 " seamless motion between tmux panes and vim panes
-Bundle "christoomey/vim-tmux-navigator"
+Plugin 'christoomey/vim-tmux-navigator'
 
 " Lots of bindings for [ & ] very useful
-Bundle 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-unimpaired'
 
 " repeat whole commands in the plug-in mapping
-Bundle 'tpope/vim-repeat'
+Plugin 'tpope/vim-repeat'
 
 " relative / Normal line numbering <F3> <F4>
-Bundle "myusuf3/numbers.vim"
+Plugin 'myusuf3/numbers.vim'
 
 " Comments toggling - gcc
-Bundle 'tpope/vim-commentary'
+Plugin 'tpope/vim-commentary'
 
 " python virtual env support
-Bundle 'jmcantrell/vim-virtualenv'
+Plugin 'jmcantrell/vim-virtualenv'
 
 "Increments/decrements dates, time rather than treating them as numbers on
 " <C-A> and <C-X> respectively
-Bundle 'tpope/vim-speeddating'
+Plugin 'tpope/vim-speeddating'
 
 " Three separate functions: coercion, substitution, & abbreviation
 " :Abolish {despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}
 " :%Subvert/facilit{y,ies}/building{,s}/g
 " snake_case:crs MixedCase: crm camelCase:crc UPPER CASE:cru
-Bundle 'tpope/vim-abolish'
+Plugin 'tpope/vim-abolish'
 
 " Arrange code, eg., aligning '=' or ':' in a class/function
 " :Tab /=  :Tab /=\zs :Tab /,/r0
-Bundle 'godlygeek/tabular'
+Plugin 'godlygeek/tabular'
 
 " Powerline
 " fonts are here https://github.com/powerline/fonts
-" Bundle 'powerline/powerline'
+" Plugin 'powerline/powerline'
 
 " Air-line
-Bundle 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 
 " Buffers list - Sure minibuffer explorer is ultimate
-" Bundle 'bling/vim-bufferline'
-" Bundle 'fholgado/minibufexpl.vim'
+" Plugin 'bling/vim-bufferline'
+" Plugin 'fholgado/minibufexpl.vim'
 
 " awesome completion, but need a recent vim version
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 
 " Show VCS changes right in your vim's sign gutter
-Bundle 'mhinz/vim-signify'
+Plugin 'mhinz/vim-signify'
 
 " Snippets - I never used textmate, so that style doesn't matter to me :P
-Bundle 'SirVer/ultisnips'
-Bundle 'honza/vim-snippets'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " file browser - using CtrlP now
-Bundle 'scrooloose/nerdtree'
-" Bundle 'jistr/vim-nerdtree-tabs'
+Plugin 'scrooloose/nerdtree'
+" Plugin 'jistr/vim-nerdtree-tabs'
 
 " high speed html editing: <c-y>,
-Bundle 'mattn/emmet-vim'
+Plugin 'mattn/emmet-vim'
 
 " undo list
-" Bundle 'sjl/gundo.vim'
+" Plugin 'sjl/gundo.vim'
 
 " TaskList ,td
-Bundle 'vim-scripts/TaskList.vim'
+Plugin 'vim-scripts/TaskList.vim'
 
 " Swap split windows. ,ww 
-Bundle 'wesQ3/vim-windowswap'
+Plugin 'wesQ3/vim-windowswap'
 
 " Make current buffer full-screen and otherwise: <C-w> o
-Bundle 'vim-scripts/ZoomWin'
+Plugin 'vim-scripts/ZoomWin'
 
 " like sublime's ctrl+d. This one uses ctrl+d
-Bundle 'terryma/vim-multiple-cursors'
+Plugin 'terryma/vim-multiple-cursors'
 
 " How about some repel - 'conque', may be later?
-Bundle 'jpalardy/vim-slime'
+Plugin 'jpalardy/vim-slime'
 
 " session management - misc is a dependency
-Bundle 'xolox/vim-session'
-Bundle 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'xolox/vim-misc'
 
 " try this as well
-" Bundle 'tpope/vim-obsession'
+" Plugin 'tpope/vim-obsession'
 
 " Projects - needs to configure the projects inside the vimrc
-" Bundle 'amiorin/vim-project'
+" Plugin 'amiorin/vim-project'
 
 " spent time and configure this instead of vim-session and vim-project
-" Bundle 'szw/vim-ctrlspace'
+" Plugin 'szw/vim-ctrlspace'
 
 " Python mode  (A lot of features for python
 " support: pylint, rope, pep8, pyflakes, pydoc, mccabe, virtualenv
-" Bundle 'klen/python-mode'
+" Plugin 'klen/python-mode'
 
 " Try this: better folding for python
-" Bundle 'tmhedberg/SimpylFold'
+" Plugin 'tmhedberg/SimpylFold'
 " And this one for pep 8 confirmant intends 
-" Bundle 'vim-scripts/indentpython.vim'
+" Plugin 'vim-scripts/indentpython.vim'
  
 " Color schemes: solarized, zenburn
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'jnurmine/Zenburn'
-Bundle 'sjl/badwolf'
+Plugin 'altercation/vim-colors-solarized'
+" Plugin 'jnurmine/Zenburn'
+Plugin 'sjl/badwolf'
+Plugin 'dracula/vim'
+
 " dim everything but focused block
-Bundle 'junegunn/limelight.vim'
+Plugin 'junegunn/limelight.vim'
 
 " Haskell specific
-" Bundle 'dag/vim2hs'
-" Bundle 'lukerandall/haskellmode-vim'
+" Plugin 'dag/vim2hs'
+" Plugin 'lukerandall/haskellmode-vim'
+
+" for javascript
+Plugin 'mxw/vim-jsx'
 
 call vundle#end()
 
@@ -193,12 +198,12 @@ set noswapfile
 
 set background=dark
 " for badwolf color scheme
-let g:badwolf_darkgutter = 1
-let g:badwolf_tabline = 2
-"let g:solarized_termcolors=256     " to use degraded color pallette if
-"terminal is not using solorized color pallette
-colorscheme badwolf
-" colorscheme solarized
+" let g:badwolf_darkgutter = 1
+" let g:badwolf_tabline = 2
+" let g:solarized_termcolors=256     " to use degraded color pallette if
+" terminal is not using solorized color pallette
+" colorscheme badwolf
+colorscheme dracula
 
 set ruler "Always show current position
 set number
@@ -211,10 +216,10 @@ set expandtab           "Use spaces instead of tabs
 set smarttab            "Indent instead of tab at start of line
 set nojoinspaces        "Don't convert spaces to tabs
 
-au BufNewFile,BufRead *.js, *.html, *.css
- \ set tabstop=2
- \ set softtabstop=2
- \ set shiftwidth=2
+" au BufNewFile,BufRead *.js, *.html, *.css
+"  \ set tabstop=2
+"  \ set softtabstop=2
+"  \ set shiftwidth=2
 
 set spell
 set spelllang=en
@@ -647,6 +652,16 @@ let g:session_autoload = 'yes'  " load default session on load
 let g:session_autosave = 'yes'  " save state on quit
 let g:session_default_to_last = 1  " open last session instead of default
 let g:session_command_aliases = 1  " use Session* commands instead of *Session
+ 
+" Javascript
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+let g:syntastic_javascript_checkers = ['eslint']
 
+" " load custom .vim files in the directories 
+" let b:thisdir=expand("%:p:h")
+" let b:vim=b:thisdir."/.vim"
+" if (filereadable(b:vim))
+"     execute "source ".b:vim
+" endif
 
 " vim:foldmethod=marker:foldlevel=0
