@@ -1,5 +1,3 @@
-runtime! debian.vim
-
 set nocompatible
 filetype off  "required
 
@@ -8,6 +6,15 @@ call vundle#begin()
 
 " the package manager
 Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'sheerun/vim-polyglot'
+
+" Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'othree/jsdoc-syntax.vim'
+Plugin 'heavenshell/vim-jsdoc'
+Plugin 'othree/jspc.vim'
+" Plugin '1995eaton/vim-better-javascript-completion'
+" Plugin 'ternjs/tern_for_vim'
 
 " Ctrlp search buffer, mru files, files
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -46,6 +53,8 @@ Plugin 'tpope/vim-surround'
 
 " syntax checker
 Plugin 'scrooloose/syntastic'
+" switch to ale
+" Plugin 'w0rp/ale.git'
 
 " show search item index
 Plugin 'vim-scripts/IndexedSearch'
@@ -122,7 +131,7 @@ Plugin 'mattn/emmet-vim'
 " TaskList ,td
 Plugin 'vim-scripts/TaskList.vim'
 
-" Swap split windows. ,ww 
+" Swap split windows. ,ww
 Plugin 'wesQ3/vim-windowswap'
 
 " Make current buffer full-screen and otherwise: <C-w> o
@@ -153,12 +162,11 @@ Plugin 'xolox/vim-misc'
 
 " Try this: better folding for python
 " Plugin 'tmhedberg/SimpylFold'
-" And this one for pep 8 confirmant intends 
+" And this one for pep 8 confirmant intends
 " Plugin 'vim-scripts/indentpython.vim'
- 
+
 " Color schemes: solarized, zenburn
 Plugin 'altercation/vim-colors-solarized'
-" Plugin 'jnurmine/Zenburn'
 Plugin 'sjl/badwolf'
 Plugin 'dracula/vim'
 
@@ -168,9 +176,6 @@ Plugin 'junegunn/limelight.vim'
 " Haskell specific
 " Plugin 'dag/vim2hs'
 " Plugin 'lukerandall/haskellmode-vim'
-
-" for javascript
-Plugin 'mxw/vim-jsx'
 
 call vundle#end()
 
@@ -519,7 +524,7 @@ endif
 
     " open tree in same buffer.
     " let g:netrw_browse_split=0  " where to open. 4: previous, 0: same buffer
-    nnoremap  <leader>e :Explore<CR> " Open tree at current path 
+    nnoremap  <leader>e :Explore<CR> " Open tree at current path
 " }}}
 
 " I'm using Ctrl-P now {{{
@@ -555,11 +560,11 @@ let g:ctrlp_max_files = 0 " No upper limit
 let g:ctrlp_extensions = ['buffertag', 'tag', 'quickfix', 'changes', 'smarttabs']
 
 " explore tags in whole project/tagfile.
-nnoremap <Leader>t/   :CtrlPTag<CR>  
+nnoremap <Leader>t/   :CtrlPTag<CR>
 " explore tags in current buffer.
-nnoremap <Leader>b/   :CtrlPBufTag<CR> 
+nnoremap <Leader>b/   :CtrlPBufTag<CR>
 " tab list
-nnoremap <Leader>tl   :CtrlPSmartTabs<CR> 
+nnoremap <Leader>tl   :CtrlPSmartTabs<CR>
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
@@ -648,16 +653,16 @@ let g:slime_target = "tmux"
 let g:slime_python_ipython = 1  " use ipython's %cpaste
 
 " Session Management
-let g:session_autoload = 'yes'  " load default session on load 
+let g:session_autoload = 'yes'  " load default session on load
 let g:session_autosave = 'yes'  " save state on quit
 let g:session_default_to_last = 1  " open last session instead of default
 let g:session_command_aliases = 1  " use Session* commands instead of *Session
- 
+
 " Javascript
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 let g:syntastic_javascript_checkers = ['eslint']
 
-" " load custom .vim files in the directories 
+" " load custom .vim files in the directories
 " let b:thisdir=expand("%:p:h")
 " let b:vim=b:thisdir."/.vim"
 " if (filereadable(b:vim))
