@@ -7,6 +7,10 @@ call vundle#begin()
 " the package manager
 Plugin 'VundleVim/Vundle.vim'
 
+" sensible defaults
+Plugin 'tpope/vim-sensible'
+
+" ultimate syntax, completion, ... pack
 Plugin 'sheerun/vim-polyglot'
 
 " Plugin 'othree/javascript-libraries-syntax.vim'
@@ -179,14 +183,7 @@ Plugin 'junegunn/limelight.vim'
 
 call vundle#end()
 
-" Enable filetype plugins
-filetype on
-filetype plugin indent on
-
-set encoding=utf-8
 set shortmess+=I     		"remove message at startup
-set t_Co=256
-syntax on
 
 try
   source ~/.vimrc.local
@@ -210,7 +207,6 @@ set background=dark
 " colorscheme badwolf
 colorscheme dracula
 
-set ruler "Always show current position
 set number
 
 set tabstop=4           "A tab is 8 spaces
@@ -218,7 +214,6 @@ set softtabstop=4       "Insert 4 spaces when a Tab is pressed
 set shiftwidth=4        "An indent is 4 spaces
 set shiftround          "Round spaces to nearest shiftwidth multiple
 set expandtab           "Use spaces instead of tabs
-set smarttab            "Indent instead of tab at start of line
 set nojoinspaces        "Don't convert spaces to tabs
 
 " au BufNewFile,BufRead *.js, *.html, *.css
@@ -229,11 +224,9 @@ set nojoinspaces        "Don't convert spaces to tabs
 set spell
 set spelllang=en
 
-set autoindent 		       "automatically intend next line
 set smartindent         "be smart while doing so
 
 set hlsearch  			"highlight search results
-set incsearch 			"incremental search
 set ignorecase 			"do case insensitive matching
 set smartcase           "do smart case matching
 set wrapscan   		    "continue searching at top when hitting bottom
@@ -242,15 +235,11 @@ set showcmd 			" Show (partial) command in status line.
 set showmatch           " Show matching brackets.
 set mat=2               " How many tenths of a second to blink when matching brackets
 set noshowmode          " airline takes care of modes, so no need to display them again
-set laststatus=2        " Always show status line - and pep it with airline ;)
 " Show git branch in status line
 "set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-set ttimeoutlen=10
 set modelines=1  " allow vim specific commands to be given at the end of file.
 
-set complete+=k    " default is ".,w,b,u,t,i"
 set completeopt+=longest
-set backspace=indent,eol,start
 set whichwrap+=<,>,h,l
 set history=50
 set undolevels=100
@@ -259,14 +248,6 @@ set lazyredraw   " don't redraw while executing macros
 
 " To scroll in the terminal
 "set mouse=a
-
-" Show special characters (⤶ ‽ ˑ ·)
-" set list    " on it with [ol - thnx to vim-unimpired
-if v:version >= 700
-  set listchars=tab:→\ ,trail:ˑ,nbsp:ˑ,eol:⤶,extends:>
-else
-  set listchars=tab:>-,trail:.,extends:>
-endif
 
 " To highlight whitespace
 "highlight WhiteSpaces ctermbg=green guibg=#55aa55
@@ -278,16 +259,9 @@ set wrap
 
 set clipboard=unnamed  "use system register *, not register "
 
-set scrolloff=5      " Minimal number of screen lines to keep above and below the cursor.
-set sidescrolloff=7
-set sidescroll=1
-
-set autoread                    " Automatically read new changes to a file
-" set autowrite
 set cursorline                  " Highlight current line
 set cursorcolumn                " Highlight current column
 set colorcolumn=80              " ideal max text width
-set wildmenu                    " command line completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
 set wildmode=list:longest,list:full
@@ -454,9 +428,6 @@ autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
-
-" Remember info about open buffers on close
-set viminfo^=%
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
