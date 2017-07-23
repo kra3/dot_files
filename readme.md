@@ -1,7 +1,7 @@
 There are 4 other projects in use as of now, (2 to show cpu & mem load, one for better directory juggling & another for a better prompt.)
 - screen-cpu-mem-load
 - tmux-cpu-mem-load
-- liquidprompt 
+- liquidprompt
 - autojump
 
 Also, one gist of virtualenvwrapper hooks for python development
@@ -19,7 +19,7 @@ You have to compile cpu-mem-load plugins ( I may write a script for it to avoid 
 You need cmake to generate make files
 
 ```bash
-cd tmux/addon            # or screen  if you prefer it - cd screen/addon  
+cd tmux/addon            # or screen  if you prefer it - cd screen/addon
 cmake .
 make
 sudo make install
@@ -29,12 +29,13 @@ sudo make install
 link .vimrc and .gvimrc to ~ and run
 
 ```bash
-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
 Then start vim and execute command BundleInstall in command mode
 
-### Python development: 
+### Python development:
 
 install virtualenv & virtualenvwrapper.
 Follow the directions in the readme on my [gist](https://gist.github.com/kra3/6224580) for virtualenvwrapper hooks
@@ -78,7 +79,7 @@ This one shows almost all of the configurations, may be not in a best way
 
 ![DWM, Conky, tmux, Vim (shows undotree, tagbar, youcompleteme, airline in action), Fully solarized! uses terminus font](screenshots/vim-bash-tmux.jpg)
 
-Nautilus as an example of gtk theme and icons: 
+Nautilus as an example of gtk theme and icons:
 For those rare instances you need a gui app other than browser & media player, you shouldn't be embarrassed ;-)
 
 ![Nautilus as an example of gtk theme and icons](screenshots/gtk.jpg)

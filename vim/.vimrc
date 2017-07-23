@@ -1,209 +1,212 @@
 set nocompatible
-filetype off  "required
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
 " the package manager
-Plugin 'VundleVim/Vundle.vim'
+Plug 'VundleVim/Vundle.vim'
 
 " sensible defaults
-Plugin 'tpope/vim-sensible'
+Plug 'tpope/vim-sensible'
 
 " ultimate syntax, completion, ... pack
-Plugin 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
 
-" Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'othree/jsdoc-syntax.vim'
-Plugin 'heavenshell/vim-jsdoc'
-Plugin 'othree/jspc.vim'
-Plugin '1995eaton/vim-better-javascript-completion'
-Plugin 'ternjs/tern_for_vim'
+" Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'othree/jsdoc-syntax.vim'
+Plug 'heavenshell/vim-jsdoc'
+Plug 'othree/jspc.vim'
+Plug '1995eaton/vim-better-javascript-completion'
+Plug 'ternjs/tern_for_vim'
 
 " Ctrlp search buffer, mru files, files
-Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
+Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
 " let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-Plugin 'DavidEGx/ctrlp-smarttabs'
+Plug 'DavidEGx/ctrlp-smarttabs'
 
 " ack - the better grep
-" Plugin 'mileszs/ack.vim'
+" Plug 'mileszs/ack.vim'
 
 " ag - the better Ack
-Plugin 'rking/ag.vim'
-" Plugin 'gabesoft/vim-ags'  " another one. their edit mode is cool.
+Plug 'rking/ag.vim'
+" Plug 'gabesoft/vim-ags'  " another one. their edit mode is cool.
 
 " claims to be faster and fully vimscript.<F5>
-Plugin 'mbbill/undotree'
+Plug 'mbbill/undotree'
 
 " undo list
-" Plugin 'sjl/gundo.vim'
+" Plug 'sjl/gundo.vim'
 
 " better taglist <F8>
-Plugin 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
 " git support
-Plugin 'tpope/vim-fugitive'
-Plugin 'int3/vim-extradite'
+Plug 'tpope/vim-fugitive'
+Plug 'int3/vim-extradite'
 
 " mercurial (hg) support
-"Plugin 'ludovicchabant/vim-lawrencium'
+"Plug 'ludovicchabant/vim-lawrencium'
 
 " Never lose a yank/cut again
-Plugin 'vim-scripts/YankRing.vim'
+Plug 'vim-scripts/YankRing.vim'
 
 " moving around in the file. ,,w
-Plugin 'Lokaltog/vim-easymotion'
+Plug 'Lokaltog/vim-easymotion'
 
 " block navigation/creation. cs"' cst" ds" ysiw] yss) VS<p>
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
 " syntax checker
-Plugin 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 " switch to ale
-" Plugin 'w0rp/ale.git'
+" Plug 'w0rp/ale.git'
 
 " show search item index
-Plugin 'vim-scripts/IndexedSearch'
+Plug 'vim-scripts/IndexedSearch'
 
 " useful for python. ai ii
-Plugin 'michaeljsmith/vim-indent-object'
+Plug 'michaeljsmith/vim-indent-object'
 
 " Visual indentations. ,ig
-Plugin 'nathanaelkane/vim-indent-guides'
+Plug 'nathanaelkane/vim-indent-guides'
 
 " seamless motion between tmux panes and vim panes
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Lots of bindings for [ & ] very useful
-Plugin 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired'
 
 " repeat whole commands in the plug-in mapping
-Plugin 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 
 " relative / Normal line numbering <F3> <F4>
-Plugin 'myusuf3/numbers.vim'
+Plug 'myusuf3/numbers.vim'
 
 " Comments toggling - gcc
-Plugin 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 
 " python virtual env support
-Plugin 'jmcantrell/vim-virtualenv'
+Plug 'jmcantrell/vim-virtualenv'
 
-" Plugin 'bronson/vim-trailing-whitespace'. " remove custom trailing function
+" Plug 'bronson/vim-trailing-whitespace'. " remove custom trailing function
 
 "Increments/decrements dates, time rather than treating them as numbers on
 " <C-A> and <C-X> respectively
-Plugin 'tpope/vim-speeddating'
+Plug 'tpope/vim-speeddating'
 
 " Three separate functions: coercion, substitution, & abbreviation
 " :Abolish {despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}
 " :%Subvert/facilit{y,ies}/building{,s}/g
 " snake_case:crs MixedCase: crm camelCase:crc UPPER CASE:cru
-Plugin 'tpope/vim-abolish'
+Plug 'tpope/vim-abolish'
 
 " Arrange code, eg., aligning '=' or ':' in a class/function
 " :Tab /=  :Tab /=\zs :Tab /,/r0
-"Plugin 'godlygeek/tabular'
-Plugin 'junegunn/vim-easy-align'" switch to from tabular
+"Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'" switch to from tabular
 
 " Powerline
 " fonts are here https://github.com/powerline/fonts
-" Plugin 'powerline/powerline'
+" Plug 'powerline/powerline'
 
 " Air-line
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Buffers list - Sure minibuffer explorer is ultimate
-" Plugin 'bling/vim-bufferline'
-" Plugin 'fholgado/minibufexpl.vim'
+" Plug 'bling/vim-bufferline'
+" Plug 'fholgado/minibufexpl.vim'
 
 " awesome completion, but need a recent vim version
-Plugin 'Valloric/YouCompleteMe'
+function! BuildYCM(info)
+  if a:info.status == 'installed' || a:info.force
+    !./install.py --all
+  endif
+endfunction
+Plug 'Valloric/YouCompleteMe',  { 'do': function('BuildYCM') }
 
 " Show VCS changes right in your vim's sign gutter
-Plugin 'mhinz/vim-signify'
+Plug 'mhinz/vim-signify'
 
 " Snippets - I never used textmate, so that style doesn't matter to me :P
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " file browser - using CtrlP now
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " high speed html editing: <c-y>,
-Plugin 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
 
 " TaskList ,td
-Plugin 'vim-scripts/TaskList.vim'
+Plug 'vim-scripts/TaskList.vim'
 
 " Swap split windows. ,ww
-Plugin 'wesQ3/vim-windowswap'
+Plug 'wesQ3/vim-windowswap'
 
 " Make current buffer full-screen and otherwise: <C-w> o
-Plugin 'vim-scripts/ZoomWin'
+Plug 'vim-scripts/ZoomWin'
 
 " like sublime's ctrl+d. This one uses ctrl+d
-Plugin 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-multiple-cursors'
 
 " How about some repel - 'conque', may be later?
-Plugin 'jpalardy/vim-slime'
+Plug 'jpalardy/vim-slime'
 
 " session management - misc is a dependency
-Plugin 'xolox/vim-session'
-Plugin 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
 
-"Plugin 'vimwiki/vimwiki'
-Plugin 'junegunn/vim-peekaboo'
-Plugin 'schickling/vim-bufonly'
-"Plugin 'MattesGroeger/vim-bookmarks'
-Plugin 'mhinz/vim-startify'
-"Plugin 'dr-chip-vim-scripts/ZoomWin', { 'on': 'ZoomWin' }
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'gioele/vim-autoswap'
-"Plugin 'ludovicchabant/vim-gutentags', { 'on': 'TagbarToggle' }"
-Plugin 'moll/vim-bbye'
-"Plugin 'junegunn/goyo.vim', { 'on': 'Goyo' }
+"Plug 'vimwiki/vimwiki'
+Plug 'junegunn/vim-peekaboo'
+Plug 'schickling/vim-bufonly'
+"Plug 'MattesGroeger/vim-bookmarks'
+Plug 'mhinz/vim-startify'
+"Plug 'dr-chip-vim-scripts/ZoomWin', { 'on': 'ZoomWin' }
+Plug 'jiangmiao/auto-pairs'
+Plug 'gioele/vim-autoswap'
+"Plug 'ludovicchabant/vim-gutentags', { 'on': 'TagbarToggle' }"
+Plug 'moll/vim-bbye'
+"Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 
 " try this as well
-Plugin 'tpope/vim-obsession'
+Plug 'tpope/vim-obsession'
 
-Plugin 'airblade/vim-rooter'
+Plug 'airblade/vim-rooter'
 
 " Projects - needs to configure the projects inside the vimrc
-" Plugin 'amiorin/vim-project'
+" Plug 'amiorin/vim-project'
 
 " spent time and configure this instead of vim-session and vim-project
-" Plugin 'szw/vim-ctrlspace'
+" Plug 'szw/vim-ctrlspace'
 
 " Python mode  (A lot of features for python
 " support: pylint, rope, pep8, pyflakes, pydoc, mccabe, virtualenv
-" Plugin 'klen/python-mode'
+" Plug 'klen/python-mode'
 
 " Try this: better folding for python
-" Plugin 'tmhedberg/SimpylFold'
+" Plug 'tmhedberg/SimpylFold'
 " And this one for pep 8 confirmant intends
-" Plugin 'vim-scripts/indentpython.vim'
+" Plug 'vim-scripts/indentpython.vim'
 
-Plugin 'editorconfig/editorconfig-vim'
+Plug 'editorconfig/editorconfig-vim'
 
 " Color schemes: solarized, zenburn
-Plugin 'flazz/vim-colorschemes'
-Plugin 'dracula/vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'dracula/vim'
 
-Plugin 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 
 " dim everything but focused block
-Plugin 'junegunn/limelight.vim'
+Plug 'junegunn/limelight.vim'
 
 " Haskell specific
-" Plugin 'dag/vim2hs'
-" Plugin 'lukerandall/haskellmode-vim'
+" Plug 'dag/vim2hs'
+" Plug 'lukerandall/haskellmode-vim'
 
-call vundle#end()
+call plug#end()
 
 " look & feel
 set shortmess+=I     		" remove message at startup
