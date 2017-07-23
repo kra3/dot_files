@@ -17,8 +17,8 @@ Plugin 'sheerun/vim-polyglot'
 Plugin 'othree/jsdoc-syntax.vim'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'othree/jspc.vim'
-" Plugin '1995eaton/vim-better-javascript-completion'
-" Plugin 'ternjs/tern_for_vim'
+Plugin '1995eaton/vim-better-javascript-completion'
+Plugin 'ternjs/tern_for_vim'
 
 " Ctrlp search buffer, mru files, files
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -36,6 +36,9 @@ Plugin 'rking/ag.vim'
 " claims to be faster and fully vimscript.<F5>
 Plugin 'mbbill/undotree'
 
+" undo list
+" Plugin 'sjl/gundo.vim'
+
 " better taglist <F8>
 Plugin 'majutsushi/tagbar'
 
@@ -44,7 +47,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'int3/vim-extradite'
 
 " mercurial (hg) support
-Plugin 'ludovicchabant/vim-lawrencium'
+"Plugin 'ludovicchabant/vim-lawrencium'
 
 " Never lose a yank/cut again
 Plugin 'vim-scripts/YankRing.vim'
@@ -87,6 +90,8 @@ Plugin 'tpope/vim-commentary'
 " python virtual env support
 Plugin 'jmcantrell/vim-virtualenv'
 
+" Plugin 'bronson/vim-trailing-whitespace'. " remove custom trailing function
+
 "Increments/decrements dates, time rather than treating them as numbers on
 " <C-A> and <C-X> respectively
 Plugin 'tpope/vim-speeddating'
@@ -99,7 +104,8 @@ Plugin 'tpope/vim-abolish'
 
 " Arrange code, eg., aligning '=' or ':' in a class/function
 " :Tab /=  :Tab /=\zs :Tab /,/r0
-Plugin 'godlygeek/tabular'
+"Plugin 'godlygeek/tabular'
+Plugin 'junegunn/vim-easy-align'" switch to from tabular
 
 " Powerline
 " fonts are here https://github.com/powerline/fonts
@@ -107,6 +113,7 @@ Plugin 'godlygeek/tabular'
 
 " Air-line
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " Buffers list - Sure minibuffer explorer is ultimate
 " Plugin 'bling/vim-bufferline'
@@ -124,13 +131,11 @@ Plugin 'honza/vim-snippets'
 
 " file browser - using CtrlP now
 Plugin 'scrooloose/nerdtree'
-" Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " high speed html editing: <c-y>,
 Plugin 'mattn/emmet-vim'
-
-" undo list
-" Plugin 'sjl/gundo.vim'
 
 " TaskList ,td
 Plugin 'vim-scripts/TaskList.vim'
@@ -151,8 +156,20 @@ Plugin 'jpalardy/vim-slime'
 Plugin 'xolox/vim-session'
 Plugin 'xolox/vim-misc'
 
+"Plugin 'vimwiki/vimwiki'
+Plugin 'junegunn/vim-peekaboo'
+Plugin 'schickling/vim-bufonly'
+"Plugin 'MattesGroeger/vim-bookmarks'
+Plugin 'mhinz/vim-startify'
+"Plugin 'dr-chip-vim-scripts/ZoomWin', { 'on': 'ZoomWin' }
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'gioele/vim-autoswap'
+"Plugin 'ludovicchabant/vim-gutentags', { 'on': 'TagbarToggle' }"
+Plugin 'moll/vim-bbye'
+"Plugin 'junegunn/goyo.vim', { 'on': 'Goyo' }
+
 " try this as well
-" Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-obsession'
 
 " Projects - needs to configure the projects inside the vimrc
 " Plugin 'amiorin/vim-project'
@@ -169,10 +186,13 @@ Plugin 'xolox/vim-misc'
 " And this one for pep 8 confirmant intends
 " Plugin 'vim-scripts/indentpython.vim'
 
+Plugin 'editorconfig/editorconfig-vim'
+
 " Color schemes: solarized, zenburn
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'sjl/badwolf'
+Plugin 'flazz/vim-colorschemes'
 Plugin 'dracula/vim'
+
+Plugin 'ryanoasis/vim-devicons'
 
 " dim everything but focused block
 Plugin 'junegunn/limelight.vim'
@@ -190,6 +210,10 @@ try
 catch
 endtry
 
+set background=dark
+colorscheme dracula
+
+" line endings - LF
 set fileformat=unix
 au BufNewFile * set fileformat=unix
 
@@ -198,53 +222,49 @@ set nobackup
 set nowb
 set noswapfile
 
-set background=dark
-" for badwolf color scheme
-" let g:badwolf_darkgutter = 1
-" let g:badwolf_tabline = 2
-" let g:solarized_termcolors=256     " to use degraded color pallette if
-" terminal is not using solorized color pallette
-" colorscheme badwolf
-colorscheme dracula
+set modelines=1         " allow vim specific commands to be given at the end of file.
+set number              " show line numbers
+" Don't break up long lines, but visually wrap them.
+set textwidth=0
+set wrap
 
-set number
+set cursorline                  " Highlight current line
+set cursorcolumn                " Highlight current column
+set colorcolumn=80              " ideal max text width
 
-set tabstop=4           "A tab is 8 spaces
-set softtabstop=4       "Insert 4 spaces when a Tab is pressed
-set shiftwidth=4        "An indent is 4 spaces
-set shiftround          "Round spaces to nearest shiftwidth multiple
-set expandtab           "Use spaces instead of tabs
-set nojoinspaces        "Don't convert spaces to tabs
+set tabstop=4           " A tab is 8 spaces by default
+set softtabstop=4       " Insert 4 spaces when a Tab is pressed
+set shiftwidth=4        " An indent is 4 spaces
+set shiftround          " Round spaces to nearest shiftwidth multiple
+set expandtab           " Use spaces instead of tabs
+set nojoinspaces        " Don't convert spaces to tabs
+set smartindent         " be smart while doing so
 
 " au BufNewFile,BufRead *.js, *.html, *.css
 "  \ set tabstop=2
 "  \ set softtabstop=2
 "  \ set shiftwidth=2
 
+" enable spell check in English
 set spell
 set spelllang=en
 
-set smartindent         "be smart while doing so
-
 set hlsearch  			"highlight search results
-set ignorecase 			"do case insensitive matching
-set smartcase           "do smart case matching
-set wrapscan   		    "continue searching at top when hitting bottom
+set ignorecase 			"do case insensitive matching by default
+set smartcase       "do smart case matching start with caps to be sensitive
+set wrapscan   	    "continue searching at top when hitting bottom
 
-set showcmd 			" Show (partial) command in status line.
-set showmatch           " Show matching brackets.
-set mat=2               " How many tenths of a second to blink when matching brackets
-set noshowmode          " airline takes care of modes, so no need to display them again
-" Show git branch in status line
-"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-set modelines=1  " allow vim specific commands to be given at the end of file.
+set showcmd 			  " Show (partial) command in status line.
+set showmatch       " Show matching brackets.
+set mat=2           " How many tenths of a second to blink when matching brackets
+set noshowmode      " airline takes care of modes, so no need to display them again
 
 set completeopt+=longest
 set whichwrap+=<,>,h,l
-set history=50
-set undolevels=100
+set history=100
+set undolevels=200
 
-set lazyredraw   " don't redraw while executing macros
+set lazyredraw       " don't redraw while executing macros
 
 " To scroll in the terminal
 "set mouse=a
@@ -253,15 +273,8 @@ set lazyredraw   " don't redraw while executing macros
 "highlight WhiteSpaces ctermbg=green guibg=#55aa55
 "match WhiteSpaces /\s\+$/
 
-" Don't break up long lines, but visually wrap them.
-set textwidth=0
-set wrap
-
 set clipboard=unnamed  "use system register *, not register "
 
-set cursorline                  " Highlight current line
-set cursorcolumn                " Highlight current column
-set colorcolumn=80              " ideal max text width
 " will insert tab at beginning of line,
 " will use completion if not at beginning
 set wildmode=list:longest,list:full
@@ -407,6 +420,7 @@ nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
 " {{{ Vim signyfy
+    let g:signify_vcs_list = [ 'git' ]
     let g:signify_mapping_next_hunk = '<leader>gj'
     let g:signify_mapping_prev_hunk = '<leader>gk'
     let g:signify_mapping_toggle_highlight = '<leader>gh'
@@ -453,24 +467,7 @@ endtry
 let g:airline#extensions#virtualenv#enabled = 1
 
 " following will use powerline fonts to poulate airline_symbols dict
-" "let g:airline_powerline_fonts = 1
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-" unicode symbols
-" let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-" let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-" let g:airline_symbols.linenr = '␊'
-" let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-" let g:airline_symbols.paste = 'Þ'
-" let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_powerline_fonts = 1
 
 " A corresponding file is in virtualenv directory to handle django
 if filereadable($VIRTUAL_ENV . '/.vimrc')
