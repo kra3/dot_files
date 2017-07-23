@@ -2,122 +2,72 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 
-" the package manager
-Plug 'VundleVim/Vundle.vim'
-
-" sensible defaults
 Plug 'tpope/vim-sensible'
 
-" ultimate syntax, completion, ... pack
-Plug 'sheerun/vim-polyglot'
+Plug 'mhinz/vim-startify'
 
-" Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'othree/jsdoc-syntax.vim'
-Plug 'heavenshell/vim-jsdoc'
-Plug 'othree/jspc.vim'
-Plug '1995eaton/vim-better-javascript-completion'
-Plug 'ternjs/tern_for_vim'
-
-" Ctrlp search buffer, mru files, files
 Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
 " let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 Plug 'DavidEGx/ctrlp-smarttabs'
 
-" ack - the better grep
 " Plug 'mileszs/ack.vim'
-
-" ag - the better Ack
-Plug 'rking/ag.vim'
+Plug 'rking/ag.vim' " deprecated, use ack.vim with ag
 " Plug 'gabesoft/vim-ags'  " another one. their edit mode is cool.
 
-" claims to be faster and fully vimscript.<F5>
+Plug 'junegunn/vim-peekaboo'
+
 Plug 'mbbill/undotree'
-
-" undo list
-" Plug 'sjl/gundo.vim'
-
-" better taglist <F8>
 Plug 'majutsushi/tagbar'
+"Plug 'ludovicchabant/vim-gutentags', { 'on': 'TagbarToggle' }"
 
-" git support
 Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
+Plug 'mhinz/vim-signify'
 
-" mercurial (hg) support
-"Plug 'ludovicchabant/vim-lawrencium'
-
-" Never lose a yank/cut again
+Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/YankRing.vim'
 
-" moving around in the file. ,,w
 Plug 'Lokaltog/vim-easymotion'
-
-" block navigation/creation. cs"' cst" ds" ysiw] yss) VS<p>
 Plug 'tpope/vim-surround'
 
-" syntax checker
 Plug 'scrooloose/syntastic'
 " switch to ale
 " Plug 'w0rp/ale.git'
 
-" show search item index
+Plug 'junegunn/vim-slash'
 Plug 'vim-scripts/IndexedSearch'
 
-" useful for python. ai ii
 Plug 'michaeljsmith/vim-indent-object'
-
-" Visual indentations. ,ig
 Plug 'nathanaelkane/vim-indent-guides'
+"Plug 'Yggdroot/indentLine'  " evaluate against above
 
-" seamless motion between tmux panes and vim panes
 Plug 'christoomey/vim-tmux-navigator'
 
-" Lots of bindings for [ & ] very useful
 Plug 'tpope/vim-unimpaired'
-
-" repeat whole commands in the plug-in mapping
 Plug 'tpope/vim-repeat'
-
-" relative / Normal line numbering <F3> <F4>
 Plug 'myusuf3/numbers.vim'
-
-" Comments toggling - gcc
 Plug 'tpope/vim-commentary'
-
-" python virtual env support
-Plug 'jmcantrell/vim-virtualenv'
-
-" Plug 'bronson/vim-trailing-whitespace'. " remove custom trailing function
-
-"Increments/decrements dates, time rather than treating them as numbers on
-" <C-A> and <C-X> respectively
-Plug 'tpope/vim-speeddating'
-
-" Three separate functions: coercion, substitution, & abbreviation
-" :Abolish {despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}
-" :%Subvert/facilit{y,ies}/building{,s}/g
-" snake_case:crs MixedCase: crm camelCase:crc UPPER CASE:cru
-Plug 'tpope/vim-abolish'
-
-" Arrange code, eg., aligning '=' or ':' in a class/function
-" :Tab /=  :Tab /=\zs :Tab /,/r0
-"Plug 'godlygeek/tabular'
-Plug 'junegunn/vim-easy-align'" switch to from tabular
-
-" Powerline
-" fonts are here https://github.com/powerline/fonts
-" Plug 'powerline/powerline'
-
-" Air-line
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 
 " Buffers list - Sure minibuffer explorer is ultimate
 " Plug 'bling/vim-bufferline'
 " Plug 'fholgado/minibufexpl.vim'
 
-" awesome completion, but need a recent vim version
+Plug 'vim-scripts/ZoomWin'
+Plug 'schickling/vim-bufonly'
+Plug 'gioele/vim-autoswap'
+Plug 'moll/vim-bbye'
+
+" Plug 'bronson/vim-trailing-whitespace'. " remove custom trailing function
+
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-abolish'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'junegunn/vim-easy-align'
+
+Plug 'bling/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'airblade/vim-rooter'
+
 function! BuildYCM(info)
   if a:info.status == 'installed' || a:info.force
     !./install.py --all
@@ -125,59 +75,34 @@ function! BuildYCM(info)
 endfunction
 Plug 'Valloric/YouCompleteMe',  { 'do': function('BuildYCM') }
 
-" Show VCS changes right in your vim's sign gutter
-Plug 'mhinz/vim-signify'
-
-" Snippets - I never used textmate, so that style doesn't matter to me :P
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " file browser - using CtrlP now
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTree', 'NERDTreeFind'] }
+  \ | Plug 'jistr/vim-nerdtree-tabs'
+  \ | Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" high speed html editing: <c-y>,
 Plug 'mattn/emmet-vim'
 
-" TaskList ,td
-Plug 'vim-scripts/TaskList.vim'
-
-" Swap split windows. ,ww
-Plug 'wesQ3/vim-windowswap'
-
-" Make current buffer full-screen and otherwise: <C-w> o
-Plug 'vim-scripts/ZoomWin'
-
-" like sublime's ctrl+d. This one uses ctrl+d
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'vim-scripts/TaskList.vim'
+" Plug 'wesQ3/vim-windowswap'
 
 " How about some repel - 'conque', may be later?
-Plug 'jpalardy/vim-slime'
+" Plug 'jpalardy/vim-slime'
 
 " session management - misc is a dependency
-Plug 'xolox/vim-session'
-Plug 'xolox/vim-misc'
-
-"Plug 'vimwiki/vimwiki'
-Plug 'junegunn/vim-peekaboo'
-Plug 'schickling/vim-bufonly'
-"Plug 'MattesGroeger/vim-bookmarks'
-Plug 'mhinz/vim-startify'
-"Plug 'dr-chip-vim-scripts/ZoomWin', { 'on': 'ZoomWin' }
-Plug 'jiangmiao/auto-pairs'
-Plug 'gioele/vim-autoswap'
-"Plug 'ludovicchabant/vim-gutentags', { 'on': 'TagbarToggle' }"
-Plug 'moll/vim-bbye'
-"Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
-
+" Plug 'xolox/vim-session'
+" Plug 'xolox/vim-misc'
 " try this as well
-Plug 'tpope/vim-obsession'
-
-Plug 'airblade/vim-rooter'
+" Plug 'tpope/vim-obsession'
 
 " Projects - needs to configure the projects inside the vimrc
 " Plug 'amiorin/vim-project'
+
+" Plug 'vimwiki/vimwiki'
+" Plug 'MattesGroeger/vim-bookmarks'
+"Plug 'dr-chip-vim-scripts/ZoomWin', { 'on': 'ZoomWin' }
 
 " spent time and configure this instead of vim-session and vim-project
 " Plug 'szw/vim-ctrlspace'
@@ -190,17 +115,33 @@ Plug 'airblade/vim-rooter'
 " Plug 'tmhedberg/SimpylFold'
 " And this one for pep 8 confirmant intends
 " Plug 'vim-scripts/indentpython.vim'
-
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'justinmk/vim-gtfo'
 Plug 'editorconfig/editorconfig-vim'
 
-" Color schemes: solarized, zenburn
+" Color schemes: solarized, dracula, onedark
 Plug 'flazz/vim-colorschemes'
 Plug 'dracula/vim'
 
 Plug 'ryanoasis/vim-devicons'
 
-" dim everything but focused block
-Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
+  \ | Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
+
+Plug 'sheerun/vim-polyglot'
+
+" Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
+Plug 'othree/jsdoc-syntax.vim', { 'for': 'javascript' }
+Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
+Plug 'othree/jspc.vim', { 'for': 'javascript' }
+Plug '1995eaton/vim-better-javascript-completion', { 'for': 'javascript' }
+
+function! BuildTern(info)
+  if a:info.status == 'installed' || a:info.force
+    !npm install
+  endif
+endfunction
+Plug 'ternjs/tern_for_vim', { 'do': function('BuildTern') }
 
 " Haskell specific
 " Plug 'dag/vim2hs'
@@ -215,7 +156,7 @@ colorscheme onedark
 
 set number              " show line numbers
 set numberwidth=3       " number of columns for line numbers
-set textwidth=0         " Do not wrap words (insert)
+set textwidth=0         " Do n:ot wrap words (insert)
 set nowrap              " Do not wrap words (view)
 set showcmd             " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
@@ -610,17 +551,17 @@ let g:session_command_aliases = 1  " use Session* commands instead of *Session
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 let g:syntastic_javascript_checkers = ['eslint']
 
-" " load custom .vim files in the directories
-" let b:thisdir=expand("%:p:h")
-" let b:vim=b:thisdir."/.vim"
-" if (filereadable(b:vim))
-"     execute "source ".b:vim
-" endif
-
-" Overrides
+" Overrides .vimrc, if needed
 try
   source ~/.vimrc.local
 catch
 endtry
+
+" load custom .vim files in the directories
+let b:thisdir=expand("%:p:h")
+let b:vim=b:thisdir."/.vim"
+if (filereadable(b:vim))
+    execute "source ".b:vim
+endif
 
 " vim:foldmethod=marker:foldlevel=0
