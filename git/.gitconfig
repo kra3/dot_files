@@ -1,25 +1,94 @@
-[Alias]
-    st = status
-    ctags = !.git/hooks/ctags
-    ci = commit
-    df = diff
-    changes = diff --name-status
-    oneline = log --pretty=oneline --abbrev-commit --graph
-    undo = reset --soft HEAD ^
-    amend = commit --amend
+[core]
+    pager = diff-so-fancy | less --tabs=4 -RFX
+
 [user]
-	name = kra3\n
+    name = Arun Karunagath
     email = the1.arun@gmail.com
+
+[github]
+    user = kra3
+
+[alias]
+    # Show verbose output about tags, branches or remotes
+    tags = tag -l
+
+    b = branch -a
+    branches = branch -a
+    remotes = remote -v
+    r = remote -v
+
+    # Pretty log output
+    hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
+
+    ctags = !.git/hooks/ctags
+
+    st = status
+
+    ci = commit
+    amend = commit --amend
+
+    co = checkout
+    cm = checkout master
+    nb = checkout -b
+
+    df = diff
+    dc = diff --cached
+    changes = diff --name-status
+
+    oneline = log --pretty=oneline --abbrev-commit --graph
+
+    undo = reset --soft HEAD^
+    unstage = reset HEAD
+
+    fu = fetch upstream
+
+    publish = "!git push -u origin $(git branch-name)"
+    unpublish = "!git push origin :$(git branch-name)"
+
+    wip = !git add . && git commit -n -m "WIP"
+
+[color]
+    # Use colors in Git commands that are capable of colored output when outputting to the terminal
+    ui = true
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = 227
+    frag = magenta bold
+    old = red bold
+    new = green bold
+    commit = 227 bold
+    whitespace = red reverse
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
 [merge]
     tool = mymeld
 	conflictstyle = diff3
+
 [mergetool "mymeld"]
     cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
+
 [diff]
     tool = meld
-[init]
-    templatedir = ~/.git_template
-[push]
-	default = current
-[http]
-	postBuffer = 524288000
+
+# Use `origin` as the default remote on the `master` branch in all cases
+# [branch "master"]
+#    remote = origin
+#    merge = refs/heads/master
+
+#[hub]
+#    host = your.entrerprice.github
