@@ -171,6 +171,8 @@ Plugin 'moll/vim-bbye'
 " try this as well
 Plugin 'tpope/vim-obsession'
 
+Plugin 'airblade/vim-rooter'
+
 " Projects - needs to configure the projects inside the vimrc
 " Plugin 'amiorin/vim-project'
 
@@ -203,103 +205,115 @@ Plugin 'junegunn/limelight.vim'
 
 call vundle#end()
 
-set shortmess+=I     		"remove message at startup
-
-try
-  source ~/.vimrc.local
-catch
-endtry
-
+" look & feel
+set shortmess+=I     		" remove message at startup
 set background=dark
-colorscheme dracula
+colorscheme onedark
+
+set number              " show line numbers
+set numberwidth=3       " number of columns for line numbers
+set textwidth=0         " Do not wrap words (insert)
+set nowrap              " Do not wrap words (view)
+set showcmd             " Show (partial) command in status line.
+set showmatch           " Show matching brackets.
+set noshowmode          " airline takes care of modes, so no need to display them again
+set colorcolumn=80      " ideal max text width (increase to 120?)
+set showtabline=1       " show tab line when there are at least 2 tabs
+
+" Turn on cursor line & column line only on active window
+augroup MyAutoCmd
+  autocmd WinLeave * setlocal nocursorline
+  autocmd WinLeave * setlocal nocursorcolumn
+  autocmd WinEnter,BufRead * setlocal cursorline
+  autocmd WinEnter,BufRead * setlocal cursorcolumn
+augroup END
+
+" enable spell check in English
+set spell
+set spelllang=en
+
+" More natural split opening
+set splitbelow
+set splitright
+
+set switchbuf=useopen,usetab,split
+set hidden              " enable multiple modified buffers
+
+set modelines=1         " allow vim specific commands to be given at the end of file.
+set lazyredraw          " don't redraw while executing macros
 
 " line endings - LF
 set fileformat=unix
 au BufNewFile * set fileformat=unix
 
-" set backup off, most of my work is with version controlled files
-set nobackup
-set nowb
-set noswapfile
-
-set modelines=1         " allow vim specific commands to be given at the end of file.
-set number              " show line numbers
-" Don't break up long lines, but visually wrap them.
-set textwidth=0
-set wrap
-
-set cursorline                  " Highlight current line
-set cursorcolumn                " Highlight current column
-set colorcolumn=80              " ideal max text width
-
+" spacing and intending
 set tabstop=4           " A tab is 8 spaces by default
 set softtabstop=4       " Insert 4 spaces when a Tab is pressed
 set shiftwidth=4        " An indent is 4 spaces
 set shiftround          " Round spaces to nearest shiftwidth multiple
 set expandtab           " Use spaces instead of tabs
 set nojoinspaces        " Don't convert spaces to tabs
-set smartindent         " be smart while doing so
+set smartindent         " be smart while intending
 
-" au BufNewFile,BufRead *.js, *.html, *.css
-"  \ set tabstop=2
-"  \ set softtabstop=2
-"  \ set shiftwidth=2
+" searching
+set hlsearch  			    " highlight search results
+set ignorecase 			    " do case insensitive matching by default
+set smartcase           " don't ignore if pattern contains CAPS
+set wrapscan   	        " continue searching at top when hitting bottom
 
-" enable spell check in English
-set spell
-set spelllang=en
+" set backup off, most of my work is with version controlled files
+set nobackup
+set noswapfile
+if has("persistent_undo")
+  silent !mkdir -vp ~/.backup/vim/undo/ > /dev/null 2>&1
+  set backupdir=~/.backup/vim,.       " list of directories for the backup file
+  set directory=~/.backup/vim,~/tmp,. " list of directory names for the swap file
+  set undofile
+  set undodir=~/.backup/vim/undo/,~/tmp,.
+endif
 
-set hlsearch  			"highlight search results
-set ignorecase 			"do case insensitive matching by default
-set smartcase       "do smart case matching start with caps to be sensitive
-set wrapscan   	    "continue searching at top when hitting bottom
+" completion
+set completeopt=menuone,preview,longest   " insert mode completion
+set wildmode=list:longest,list:full       " with wild menu (using \t)
+set wildignorecase
+set wildignore+=*.a,*.o,*.exe,*.dll,*.manifest
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.jpeg
+set wildignore+=.DS_Store,.git,.hg,.svn
+set wildignore+=*~,*.swp,*.tmp,*.bak,*.pyc,*.class,
 
-set showcmd 			  " Show (partial) command in status line.
-set showmatch       " Show matching brackets.
-set mat=2           " How many tenths of a second to blink when matching brackets
-set noshowmode      " airline takes care of modes, so no need to display them again
+"folding
+if has("folding")
+  set foldcolumn=0      " columns for folding
+  set foldmethod=indent
+  set foldlevel=9
+  set nofoldenable      " don't fold by default
+endif
 
-set completeopt+=longest
-set whichwrap+=<,>,h,l
-set history=100
-set undolevels=200
+" Remember last position (of edit) in a file
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
 
-set lazyredraw       " don't redraw while executing macros
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
 
-" To scroll in the terminal
-"set mouse=a
-
-" To highlight whitespace
-"highlight WhiteSpaces ctermbg=green guibg=#55aa55
-"match WhiteSpaces /\s\+$/
+autocmd BufWrite *.py :call DeleteTrailingWS()
+"autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
 set clipboard=unnamed  "use system register *, not register "
 
-" will insert tab at beginning of line,
-" will use completion if not at beginning
-set wildmode=list:longest,list:full
-set wildignorecase   " When set case is ignored when completing file names and directories.
-set wildignore+=*.swp,*.bak,*.pyc,*.class,.git,.hg
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " images
-set wildignore+=*.o,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*/tmp/* " on windows use *\\tmp\\*
-"folding settings
-set foldmethod=indent   "fold based on indent
-set foldlevel=3
-set foldclose=all
 
-" A buffer becomes hidden when it is abandoned, & buffer switching w/o saving
-set hidden
-
-" More natural split opening
-set splitbelow
-set splitright
-
-noremap ; :
-
+noremap ; :             " convenience for US keyboard
 " Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
-let mapleader = ","
-let g:mapleader = ","
+" let g:mapleader = ","
+let mapleader = "\<Space>"
+" let maplocalleader = ","
+
 
 " http://vim.wikia.com/wiki/VimTip738
 " http://vim.wikia.com/wiki/Get_Alt_key_to_work_in_terminal
@@ -326,12 +340,6 @@ augroup MyAutoCmd
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
   " autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
-augroup END
-
-" Turn on cursorline only on active window
-augroup MyAutoCmd
-  autocmd WinLeave * setlocal nocursorline
-  autocmd WinEnter,BufRead * setlocal cursorline
 augroup END
 
 " Toggle between paste mode
@@ -369,11 +377,6 @@ nmap <Leader>/ <Plug>(easymotion-sn)
 " To save, ctrl-s. Terminals may freeze, ctrl+q to rescue
 nnoremap <c-s> :w<CR>
 inoremap <c-s> <Esc>:w<CR>a
-
-if has("persistent_undo")
-    set undodir = "~/.vim/undofiles"
-    set undofile
-endif
 
 noremap <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pressed
 "map <leader>ba :1,1000 bd!<cr> " Close all the buffers
@@ -419,7 +422,7 @@ nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
-" {{{ Vim signyfy
+" {{{ Vim signify
     let g:signify_vcs_list = [ 'git' ]
     let g:signify_mapping_next_hunk = '<leader>gj'
     let g:signify_mapping_prev_hunk = '<leader>gk'
@@ -436,32 +439,6 @@ map <leader>td <Plug>TaskList
 " in the spirit of vim-unimpaired
 nnoremap [om  <Esc>:set mouse=a<CR>  " enable mouse for scrolling
 nnoremap ]om  <Esc>:set mouse=<CR>   " disable mouse
-
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-
-" Delete trailing white space on save, useful for Python and CoffeeScript ;)
-func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
-endfunc
-
-autocmd BufWrite *.py :call DeleteTrailingWS()
-"autocmd BufWrite *.coffee :call DeleteTrailingWS()
-
-" Automatically cd into the directory that the file is in
-autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
-
-" Specify the behavior when switching between buffers
-try
-  set switchbuf=useopen,usetab,split           " newtab - instead of split open a new tab page for quickfix
-  set stal=1   " showtabline       2 - always, 1 - more than 1, 0 - never
-catch
-endtry
 
 " Airline
 let g:airline#extensions#virtualenv#enabled = 1
@@ -636,5 +613,11 @@ let g:syntastic_javascript_checkers = ['eslint']
 " if (filereadable(b:vim))
 "     execute "source ".b:vim
 " endif
+
+" Overrides
+try
+  source ~/.vimrc.local
+catch
+endtry
 
 " vim:foldmethod=marker:foldlevel=0
