@@ -1,33 +1,32 @@
 set nocompatible
 
+" ===> Plugins - vim-plug  {{{
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-sensible'
-
 Plug 'mhinz/vim-startify'
 
 Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
-" let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+Plug 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
 Plug 'DavidEGx/ctrlp-smarttabs'
+Plug 'vim-ctrlspace/vim-ctrlspace'  " may be replace ctrlp
 
-" Plug 'mileszs/ack.vim'
-Plug 'rking/ag.vim' " deprecated, use ack.vim with ag
-" Plug 'gabesoft/vim-ags'  " another one. their edit mode is cool.
-
-Plug 'junegunn/vim-peekaboo'
-
-Plug 'mbbill/undotree'
 Plug 'majutsushi/tagbar'
 "Plug 'ludovicchabant/vim-gutentags', { 'on': 'TagbarToggle' }"
+
+Plug 'mileszs/ack.vim'
+
+Plug 'junegunn/vim-peekaboo'
+Plug 'vim-scripts/YankRing.vim'
+Plug 'mbbill/undotree'
 
 Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
 Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-rhubarb'
 
 Plug 'jiangmiao/auto-pairs'
-Plug 'vim-scripts/YankRing.vim'
-
 Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-surround'
 
@@ -35,6 +34,8 @@ Plug 'scrooloose/syntastic'
 " switch to ale
 " Plug 'w0rp/ale.git'
 
+Plug 'terryma/vim-multiple-cursors'
+Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-slash'
 Plug 'vim-scripts/IndexedSearch'
 
@@ -47,7 +48,9 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'myusuf3/numbers.vim'
+Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-abolish'
 
 " Buffers list - Sure minibuffer explorer is ultimate
 " Plug 'bling/vim-bufferline'
@@ -59,11 +62,6 @@ Plug 'gioele/vim-autoswap'
 Plug 'moll/vim-bbye'
 
 " Plug 'bronson/vim-trailing-whitespace'. " remove custom trailing function
-
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-abolish'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'junegunn/vim-easy-align'
 
 Plug 'bling/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-rooter'
@@ -80,7 +78,6 @@ Plug 'Valloric/YouCompleteMe',  { 'do': function('BuildYCM') }
 
 " file browser - using CtrlP now
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTree', 'NERDTreeFind'] }
-  \ | Plug 'jistr/vim-nerdtree-tabs'
   \ | Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'mattn/emmet-vim'
@@ -95,7 +92,7 @@ Plug 'mattn/emmet-vim'
 " Plug 'xolox/vim-session'
 " Plug 'xolox/vim-misc'
 " try this as well
-" Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-obsession'
 
 " Projects - needs to configure the projects inside the vimrc
 " Plug 'amiorin/vim-project'
@@ -123,8 +120,6 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'dracula/vim'
 
-Plug 'ryanoasis/vim-devicons'
-
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
   \ | Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
 
@@ -147,10 +142,16 @@ Plug 'ternjs/tern_for_vim', { 'do': function('BuildTern') }
 " Plug 'dag/vim2hs'
 " Plug 'lukerandall/haskellmode-vim'
 
+Plug 'ryanoasis/vim-devicons'
+
 call plug#end()
 
+" }}}
+
+" ===> General Configurations {{{
+
 " look & feel
-set shortmess+=I     		" remove message at startup
+" set shortmess+=I     		" remove message at startup
 set background=dark
 colorscheme onedark
 
@@ -162,7 +163,7 @@ set showcmd             " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
 set noshowmode          " airline takes care of modes, so no need to display them again
 set colorcolumn=80      " ideal max text width (increase to 120?)
-set showtabline=1       " show tab line when there are at least 2 tabs
+set showtabline=0       " show tab line when there are at least 2 tabs
 
 " Turn on cursor line & column line only on active window
 augroup MyAutoCmd
@@ -223,7 +224,8 @@ set wildignorecase
 set wildignore+=*.a,*.o,*.exe,*.dll,*.manifest
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.jpeg
 set wildignore+=.DS_Store,.git,.hg,.svn
-set wildignore+=*~,*.swp,*.tmp,*.bak,*.pyc,*.class,
+set wildignore+=*~,*.swp,*.tmp,*.bak,*.pyc,*.class
+set wildignore+=*/tmp/*,*.so,*.zip
 
 "folding
 if has("folding")
@@ -233,41 +235,50 @@ if has("folding")
   set nofoldenable      " don't fold by default
 endif
 
+set tags=./tags;/    " look for tags from current dir to upwards
+" index ctags from any project
+noremap <Leader>ct :!ctags -R .<CR>
+
 " Remember last position (of edit) in a file
 autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
 
-" Delete trailing white space on save, useful for Python and CoffeeScript ;)
-func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
-endfunc
-
-autocmd BufWrite *.py :call DeleteTrailingWS()
-"autocmd BufWrite *.coffee :call DeleteTrailingWS()
-
 set clipboard=unnamed  "use system register *, not register "
 
+" }}}
+
+" ===> Keybindings {{{
 
 noremap ; :             " convenience for US keyboard
 " Sets <Leader> - \ is the default, but I used to forget; poor memory ;)
 " let g:mapleader = ","
 let mapleader = "\<Space>"
-" let maplocalleader = ","
+" let maplocalleader = "\<Space>"
 
+" Sudo to write
+cmap w!! w !sudo tee % >/dev/null
+" Fast saving
+nnoremap <leader>w :w!<cr>
+
+" in the spirit of vim-unimpaired
+nnoremap [om  <Esc>:set mouse=a<CR>  " enable mouse for scrolling
+nnoremap ]om  <Esc>:set mouse=<CR>   " disable mouse
+
+nnoremap <leader>s+ zg       " Add word to dictionary
+nnoremap <leader>s? z=       " Correct given word to <from list>
+nnoremap <leader>f  za       " Fold/UnFold a fold
 
 " http://vim.wikia.com/wiki/VimTip738
 " http://vim.wikia.com/wiki/Get_Alt_key_to_work_in_terminal
 " fix meta-keys which generate <Esc>a .. <Esc>z
-let c='a'
-while c <= 'z'
-  exec "set <M-".toupper(c).">=\e".c
-  exec "imap \e".c." <M-".toupper(c).">"
-  let c = nr2char(1+char2nr(c))
-endw
+" let c='a'
+" while c <= 'z'
+"   exec "set <M-".toupper(c).">=\e".c
+"   exec "imap \e".c." <M-".toupper(c).">"
+"   let c = nr2char(1+char2nr(c))
+" endw
 
 " treat long lines as break lines = easier navigation
 noremap j gj
@@ -275,69 +286,44 @@ noremap k gk
 
 inoremap <C-w> <C-o><C-w>
 
-" Enable omni completion
-augroup MyAutoCmd
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-  " autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
-augroup END
+" " Easier search and replace
+" vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 
-" Toggle between paste mode
-"nnoremap <silent> <Leader>p :set paste!<cr>
-set pastetoggle=<F2>     " both F2 and <leader>p does same thing now. Probably I'll remap above to CtrlP
+" " Easier substitute
+" vnoremap <c-s> :s/\%V//g<left><left><left>
 
-" numbers.vim
-nnoremap <F3> :NumbersToggle<CR>
-nnoremap <F4> :NumbersOnOff<CR>
+" " Enable omni completion
+" augroup MyAutoCmd
+"   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"   autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+"   " autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
+" augroup END
 
-" Undo list
-nnoremap <F5> :UndotreeToggle<CR>
-
-" since yankstack uses c-n remaps that to c-d as in sublime
-let g:multi_cursor_next_key='<C-d>'
-
-" Tagbar settings.
-nnoremap <silent> <F8> :TagbarToggle<CR>
-
-let g:tagbar_autofocus = 1
-" let g:tagbar_autoclose = 1
-let g:tagbar_singleclick = 1
-let g:tagbar_iconchars = ['+', '-']
-
-" index ctags from any project
-noremap <Leader>ct :!ctags -R .<CR>
-set tags=./tags;/    " look for tags from current dir to upwards
-
-" easymotion
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_smartsign_us = 1
-nmap <Space> <Plug>(easymotion-s2)
-nmap <Leader>/ <Plug>(easymotion-sn)
-
-" To save, ctrl-s. Terminals may freeze, ctrl+q to rescue
-nnoremap <c-s> :w<CR>
-inoremap <c-s> <Esc>:w<CR>a
+" " To save, ctrl-s. Terminals may freeze, ctrl+q to rescue
+" nnoremap <c-s> :w<CR>
+" inoremap <c-s> <Esc>:w<CR>a
 
 noremap <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pressed
-"map <leader>ba :1,1000 bd!<cr> " Close all the buffers
-noremap <leader>cd :cd %:p:h<cr>:pwd<cr> " Switch CWD to the directory of the open buffer
 
-" Easier split window navigation
-nnoremap <C-Down>   <C-W>j
-nnoremap <C-Up>     <C-W>k
-nnoremap <C-Left>   <C-W>h
-nnoremap <C-Right>  <C-W>l
+" "map <leader>ba :1,1000 bd!<cr> " Close all the buffers
+" noremap <leader>cd :cd %:p:h<cr>:pwd<cr> " Switch CWD to the directory of the open buffer
 
-" vim-tmux-navigatior conflict with my default Ctrl+hjkl commands, I'm
-" redefining the bindings to keep consistent key bindings with tmux and vim.
-nnoremap <leader>j  <C-w>j
-nnoremap <leader>k  <C-w>k
-nnoremap <leader>h  <C-w>h
-nnoremap <leader>l  <C-w>l
+" " Easier split window navigation
+" nnoremap <C-Down>   <C-W>j
+" nnoremap <C-Up>     <C-W>k
+" nnoremap <C-Left>   <C-W>h
+" nnoremap <C-Right>  <C-W>l
+
+" " vim-tmux-navigatior conflict with my default Ctrl+hjkl commands, I'm
+" " redefining the bindings to keep consistent key bindings with tmux and vim.
+" nnoremap <leader>j  <C-w>j
+" nnoremap <leader>k  <C-w>k
+" nnoremap <leader>h  <C-w>h
+" nnoremap <leader>l  <C-w>l
 
 " Useful mappings for managing tabs
 noremap <leader>tn :tabnew<cr>
@@ -349,164 +335,216 @@ noremap <leader>tm :tabmove
 " Super useful when editing files in the same directory
 noremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
-" Fugitive tricks
-" to go to parent tree while in :Gedit
-autocmd User fugitive
-  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-  \   nnoremap <buffer> .. :edit %:h<CR> |
-  \ endif
-" delete :Gedit buffers when moving to another object
-autocmd BufReadPost fugitive://* set bufhidden=delete
 
-nnoremap <Leader>gb :Gblame<cr>
-nnoremap <Leader>gc :Gcommit<cr>
-nnoremap <Leader>gd :Gdiff<cr>
-nnoremap <Leader>gp :Git push<cr>
-nnoremap <Leader>gr :Gremove<cr>
-nnoremap <Leader>gs :Gstatus<cr>
-nnoremap <Leader>gw :Gwrite<cr>
+" Toggle between paste mode
+"nnoremap <silent> <Leader>p :set paste!<cr>
+" set pastetoggle=<F2>     " both F2 and <leader>p does same thing now. Probably I'll remap above to CtrlP
+
+" }}}
+
+"  ===> Plugin Configurations  {{{
+
+" numbers.vim
+" nnoremap <F3> :NumbersToggle<CR>
+" nnoremap <F4> :NumbersOnOff<CR>
+
+" Undo list
+" nnoremap <F5> :UndotreeToggle<CR>
+
+" let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+
+" " Javascript
+" let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+" let g:syntastic_javascript_checkers = ['eslint']
+"
+" since yankstack uses c-n remaps that to c-d as in sublime
+" let g:multi_cursor_next_key='<C-d>'
+
+" CtrlP {{{
+    let g:ctrlp_map = '<Leader>/'
+    let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+    let g:ctrlp_cmd = 'CtrlPLastMode'
+    let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_show_hidden = 1
+    let g:ctrlp_follow_symlinks = 1
+    let g:ctrlp_clear_cache_on_exit = 0
+    let g:ctrlp_max_files = 0 " No upper
+    let g:ctrlp_extensions = ['buffertag', 'tag', 'quickfix', 'changes', 'smarttabs']
+
+    if executable('ag')
+        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'  " --hidden
+    endif
+" }}}
+
+" CtrlSpace {{{
+    let g:CtrlSpaceSearchTiming = 100
+    " let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
+    let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
+    let g:CtrlSpaceSaveWorkspaceOnExit = 1
+
+    if executable('u"ag')
+        let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+    endif
+" }}}
+
+" Tagbar  {{{
+    " nnoremap <silent> <F8> :TagbarToggle<CR>
+    " let g:tagbar_autofocus = 1
+    " " let g:tagbar_autoclose = 1
+    " let g:tagbar_singleclick = 1
+    " let g:tagbar_iconchars = ['+', '-']
+" }}}
+
+" EasyMotion {{{
+    " let g:EasyMotion_smartcase = 1
+    " let g:EasyMotion_smartsign_us = 1
+    " nmap <Space> <Plug>(easymotion-s2)
+    " nmap <Leader>/ <Plug>(easymotion-sn)
+" }}}
+
+" Indent guids {{{
+" let g:indent_guides_guide_size=1
+" let g:indent_guides_start_level=2
+" }}}
+
+" Fugitive {{{
+    " " to go to parent tree while in :Gedit
+    " autocmd User fugitive
+    "     \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+    "     \   nnoremap <buffer> .. :edit %:h<CR> |
+    "     \ endif
+    " " delete :Gedit buffers when moving to another object
+    " autocmd BufReadPost fugitive://* set bufhidden=delete
+
+    " nnoremap <Leader>gb :Gblame<cr>
+    " nnoremap <Leader>gc :Gcommit<cr>
+    " nnoremap <Leader>gd :Gdiff<cr>
+    " nnoremap <Leader>gp :Git push<cr>
+    " nnoremap <Leader>gr :Gremove<cr>
+    " nnoremap <Leader>gs :Gstatus<cr>
+    " nnoremap <Leader>gw :Gwrite<cr>
+" }}}
 
 " {{{ Vim signify
-    let g:signify_vcs_list = [ 'git' ]
-    let g:signify_mapping_next_hunk = '<leader>gj'
-    let g:signify_mapping_prev_hunk = '<leader>gk'
-    let g:signify_mapping_toggle_highlight = '<leader>gh'
-    let g:signify_mapping_toggle = '<leader>gt'
+    " let g:signify_vcs_list = [ 'git' ]
+    " let g:signify_mapping_next_hunk = '<leader>gj'
+    " let g:signify_mapping_prev_hunk = '<leader>gk'
+    " let g:signify_mapping_toggle_highlight = '<leader>gh'
+    " let g:signify_mapping_toggle = '<leader>gt'
 " }}}
 
-nnoremap <leader>s+ zg       " Add word to dictionary
-nnoremap <leader>s? z=       " Correct given word to <from list>
-nnoremap <leader>f  za       " Fold/UnFold a fold
-
-map <leader>td <Plug>TaskList
-
-" in the spirit of vim-unimpaired
-nnoremap [om  <Esc>:set mouse=a<CR>  " enable mouse for scrolling
-nnoremap ]om  <Esc>:set mouse=<CR>   " disable mouse
-
-" Airline
-let g:airline#extensions#virtualenv#enabled = 1
-
-" following will use powerline fonts to poulate airline_symbols dict
-let g:airline_powerline_fonts = 1
-
-" A corresponding file is in virtualenv directory to handle django
-if filereadable($VIRTUAL_ENV . '/.vimrc')
-   source $VIRTUAL_ENV/.vimrc
-endif
-
-" vim-bufferline
-" let g:bufferline_echo = 0
-
-" Configure vim's builtin netrw file browser {{{
-    " It can work across various protocols. So read the docs.
-    let g:netrw_liststyle=3  " use tree layout
-    let g:netrw_banner = 0  " do not display info on the top of window
-    let g:netrw_sort_sequence = '[\/]$,*'  " dir first, files second.
-
-    " make it behave like NERDTree
-    " let g:netrw_browse_split=4  " where to open. 4: previous, 0: same buffer
-    " let g:netrw_preview=1  " use vertical preview window
-    " let g:netrw_altv = 1  " split at right.
-    " let g:netrw_winsize=20  " split at right.
-    " noremap <C-l> :Le<CR> " if not above.Open a Vertical split at current files path
-
-    " open tree in same buffer.
-    " let g:netrw_browse_split=0  " where to open. 4: previous, 0: same buffer
-    nnoremap  <leader>e :Explore<CR> " Open tree at current path
+" Airline {{{
+    let g:airline#extensions#virtualenv#enabled = 1
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_powerline_fonts = 1
+    let g:airline_exclude_preview = 1  " for ctrlspace
 " }}}
 
-" I'm using Ctrl-P now {{{
+" vim-bufferline {{{
+"   let g:bufferline_echo = 0
+" }}}
+
+" netrw - in-built file-browser in vim {{{
+    " " It can work across various protocols. So read the docs.
+    " let g:netrw_liststyle=3  " use tree layout
+    " let g:netrw_banner = 0  " do not display info on the top of window
+    " let g:netrw_sort_sequence = '[\/]$,*'  " dir first, files second.
+
+    " " make it behave like NERDTree
+    " " let g:netrw_browse_split=4  " where to open. 4: previous, 0: same buffer
+    " " let g:netrw_preview=1  " use vertical preview window
+    " " let g:netrw_altv = 1  " split at right.
+    " " let g:netrw_winsize=20  " split at right.
+    " " noremap <C-l> :Le<CR> " if not above.Open a Vertical split at current files path
+
+    " " open tree in same buffer.
+    " " let g:netrw_browse_split=0  " where to open. 4: previous, 0: same buffer
+    " nnoremap  <leader>e :Explore<CR> " Open tree at current path
+" }}}
+
+" NERDTree {{{
+    map <C-n> :NERDTreeToggle<CR>
     " open nerdTree with Leader + n
     noremap <Leader>n :NERDTreeToggle<CR>
+
     " Open nerdTree automatically at startup if no file is specified
-    autocmd vimenter * if !argc() | NERDTree ~/src | endif
+    " autocmd vimenter * if !argc() | NERDTree ~/src | endif
+
     " Close vim if NerdTree is the only window open
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
     let NERDTreeWinSize = 25
     let NERDTreeChDirMode=2  " use the new dir as cwd
     let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.orig$', '\.rej$', '\~$']
 " }}}
 
-" Bundld 'scrooloose/syntastic'
-let g:syntastic_enable_signs = 1
-" let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_loc_list_height=5
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_checkers=['flake8']  " add 'pep8', 'pyflakes', 'pylint' too, if you need more checks
+" Syntastic {{{
+    " let g:syntastic_enable_signs = 1
+    " " let g:syntastic_auto_loc_list = 1
+    " let g:syntastic_check_on_open = 1
+    " let g:syntastic_error_symbol='✗'
+    " let g:syntastic_warning_symbol='⚠'
+    " let g:syntastic_always_populate_loc_list=1
+    " let g:syntastic_loc_list_height=5
+    " let g:syntastic_check_on_wq = 0
+    " let g:syntastic_python_checkers=['flake8']  " add 'pep8', 'pyflakes', 'pylint' too, if you need more checks
+" }}}
 
-" For ctrlp
-let g:ctrlp_map = '<Leader>/'
-let g:ctrlp_cmd = 'CtrlPMixed' " set to CtrlPLastMode to open last used mode
-let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_show_hidden = 0
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_files = 0 " No upper limit
-let g:ctrlp_extensions = ['buffertag', 'tag', 'quickfix', 'changes', 'smarttabs']
-
-" explore tags in whole project/tagfile.
-nnoremap <Leader>t/   :CtrlPTag<CR>
-" explore tags in current buffer.
-nnoremap <Leader>b/   :CtrlPBufTag<CR>
-" tab list
-nnoremap <Leader>tl   :CtrlPSmartTabs<CR>
-
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+" Ack / Ag {{{
 if executable('ag')
-  " Use Ag over Grep
-    set grepprg=ag\ --nogroup\ --nocolor
-
-    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'  " --hidden
-
-    " open ag
-    nnoremap <leader>a :Ag
+    set grepprg=ag\ --nogroup\ --nocolor  " Use Ag over Grep
+    let g:ackprg = 'ag --vimgrep'  " use Ag with Ack.vim
+    cnoreabbrev Ack Ack!
+    nnoremap <Leader>a :Ack!<Space>
 endif
+" }}}
 
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+" UltiSnips {{{
+    " Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
+    " function! g:UltiSnips_Complete()
+    "     call UltiSnips_ExpandSnippet()
+    "     if g:ulti_expand_res == 0
+    "         if pumvisible()
+    "             return "\<C-n>"
+    "         else
+    "             call UltiSnips_JumpForwards()
+    "             if g:ulti_jump_forwards_res == 0
+    "                return "\<TAB>"
+    "             endif
+    "         endif
+    "     endif
+    "     return ""
+    " endfunction
 
-" Remap Ultisnips completer triggers to make YouCompleteMe happy :) & Me
-" function! g:UltiSnips_Complete()
-"     call UltiSnips_ExpandSnippet()
-"     if g:ulti_expand_res == 0
-"         if pumvisible()
-"             return "\<C-n>"
-"         else
-"             call UltiSnips_JumpForwards()
-"             if g:ulti_jump_forwards_res == 0
-"                return "\<TAB>"
-"             endif
-"         endif
-"     endif
-"     return ""
-" endfunction
+    " " au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
-" au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+    " let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-ultisnips-snippets"]
+    " let g:UltiSnipsExpandTrigger="<C-e>"
+    " let g:UltiSnipsJumpForwardTrigger="<C-e>"
+    " let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+" }}}
 
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-ultisnips-snippets"]
-let g:UltiSnipsExpandTrigger="<C-e>"
-let g:UltiSnipsJumpForwardTrigger="<C-e>"
-let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+" Slime - REPEL {{{
+" let g:slime_target = "tmux"
+" " let g:slime_paste_file = tempname()
+" let g:slime_python_ipython = 1  " use ipython's %cpaste
+" }}}
 
-let g:indent_guides_guide_size=1
-let g:indent_guides_start_level=2
+" }}}
 
-" Ctrl-r: Easier search and replace
-vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
+" ===> Custom Functions {{{
 
-" Ctrl-s: Easier substitue
-vnoremap <c-s> :s/\%V//g<left><left><left>
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
 
-" Sudo to write
-cmap w!! w !sudo tee % >/dev/null
-" Fast saving
-nnoremap <leader>w :w!<cr>
+autocmd BufWrite *.py :call DeleteTrailingWS()
+"autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
-"{{{ save & restore folds on exit/enter  + a nice fold line
+" {{{ save & restore folds on exit/enter  + a nice fold line
 " autocmd BufWinLeave *.* mkview
 " autocmd BufWinEnter *.* silent loadview
 
@@ -524,44 +562,35 @@ endfunction
 set foldtext=NeatFoldText()
 " }}}
 
-" Open ranger to choose file, map it to ,r
-" Install `ranger` on your system first, It's a ncurses based file manager.
-fun! RangerChooser()
-    exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
-    if filereadable('/tmp/chosenfile')
-        exec 'edit ' . system('cat /tmp/chosenfile')
-        call system('rm /tmp/chosenfile')
-    endif
-    redraw!
-endfun
-noremap ,r :call RangerChooser()<CR>
+" Ranger integration {{{
+" " Install `ranger` on your system first, It's a ncurses based file manager.
+" fun! RangerChooser()
+"     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
+"     if filereadable('/tmp/chosenfile')
+"         exec 'edit ' . system('cat /tmp/chosenfile')
+"         call system('rm /tmp/chosenfile')
+"     endif
+"     redraw!
+" endfun
+" noremap ,r :call RangerChooser()<CR>
+" }}}
 
-" REPEL
-let g:slime_target = "tmux"
-" let g:slime_paste_file = tempname()
-let g:slime_python_ipython = 1  " use ipython's %cpaste
+" }}}
 
-" Session Management
-let g:session_autoload = 'yes'  " load default session on load
-let g:session_autosave = 'yes'  " save state on quit
-let g:session_default_to_last = 1  " open last session instead of default
-let g:session_command_aliases = 1  " use Session* commands instead of *Session
+" ===> Overrides  {{{
 
-" Javascript
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-let g:syntastic_javascript_checkers = ['eslint']
-
-" Overrides .vimrc, if needed
+" global override - for system specific overrides - eg: work, personal
 try
   source ~/.vimrc.local
 catch
 endtry
 
-" load custom .vim files in the directories
+" load custom .vim files in the directories - for project specific configs.
 let b:thisdir=expand("%:p:h")
 let b:vim=b:thisdir."/.vim"
 if (filereadable(b:vim))
     execute "source ".b:vim
 endif
+" }}}
 
-" vim:foldmethod=marker:foldlevel=0
+" vim: set foldmethod=marker foldlevel=0 nomodeline:
