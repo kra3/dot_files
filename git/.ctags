@@ -1,0 +1,4 @@
+--recurse=no
+--exclude=.git
+--exclude=node_modules/*
+--exclude=log/*
