@@ -1,0 +1,22 @@
+# ViM
+
+"NeoVim + SpaceViM" is a good alternative if you want to experiment. 
+They use all those japanese plugin echo systems, which I find hard to get any
+documentations if at all. So, I've my own little vim configurations with stuff
+which I am able to decipher/understand. 
+
+> Assuming ViM 8, will try to be backward compatible
+
+# Set-up
+
+Uses vim-plug now, for context aware/dynamic loading and stuff like that.
+Follow install instructions from https://github.com/junegunn/vim-plug
+For linux, it is like below (* at the moment)
+
+> curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+After vim-plug is setup & git configurations are in home directory, open vim 
+and run :PlugInstall to set-up all the plugins.
+
+There are a couple of plugins which needs additional softwares to be installed.
