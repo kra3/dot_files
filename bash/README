@@ -1,0 +1,40 @@
+# Bash dot files
+
+Sourcing starts from .bash_profile
+
+## Following files are sourced in the given order
+
+- .path
+- .bash_prompt
+- .exports
+- .aliases
+- .functions
+- .extra
+
+## On Mac: 
+
+- with iTerm, iTerm's shell integration is sourced
+- with brew, brew's shell autocompletion is enabled & brew path is added to $PATH
+
+
+## Other software configurations
+
+- with npm, enables npm auto completion
+- with nvm, $NVM_DIR/nvm.sh is sourced# Bash dot files
+- with tmuxifier, initialize tmuxifier
+- with fasd, initialize fasd
+- with conda, enable conda & auto completion
+- with bc, adds a function (?) to evaluate math expressions
+- with hub, hub will be aliased to git
+- with autojump, ...
+- with colordiff, it will be aliased to diff
+- with lesspipe, enables lesspipe 
+
+## Functions
+
+? 'experssion' -> simple calculator (needs bc)
+
+
+## Aliases
+
+# tbd
