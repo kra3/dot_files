@@ -9,7 +9,7 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 # Add tmuxifier to the `$PATH`
-if [ -d PATH="$HOME/.tmuxifier/bin" ] ; then
+if [ -d "$HOME/.tmuxifier/bin" ] ; then
     PATH="$HOME/.tmuxifier/bin:$PATH"
 fi
 

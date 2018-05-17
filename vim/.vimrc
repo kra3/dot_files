@@ -7,6 +7,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'mhinz/vim-startify'
 
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" may be ctrlp can go !! :( 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'  " a replacement matcher.
 Plug 'DavidEGx/ctrlp-smarttabs'
@@ -27,6 +30,7 @@ Plug 'tpope/vim-rhubarb'
 
 Plug 'jiangmiao/auto-pairs'
 Plug 'Lokaltog/vim-easymotion'
+" https://github.com/wellle/targets.vim
 Plug 'tpope/vim-surround'
 
 Plug 'scrooloose/syntastic'
@@ -65,17 +69,13 @@ Plug 'moll/vim-bbye'
 Plug 'bling/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-rooter'
 
-function! BuildYCM(info)
-  if a:info.status == 'installed' || a:info.force
-    !./install.py --all
-  endif
-endfunction
-Plug 'Valloric/YouCompleteMe',  { 'do': function('BuildYCM') }
+" try maralla/completor.vim
+Plug 'Valloric/YouCompleteMe',  { 'do': './install.py --all' }
 
-" Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
 
-" file browser - using CtrlP now
+" file browser - CtrlP is good enough.
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTree', 'NERDTreeFind'] }
   \ | Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -106,7 +106,7 @@ Plug 'tpope/vim-obsession'
 
 " Try this: better folding for python
 " Plug 'tmhedberg/SimpylFold'
-" And this one for pep 8 confirmant intends
+" And this one for pep 8 conformant intends
 " Plug 'vim-scripts/indentpython.vim'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'justinmk/vim-gtfo'
@@ -130,6 +130,8 @@ Plug 'othree/jspc.vim', { 'for': 'javascript' }
 " Haskell specific
 " Plug 'dag/vim2hs'
 " Plug 'lukerandall/haskellmode-vim'
+
+"https://github.com/sjl/vitality.vim
 
 call plug#end()
 
@@ -190,7 +192,7 @@ set smartindent         " be smart while intending
 " searching
 set hlsearch  			    " highlight search results
 set ignorecase 			    " do case insensitive matching by default
-set smartcase           " don't ignore if pattern contains CAPS
+set smartcase           " don't ignore if patteg contains CAPS
 set wrapscan   	        " continue searching at top when hitting bottom
 
 " set backup off, most of my work is with version controlled files
@@ -213,6 +215,7 @@ set wildignore+=*.a,*.o,*.exe,*.dll,*.manifest
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.jpeg
 set wildignore+=.DS_Store,.git,.hg,.svn
 set wildignore+=*~,*.swp,*.tmp,*.bak,*.pyc,*.class
+set wildignore+=*/node_modules/*,*/vendor/*
 set wildignore+=*/tmp/*,*.so,*.zip
 
 "folding
@@ -352,12 +355,14 @@ noremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
     let g:ctrlp_working_path_mode = 'ra'
     let g:ctrlp_show_hidden = 1
     let g:ctrlp_follow_symlinks = 1
-    let g:ctrlp_clear_cache_on_exit = 0
     let g:ctrlp_max_files = 0 " No upper
     let g:ctrlp_extensions = ['buffertag', 'tag', 'quickfix', 'changes', 'smarttabs']
 
-    if executable('ag')
-        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'  " --hidden
+    if executable('rg')
+        let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""' 
+        let g:ctrlp_use_caching = 0
+    else
+        let g:ctrlp_clear_cache_on_exit = 0
     endif
 " }}}
 
@@ -384,8 +389,8 @@ noremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " }}}
 
 " Indent guids {{{
-" let g:indent_guides_guide_size=1
-" let g:indent_guides_start_level=2
+    " let g:indent_guides_guide_size=1
+    " let g:indent_guides_start_level=2
 " }}}
 
 " Fugitive {{{
@@ -470,12 +475,18 @@ noremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
     " let g:syntastic_python_checkers=['flake8']  " add 'pep8', 'pyflakes', 'pylint' too, if you need more checks
 " }}}
 
-" Ack / Ag {{{
-if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor  " Use Ag over Grep
-    let g:ackprg = 'ag --vimgrep'  " use Ag with Ack.vim
+" ripgrep (rg) {{{
+if executable('rg')
+    set grepprg=rg\ --color=never  " Use rg over Grep
+    let g:ackprg = 'rg --vimgrep'  " use rg with Ack.vim
     cnoreabbrev Ack Ack!
     nnoremap <Leader>a :Ack!<Space>
+    command! -bang -nargs=* Rg
+        \ call fzf#vim#grep(
+        \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+        \   <bang>0 ? fzf#vim#with_preview('up:60%')
+        \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+        \   <bang>0)
 endif
 " }}}
 
@@ -505,9 +516,9 @@ endif
 " }}}
 
 " Slime - REPEL {{{
-" let g:slime_target = "tmux"
-" " let g:slime_paste_file = tempname()
-" let g:slime_python_ipython = 1  " use ipython's %cpaste
+    " let g:slime_target = "tmux"
+    " " let g:slime_paste_file = tempname()
+    " let g:slime_python_ipython = 1  " use ipython's %cpaste
 " }}}
 
 " }}}
@@ -525,21 +536,21 @@ autocmd BufWrite *.py :call DeleteTrailingWS()
 "autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
 " {{{ save & restore folds on exit/enter  + a nice fold line
-" autocmd BufWinLeave *.* mkview
-" autocmd BufWinEnter *.* silent loadview
+    " autocmd BufWinLeave *.* mkview
+    " autocmd BufWinEnter *.* silent loadview
 
-function! NeatFoldText()
-    let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
-    let lines_count = v:foldend - v:foldstart + 1
-    let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
-    let foldchar = matchstr(&fillchars, 'fold:\zs.')
-    let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-    let foldtextend = lines_count_text . repeat(foldchar, 8)
-    let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-endfunction
+    function! NeatFoldText()
+        let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+        let lines_count = v:foldend - v:foldstart + 1
+        let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+        let foldchar = matchstr(&fillchars, 'fold:\zs.')
+        let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+        let foldtextend = lines_count_text . repeat(foldchar, 8)
+        let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+        return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+    endfunction
 
-set foldtext=NeatFoldText()
+    set foldtext=NeatFoldText()
 " }}}
 
 " Ranger integration {{{
@@ -566,11 +577,11 @@ catch
 endtry
 
 " load custom .vim files in the directories - for project specific configs.
-let b:thisdir=expand("%:p:h")
-let b:vim=b:thisdir."/.vim"
-if (filereadable(b:vim))
-    execute "source ".b:vim
-endif
+    let b:thisdir=expand("%:p:h")
+    let b:vim=b:thisdir."/.vim"
+    if (filereadable(b:vim))
+        execute "source ".b:vim
+    endif
 " }}}
 
 " vim: set foldmethod=marker foldlevel=0 nomodeline:

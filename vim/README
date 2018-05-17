@@ -5,7 +5,7 @@ They use all those japanese plugin echo systems, which I find hard to get any
 documentations if at all. So, I've my own little vim configurations with stuff
 which I am able to decipher/understand. 
 
-> Assuming ViM 8, will try to be backward compatible
+> Assuming ViM 8, will try to be backward compatible. Also, I use terminal vim
 
 # Set-up
 
