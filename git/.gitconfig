@@ -18,6 +18,8 @@
     branches = branch -a
     remotes = remote -v
     r = remote -v
+    # prune merged branches from local. run from master or develop.                          
+    pmb = "!git fetch -p && git branch -vv | awk '/: gone]/{print $1}'` | xargs git branch -d"  
 
     # Pretty log output
     hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
