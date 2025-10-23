@@ -1,0 +1,1564 @@
+set nocompatible
+set encoding=utf-8
+
+" ===> Plugins - vim-plug  {{{
+" Plugin manager configuration
+
+call plug#begin('~/.vim/plugged')
+
+"==============================================================================
+" CORE & GENERAL FUNCTIONALITY
+"==============================================================================
+" Startup & Sessions
+Plug 'tpope/vim-obsession', { 'on': 'Obsession' }    " Session management
+Plug 'editorconfig/editorconfig-vim'                 " EditorConfig support
+
+"==============================================================================
+" NAVIGATION & SEARCH
+"==============================================================================
+" Fuzzy Finding - Primary search interface
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'                              " FZF integration for vim
+
+" File Navigation - NERDTree preferred over built-in netrw
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTree', 'NERDTreeFind'] }
+  \ | Plug 'Xuyuanp/nerdtree-git-plugin'            " File explorer with git integration
+Plug 'airblade/vim-rooter'                          " Change working dir to project root
+
+" Code Navigation
+Plug 'easymotion/vim-easymotion'                " Efficient text navigation
+
+"==============================================================================
+" VERSION CONTROL & COLLABORATION
+"==============================================================================
+" Git integration suite - these work together with different purposes
+Plug 'tpope/vim-fugitive'                           " Core Git commands integration
+Plug 'mhinz/vim-signify'                            " Show git changes in gutter (preferred over gitgutter)
+Plug 'tpope/vim-rhubarb'                            " GitHub integration (extends fugitive)
+
+"==============================================================================
+" EDITING & TEXT MANIPULATION
+"==============================================================================
+" Text Operations
+Plug 'tpope/vim-surround'                           " Quoting/parenthesizing
+Plug 'tpope/vim-repeat'                             " Enable repeating supported plugin maps
+Plug 'tpope/vim-commentary'                          " Comment stuff out
+Plug 'tpope/vim-abolish', { 'on': ['Abolish', 'Subvert'] } " Search/substitute/abbreviate variants
+Plug 'tpope/vim-unimpaired'                         " Pairs of handy bracket mappings
+Plug 'jiangmiao/auto-pairs'                         " Insert/delete brackets in pairs
+
+" Clipboard & History
+Plug 'junegunn/vim-peekaboo'                        " Preview registers
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Visualize undo history
+
+" Indentation & Structure
+Plug 'michaeljsmith/vim-indent-object'              " Text objects for indented blocks
+
+"==============================================================================
+" WINDOW & BUFFER MANAGEMENT
+"==============================================================================
+Plug 'schickling/vim-bufonly', { 'on': 'BufOnly' }  " Delete all buffers except current
+Plug 'gioele/vim-autoswap'                          " Handle swap files intelligently
+Plug 'moll/vim-bbye', { 'on': ['Bdelete', 'Bwipeout'] } " Better buffer closing
+Plug 'christoomey/vim-tmux-navigator'               " Seamless vim/tmux navigation
+
+"==============================================================================
+" UI ENHANCEMENTS
+"==============================================================================
+" Status & Interface
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' " Enhanced statusline
+
+" Color Schemes
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }       " Catppuccin theme (matches tmux)
+
+" Modern enhancements
+Plug 'tpope/vim-sleuth'                          " Auto-detect indentation
+Plug 'machakann/vim-highlightedyank'             " Highlight yanked text
+
+"==============================================================================
+" LANGUAGE SUPPORT & PROGRAMMING
+"==============================================================================
+Plug 'mattn/emmet-vim', { 'for': ['html', 'css', 'javascript', 'typescript', 'jsx', 'tsx'] }
+
+" Language-specific plugins
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+Plug 'vim-python/python-syntax', { 'for': 'python' }
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascriptreact'] }
+Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'typescriptreact'] }
+
+" Linting & Completion
+Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'typescript', 'css', 'html', 'markdown', 'json', 'yaml', 'scala', 'java', 'sql', 'sh'] }
+
+"==============================================================================
+" LSP & COMPLETION
+"==============================================================================
+" Language Server Protocol Support
+Plug 'prabirshrestha/vim-lsp'                " Vim LSP client
+Plug 'mattn/vim-lsp-settings'                " Auto configurations for LSP
+
+" Async Completion
+Plug 'prabirshrestha/asyncomplete.vim'       " Async completion framework
+Plug 'prabirshrestha/asyncomplete-lsp.vim'   " LSP source for asyncomplete
+
+" Snippet Support
+Plug 'hrsh7th/vim-vsnip'                     " Snippet engine (VSCode format)
+Plug 'hrsh7th/vim-vsnip-integ'               " Integration with asyncomplete
+Plug 'rafamadriz/friendly-snippets'          " Collection of community snippets
+
+"==============================================================================
+" PRODUCTIVITY & UTILITIES
+"==============================================================================
+Plug 'liuchengxu/vim-which-key'                      " Keybinding helper - shows available key combinations
+Plug 'vimwiki/vimwiki'                               " Personal wiki for notes
+Plug 'tpope/vim-eunuch'                              " Unix shell commands (:Delete, :Move, :Rename, etc.)
+
+call plug#end()
+
+" }}}
+
+" ===> Vim Configuration
+" This configuration focuses on:
+" - Fast startup and responsive editing
+" - Modern editing features with plugin integration
+" - Clear organization with folded sections
+" - Sensible defaults that work well across environments
+"
+"Tip: Use 'za' to toggle folds, '<space>z' works too
+
+" ===> Runtime Optimizations {{{
+" Focus on startup speed and runtime performance
+
+" Set Leader key early - needed for mappings below
+" Sets <Leader> - \ is the default
+let g:mapleader = "\<Space>"
+" let g:maplocalleader = "\<Space>"
+
+" Don't load unused built-in plugins
+let g:loaded_getscriptPlugin = 1
+let g:loaded_gzip = 1
+let g:loaded_logiPat = 1
+let g:loaded_rrhelper = 1
+let g:loaded_tarPlugin = 1
+let g:loaded_zipPlugin = 1
+let g:loaded_2html_plugin = 1
+let g:loaded_vimballPlugin = 1
+
+" Vim 9 optimizations
+if v:version >= 900
+  " Use vim9script for faster execution where possible
+  " Loading time optimizations
+  let g:did_install_default_menus = 1  " Skip menu loading
+  let g:did_install_syntax_menu = 1    " Skip syntax menu loading
+  let g:skip_loading_mswin = 1         " Skip loading MS Windows settings
+endif
+
+" Modern Vim cursor shape features
+if !has('nvim')
+  " Enable enhanced cursor shape for compatible terminals
+  if exists('&t_SI') && exists('&t_EI')
+    let &t_SI = "\<Esc>[6 q"  " insert mode: vertical bar
+    let &t_EI = "\<Esc>[2 q"  " normal mode: block
+    if exists('&t_SR')
+      let &t_SR = "\<Esc>[4 q"  " replace mode: underscore
+    endif
+  endif
+endif
+
+" Terminal GUI colors - enable for modern terminals with true color support
+" Required for themes like Catppuccin
+if has('termguicolors')
+  set termguicolors
+endif
+
+" Terminal buffer settings
+if has('terminal')
+  " Vim 8+ terminal support
+  nnoremap <Leader>tt :terminal<CR>
+  " Exit terminal insert mode with Escape
+  tnoremap <Esc> <C-\><C-n>
+  " Easy navigation from terminal windows
+  tnoremap <C-h> <C-\><C-n><C-w>h
+  tnoremap <C-j> <C-\><C-n><C-w>j
+  tnoremap <C-k> <C-\><C-n><C-w>k
+  tnoremap <C-l> <C-\><C-n><C-w>l
+endif
+
+" Reduce updatetime for faster git-gutter/signify updates and better user experience
+set updatetime=300
+
+" More responsive UI
+set lazyredraw          " Don't redraw while executing macros
+set ttyfast             " Faster terminal connection
+set synmaxcol=200       " Only syntax highlight first 200 columns for performance
+
+" Check for file changes more efficiently
+augroup checktime
+  autocmd!
+  autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+augroup END
+
+" Plugin availability check function
+" Usage: if PluginAvailable('plugin-name') | ... | endif
+function! PluginAvailable(name)
+  let l:plugs = get(g:, 'plugs', {})
+  return has_key(l:plugs, a:name) && isdirectory(l:plugs[a:name].dir)
+endfunction
+
+" External tool check
+" Usage: if HasExecutable('tool-name') | ... | endif
+" Useful for conditionally configuring features that depend on external tools
+function! HasExecutable(name)
+  return executable(a:name)
+endfunction
+
+" Function to safely load a plugin configuration
+" Ensures plugin settings only apply when the plugin is actually available
+function! ConfigurePlugin(name, ...)
+  if PluginAvailable(a:name)
+    if a:0 > 0 && type(a:1) == type(function('tr'))
+      call a:1()
+    endif
+    return 1
+  endif
+  return 0
+endfunction
+
+" }}}
+
+" ===> General Configurations {{{
+
+" ========================================
+" UI & Appearance
+" ========================================
+set background=dark
+
+" Catppuccin theme configuration - must be set BEFORE loading colorscheme
+if PluginAvailable('catppuccin')
+  " Enable transparent background (preserves terminal transparency)
+  let g:catppuccin_transparent_background = 1
+
+  " Additional customizations (optional)
+  " let g:catppuccin_transparent_background = 0  " Uncomment for opaque background
+
+   " Available variants: catppuccin_mocha, catppuccin_macchiato, catppuccin_frappe, catppuccin_latte
+   try
+      colorscheme catppuccin_mocha
+    catch
+      " Catppuccin not yet installed, using default
+    endtry
+endif
+
+if has('gui_running') || &termguicolors
+  " Ensure proper colorscheme display
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
+" Display settings
+set number              " show line numbers
+set numberwidth=3       " number of columns for line numbers
+set nowrap              " Do not wrap words (view)
+set textwidth=0         " Do not wrap words (insert)
+set showcmd             " Show (partial) command in status line
+set showmatch           " Show matching brackets
+set noshowmode          " airline takes care of modes
+set colorcolumn=120      " ideal max text width indicator
+set showtabline=0       " show tab line when there are at least 2 tabs
+set shortmess+=I        " remove intro message at startup
+
+" Turn on cursor line & column line only on active window
+augroup MyAutoCmd
+  autocmd WinLeave * setlocal nocursorline
+  autocmd WinLeave * setlocal nocursorcolumn
+  autocmd WinEnter,BufRead * setlocal cursorline
+  autocmd WinEnter,BufRead * setlocal cursorcolumn
+augroup END
+
+" Spell checking
+set spell
+set spelllang=en
+
+" ========================================
+" Editor Behavior
+" ========================================
+" Window splits
+set splitbelow          " Open new splits below
+set splitright          " Open new splits to the right
+
+" Buffer behavior
+set switchbuf=useopen,usetab,split
+set hidden              " Enable multiple modified buffers
+set modelines=1         " Allow vim specific commands at end of file
+
+" ========================================
+" Text Formatting
+" ========================================
+" Line endings - LF
+set fileformat=unix
+au BufNewFile * set fileformat=unix
+
+" Spacing and indenting
+set tabstop=4           " A tab is 4 spaces
+set softtabstop=4       " Insert 4 spaces when Tab is pressed
+set shiftwidth=4        " An indent is 4 spaces
+set shiftround          " Round spaces to nearest shiftwidth multiple
+set expandtab           " Use spaces instead of tabs
+set nojoinspaces        " Don't convert spaces to tabs
+set smartindent         " Smart auto-indenting
+
+" ========================================
+" Search Settings
+" ========================================
+set hlsearch  			    " Highlight search results
+set ignorecase 			    " Case insensitive matching by default
+set smartcase           " Don't ignore if pattern contains CAPS
+set wrapscan   	        " Continue searching at top when hitting bottom
+
+" ========================================
+" File Handling
+" ========================================
+" Backup and undo - most work is with version controlled files
+set nobackup
+set noswapfile
+if has("persistent_undo")
+  " Create backup directories if they don't exist
+  if !isdirectory($HOME."/.backup/vim/undo")
+    call mkdir($HOME."/.backup/vim/undo", "p", 0700)
+  endif
+  set backupdir=~/.backup/vim,.       " List of directories for backup file
+  set directory=~/.backup/vim,~/tmp,. " List of directory names for swap file
+  set undofile
+  set undodir=~/.backup/vim/undo/,~/tmp,.
+endif
+
+" Remember last cursor position in file
+augroup remember_position
+  autocmd!
+  autocmd BufReadPost *
+      \ if line("'\"") > 0 && line("'\"") <= line("$") && &ft !~# 'commit' |
+      \   exe "normal! g`\"" |
+      \ endif
+augroup END
+
+" ========================================
+" Completion
+" ========================================
+" set path+=**
+set completeopt=menuone,preview,longest   " Insert mode completion
+set wildmode=list:longest,list:full       " Command-line completion with wild menu
+set wildignorecase
+
+" Ignore patterns for completion
+set wildignore+=*.a,*.o,*.exe,*.dll,*.manifest
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.jpeg
+set wildignore+=.DS_Store,.git,.hg,.svn
+set wildignore+=*~,*.swp,*.tmp,*.bak,*.pyc,*.class
+set wildignore+=*/node_modules/*,*/vendor/*
+set wildignore+=*/tmp/*,*.so,*.zip
+
+" Enable omni completion - use <C-Space> or <C-x><C-o> to trigger
+" Note: LSP overrides omnifunc when available, these are fallbacks
+augroup omni_complete
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript,javascriptreact setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType typescript,typescriptreact setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+  autocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
+  autocmd FileType sh,bash,zsh setlocal omnifunc=syntaxcomplete#Complete
+  autocmd FileType java setlocal omnifunc=syntaxcomplete#Complete
+  autocmd FileType scala setlocal omnifunc=syntaxcomplete#Complete
+augroup END
+
+" ========================================
+" Folding
+" ========================================
+if has("folding")
+  set foldcolumn=0      " Columns for folding
+
+  " Set fold method based on filetype
+  augroup folding_settings
+    autocmd!
+    " Default to indent folding
+    autocmd FileType * setlocal foldmethod=indent
+
+    " Syntax folding for specific languages
+    autocmd FileType vim,sh,python,javascript,typescript,json setlocal foldmethod=syntax
+
+    " Marker folding for configuration files
+    autocmd FileType vim,tmux,conf,nginx,sshconfig setlocal foldmethod=marker
+
+    " Custom fold expression for certain languages
+    autocmd FileType markdown setlocal foldexpr=MarkdownFolds() foldmethod=expr
+  augroup END
+
+  " Define custom markdown folding
+  function! MarkdownFolds()
+    let thisline = getline(v:lnum)
+    if match(thisline, '^# ') >= 0
+      return '>1'
+    elseif match(thisline, '^## ') >= 0
+      return '>2'
+    elseif match(thisline, '^### ') >= 0
+      return '>3'
+    else
+      return '='
+    endif
+  endfunction
+
+  set foldlevel=9
+  set nofoldenable      " Don't fold by default
+endif
+
+" ========================================
+" Miscellaneous
+" ========================================
+" Tags
+set tags=./tags;/    " Look for tags from current dir to upwards
+" Index ctags from any project
+noremap <Leader>ct :!ctags -R .<CR>
+
+" System clipboard integration
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus  " Use both * and + registers
+else
+  set clipboard=unnamed  " Use system register *
+endif
+
+" }}}
+
+" ===> Keybindings {{{
+" For complete keybinding reference, see docs/vim.md
+
+noremap ; :             " convenience for US keyboard
+
+" Sudo to write
+cmap w!! w !sudo tee % >/dev/null
+" Fast saving
+nnoremap <leader>w :w!<cr>
+
+" in the spirit of vim-unimpaired
+nnoremap [om  <Esc>:set mouse=a<CR>  " enable mouse for scrolling
+nnoremap ]om  <Esc>:set mouse=<CR>   " disable mouse
+
+nnoremap <leader>s+ zg       " Add word to dictionary
+nnoremap <leader>s? z=       " Correct given word to <from list>
+nnoremap <leader>z  za       " Fold/UnFold a fold
+
+" Meta key mapping helper - uncomment if needed for your terminal
+" function! EnableMetaKeyMapping()
+"   let c='a'
+"   while c <= 'z'
+"     exec "set <M-".toupper(c).">=\e".c
+"     exec "imap \e".c." <M-".toupper(c).">"
+"     let c = nr2char(1+char2nr(c))
+"   endw
+" endfunction
+" call EnableMetaKeyMapping()
+
+" treat long lines as break lines = easier navigation
+noremap j gj
+noremap k gk
+
+" Insert mode C-w for word deletion
+inoremap <C-w> <C-o><C-w>
+
+" Better visual mode indentation handling
+vnoremap < <gv
+vnoremap > >gv
+
+" Move visual block up/down
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" Keep cursor in place when joining lines
+nnoremap J mzJ`z
+
+" Enhanced search and replace
+vnoremap <Leader>sr "hy:%s/<c-r>h//gc<left><left><left>  " Visual mode search/replace
+vnoremap <Leader>ss :s/\%V//g<left><left><left>          " Substitute within visual selection
+nnoremap <Leader>sr :%s/\<<C-r><C-w>\>//gc<left><left><left>  " Replace word under cursor
+nnoremap <Leader>sc :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>        " Search word under cursor
+command! -nargs=+ ReplaceAll call ReplaceAll(<f-args>)
+command! -nargs=+ ProjectReplace call ProjectReplace(<f-args>)
+
+" Toggle highlighting search results
+nnoremap <F7> :set hlsearch! hlsearch?<CR>
+
+" Quick save with Ctrl-S (needs terminal flow control disabled)
+" Add "stty -ixon" to your shell config to prevent terminal freeze
+nnoremap <C-s> :update<CR>
+inoremap <C-s> <Esc>:update<CR>a
+
+noremap <silent> <leader><cr> :noh<cr> " Disable highlight when <leader><cr> is pressed
+
+" Buffer and directory management
+nnoremap <leader>ba :bufdo bd<cr>               " Close all buffers
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>       " Switch CWD to current file's directory
+
+" Window navigation and management
+" Using Leader keys since Ctrl conflicts with tmux navigation
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+nnoremap <leader>h <C-w>h
+nnoremap <leader>l <C-w>l
+
+" Arrow keys for window navigation when not using tmux
+nnoremap <C-Down>  <C-W>j
+nnoremap <C-Up>    <C-W>k
+nnoremap <C-Left>  <C-W>h
+nnoremap <C-Right> <C-W>l
+
+" Quick window resize with + and -
+nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+nnoremap <silent> <Leader>> :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Leader>< :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+
+" Window layout management
+command! ToggleWindowLayout call ToggleWindowLayout()
+nnoremap <silent> <Leader>wt :ToggleWindowLayout<CR>
+nnoremap <silent> <Leader>we <C-w>=  " Equal window sizes
+
+" Tab management
+noremap <leader>tn :tabnew<cr>
+noremap <leader>to :tabonly<cr>
+noremap <leader>tc :tabclose<cr>
+noremap <leader>tm :tabmove
+noremap <leader>tl :tabnext<cr>
+noremap <leader>th :tabprevious<cr>
+
+" Quick tab navigation with numbers
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+nnoremap <leader>0 :tablast<cr>
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+noremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+
+" Toggle between paste mode
+"nnoremap <silent> <Leader>p :set paste!<cr>
+" set pastetoggle=<F2>     " both F2 and <leader>p does same thing now. Probably I'll remap above to CtrlP
+
+" }}}
+
+" ===> Plugin Configurations {{{
+
+" ===> LSP Configuration {{{
+" Language Server Protocol setup for Python, Java, JavaScript, Scala, Shell, SQL
+" Requires: vim-lsp, vim-lsp-settings, asyncomplete
+
+if PluginAvailable('vim-lsp')
+    " LSP general settings
+    let g:lsp_diagnostics_enabled = 1
+    let g:lsp_diagnostics_echo_cursor = 1
+    let g:lsp_diagnostics_float_cursor = 1
+    let g:lsp_diagnostics_signs_enabled = 1
+    let g:lsp_diagnostics_signs_error = {'text': '✗'}
+    let g:lsp_diagnostics_signs_warning = {'text': '⚠'}
+    let g:lsp_diagnostics_signs_information = {'text': 'ℹ'}
+    let g:lsp_diagnostics_signs_hint = {'text': '💡'}
+
+    " Show signature help automatically
+    let g:lsp_signature_help_enabled = 1
+
+    " Highlight references when cursor is on a symbol
+    let g:lsp_document_highlight_enabled = 1
+
+    " Performance optimizations
+    let g:lsp_async_completion = 1
+    let g:lsp_work_done_progress_enabled = 1
+
+    " LSP key bindings - only set in buffers with LSP support
+    function! s:on_lsp_buffer_enabled() abort
+        setlocal omnifunc=lsp#complete
+        setlocal signcolumn=yes
+
+        if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+
+        " Navigation
+        nmap <buffer> gd <plug>(lsp-definition)
+        nmap <buffer> gD <plug>(lsp-declaration)
+        nmap <buffer> gr <plug>(lsp-references)
+        nmap <buffer> gi <plug>(lsp-implementation)
+        nmap <buffer> gt <plug>(lsp-type-definition)
+        nmap <buffer> <leader>rn <plug>(lsp-rename)
+
+        " Documentation
+        nmap <buffer> K <plug>(lsp-hover)
+        nmap <buffer> <leader>ds <plug>(lsp-document-symbol-search)
+        nmap <buffer> <leader>ws <plug>(lsp-workspace-symbol-search)
+
+        " Code actions
+        nmap <buffer> <leader>ca <plug>(lsp-code-action)
+        nmap <buffer> <leader>cl <plug>(lsp-code-lens)
+
+        " Diagnostics navigation
+        nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+        nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+        nmap <buffer> <leader>dd <plug>(lsp-document-diagnostics)
+
+        " Formatting
+        nmap <buffer> <leader>f <plug>(lsp-document-format)
+        vmap <buffer> <leader>f <plug>(lsp-document-range-format)
+    endfunction
+
+    augroup lsp_install
+        autocmd!
+        " Call on_lsp_buffer_enabled only for languages that support LSP
+        autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    augroup END
+
+    " vim-lsp-settings auto-installation
+    " This will auto-install language servers on first use
+    if PluginAvailable('vim-lsp-settings')
+        " Enable automatic installation of language servers
+        let g:lsp_settings_enable_suggestions = 1
+
+        " Language-specific server configurations
+        " Python: pyright (fast, accurate type checking)
+        let g:lsp_settings = {
+            \ 'pyright-langserver': {
+            \   'workspace_config': {
+            \     'python': {
+            \       'analysis': {
+            \         'typeCheckingMode': 'basic',
+            \         'autoSearchPaths': v:true,
+            \         'useLibraryCodeForTypes': v:true,
+            \         'diagnosticMode': 'workspace'
+            \       }
+            \     }
+            \   }
+            \ },
+            \ }
+    endif
+
+    " Asyncomplete integration
+    if PluginAvailable('asyncomplete.vim') && PluginAvailable('asyncomplete-lsp.vim')
+        " Tab completion
+        inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+        inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+        inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
+        " Auto-open completion popup
+        let g:asyncomplete_auto_popup = 1
+        let g:asyncomplete_auto_completeopt = 0
+        let g:asyncomplete_popup_delay = 200
+
+        " Preview window for completion
+        set completeopt=menuone,noinsert,noselect,preview
+        autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+    endif
+endif
+
+" Configure ALE to work alongside LSP
+" ALE handles linting, LSP handles completion and IDE features
+if PluginAvailable('ale')
+    " Disable ALE's LSP support (we use vim-lsp for that)
+    let g:ale_disable_lsp = 1
+endif
+
+" vim-vsnip configuration
+" Snippet engine with asyncomplete integration
+if PluginAvailable('vim-vsnip')
+    " Expand snippet with <C-j>
+    imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+    smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+
+    " Jump forward/backward in snippet placeholders
+    imap <expr> <C-l> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<C-l>'
+    smap <expr> <C-l> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<C-l>'
+    imap <expr> <C-h> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-h>'
+    smap <expr> <C-h> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-h>'
+
+    " Snippet directory (friendly-snippets will be auto-detected)
+    let g:vsnip_snippet_dir = expand('~/.vim/snippets')
+endif
+
+" }}}
+
+" FZF {{{
+    " Replaces CtrlP functionality
+    let g:fzf_layout = { 'down': '~40%' }
+    let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit' }
+    let g:fzf_colors =
+      \ { 'fg':      ['fg', 'Normal'],
+        \ 'bg':      ['bg', 'Normal'],
+        \ 'hl':      ['fg', 'Comment'],
+        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+        \ 'hl+':     ['fg', 'Statement'],
+        \ 'info':    ['fg', 'PreProc'],
+        \ 'border':  ['fg', 'Ignore'],
+        \ 'prompt':  ['fg', 'Conditional'],
+        \ 'pointer': ['fg', 'Exception'],
+        \ 'marker':  ['fg', 'Keyword'],
+        \ 'spinner': ['fg', 'Label'],
+        \ 'header':  ['fg', 'Comment'] }
+    
+    nnoremap <Leader>/ :Files<CR>
+    nnoremap <Leader>b :Buffers<CR>
+    nnoremap <Leader>ft :Tags<CR>
+    nnoremap <Leader>fm :Marks<CR>
+    nnoremap <Leader>fh :History<CR>
+    " Use ripgrep with FZF for better performance
+    let $FZF_DEFAULT_COMMAND = executable('rg') ? 'rg --files --hidden --follow --glob "!.git/*"' : ''
+" }}}
+
+
+" Undo Tree  {{{
+    nnoremap <Leader>u :UndotreeToggle<CR>
+    let g:undotree_WindowLayout = 2
+    let g:undotree_SplitWidth = 30
+    let g:undotree_DiffpanelHeight = 10
+    let g:undotree_SetFocusWhenToggle = 1
+    let g:undotree_ShortIndicators = 1
+    let g:undotree_HighlightChangedText = 1
+    let g:undotree_HelpLine = 0
+" }}}
+
+" EasyMotion {{{
+    let g:EasyMotion_do_mapping = 0  " Disable default mappings
+    let g:EasyMotion_smartcase = 1   " Turn on case-insensitive feature
+    let g:EasyMotion_smartsign_us = 1
+    
+    " Jump to anywhere with 2-character search
+    nmap <Leader><Leader> <Plug>(easymotion-s2)
+    " Jump to anywhere with n-character search
+    nmap <Leader>s <Plug>(easymotion-sn)
+    
+    " JK motions: Line motions
+    map <Leader>ej <Plug>(easymotion-j)
+    map <Leader>ek <Plug>(easymotion-k)
+" }}}
+
+
+" Fugitive {{{
+    " Navigate up to parent tree while in :Gedit
+    autocmd User fugitive
+        \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+        \   nnoremap <buffer> .. :edit %:h<CR> |
+        \ endif
+    " Delete :Gedit buffers when moving to another object
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+
+    nnoremap <Leader>gb :Git blame<CR>
+    nnoremap <Leader>gc :Git commit<CR>
+    nnoremap <Leader>gd :Gdiffsplit<CR>
+    nnoremap <Leader>gp :Git push<CR>
+    nnoremap <Leader>gr :Gremove<CR>
+    nnoremap <Leader>gs :Git<CR>
+    nnoremap <Leader>gw :Gwrite<CR>
+    nnoremap <Leader>gl :Git log<CR>
+" }}}
+
+" Vim signify {{{
+    let g:signify_vcs_list = ['git']
+    let g:signify_sign_add = '+'
+    let g:signify_sign_delete = '-'
+    let g:signify_sign_delete_first_line = '‾'
+    let g:signify_sign_change = '~'
+    let g:signify_sign_changedelete = g:signify_sign_change
+    
+    " Jump between hunks
+    nmap <leader>sj <plug>(signify-next-hunk)
+    nmap <leader>sk <plug>(signify-prev-hunk)
+    
+    " Toggle highlight/signify
+    nnoremap <leader>sh :SignifyToggleHighlight<CR>
+    nnoremap <leader>st :SignifyToggle<CR>
+    
+    " Hunk operations
+    nmap <leader>sd <plug>(signify-hunk-diff)
+    nmap <leader>su <plug>(signify-hunk-undo)
+" }}}
+
+" Airline {{{
+    let g:airline#extensions#virtualenv#enabled = 1
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+    let g:airline#extensions#tabline#buffer_nr_show = 1
+    let g:airline#extensions#branch#enabled = 1
+    let g:airline#extensions#hunks#enabled = 1
+    let g:airline_powerline_fonts = 1
+    let g:airline_exclude_preview = 1  " for ctrlspace
+    
+    " Custom airline sections
+    " let g:airline_section_b = '%{getcwd()}'
+    " let g:airline_section_y = '%{strftime("%H:%M")}'
+    
+    " Match airline theme to catppuccin
+    let g:airline_theme = 'catppuccin_mocha'
+" }}}
+
+
+" netrw - built-in file browser {{{
+    " NOTE: Using NERDTree instead - only enable one file explorer at a time
+    " To switch to netrw from NERDTree:
+    " 1. Comment out the NERDTree section
+    " 2. Uncomment this section:
+    " let g:netrw_liststyle=3        " Use tree layout
+    " let g:netrw_banner=0           " Hide banner
+    " let g:netrw_browse_split=0     " Open files in same window
+    " let g:netrw_winsize=25         " Width of netrw window
+    " nnoremap <leader>e :Explore<CR> " Open explorer at current path
+" }}}
+
+" NERDTree {{{
+    " open nerdTree with Leader + n
+    noremap <Leader>n :NERDTreeToggle<CR>
+    noremap <Leader>nf :NERDTreeFind<CR>  " Open NERDTree and focus on current file
+
+    " Open nerdTree automatically at startup if no file is specified
+    " autocmd vimenter * if !argc() | NERDTree ~/src | endif
+
+    " Close vim if NerdTree is the only window open
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+    let g:NERDTreeWinSize = 25
+    let g:NERDTreeChDirMode = 2  " use the new dir as cwd
+    let g:NERDTreeMinimalUI = 1  " Don't display the 'Press ? for help' text
+    let g:NERDTreeAutoDeleteBuffer = 1  " Automatically delete buffer of file just deleted with NERDTree
+    let g:NERDTreeShowHidden = 0
+    let g:NERDTreeHijackNetrw = 0  " Don't hijack netrw
+    let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.orig$', '\.rej$', '\~$', '__pycache__', '\.git$']
+" }}}
+
+" ALE (Asynchronous Lint Engine) {{{
+    if PluginAvailable('ale')
+        " NOTE: ALE conflicts with LSP for diagnostics
+        " If using LSP setup, consider using ALE for linting only, not diagnostics
+        let g:ale_sign_error = '✗'
+        let g:ale_sign_warning = '⚠'
+        let g:ale_echo_msg_error_str = 'E'
+        let g:ale_echo_msg_warning_str = 'W'
+        let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+        let g:ale_lint_on_text_changed = 'normal'
+        let g:ale_lint_on_insert_leave = 1
+        let g:ale_lint_delay = 500
+        let g:ale_list_window_size = 5
+        let g:ale_completion_enabled = 0  " Use asyncomplete instead - prevents conflict
+        
+        " Configure linters for each language
+        let g:ale_linters = {
+            \ 'python': [],
+            \ 'javascript': [],
+            \ 'typescript': [],
+            \ 'java': [],
+            \ 'scala': [],
+            \ 'sql': [],
+            \ 'sh': []
+            \ }
+        
+        " Python linters
+        if HasExecutable('flake8')
+            call add(g:ale_linters.python, 'flake8')
+        endif
+        if HasExecutable('pylint')
+            call add(g:ale_linters.python, 'pylint')
+        endif
+        
+        " JavaScript/TypeScript linters
+        if HasExecutable('eslint')
+            call add(g:ale_linters.javascript, 'eslint')
+        endif
+        if HasExecutable('tsserver')
+            call add(g:ale_linters.typescript, 'tsserver')
+        endif
+        
+        " Java linter
+        if HasExecutable('javac')
+            call add(g:ale_linters.java, 'javac')
+        endif
+        
+        " Scala linter
+        if HasExecutable('scalac')
+            call add(g:ale_linters.scala, 'scalac')
+        endif
+        
+        " SQL linters
+        if HasExecutable('sqlint')
+            call add(g:ale_linters.sql, 'sqlint')
+        endif
+        
+        " Shell script linters
+        if HasExecutable('shellcheck')
+            call add(g:ale_linters.sh, 'shellcheck')
+        endif
+        
+        " Configure fixers
+        let g:ale_fixers = {
+            \ 'python': ['black', 'isort'],
+            \ 'javascript': ['prettier', 'eslint'],
+            \ 'typescript': ['prettier', 'eslint'],
+            \ 'sql': ['pgformatter'],
+            \ 'sh': ['shfmt'],
+            \ '*': ['remove_trailing_lines', 'trim_whitespace']
+            \ }
+        
+        " Fast navigation between errors
+        nmap <silent> [e <Plug>(ale_previous_wrap)
+        nmap <silent> ]e <Plug>(ale_next_wrap)
+        
+        " Useful commands
+        nmap <Leader>at :ALEToggle<CR>
+        nmap <Leader>af :ALEFix<CR>
+        nmap <Leader>ad :ALEDetail<CR>
+    endif
+" }}}
+
+" ripgrep (rg) {{{
+if executable('rg')
+    set grepprg=rg\ --color=never  " Use rg over Grep
+
+    " Configure FZF to use rg
+    if PluginAvailable('fzf.vim')
+        command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+            \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, <bang>0), <bang>0)
+    endif
+else
+    " Fallback to using grep if rg not available
+    set grepprg=grep\ -rn\ $*\ --include={\*.py,\*.js,\*.html,\*.css}\ --exclude-dir={node_modules,.git}
+
+    " Notify about missing rg on first run
+    if !exists('g:has_warned_about_rg')
+        let g:has_warned_about_rg = 1
+        echohl WarningMsg | echom "ripgrep (rg) not found. Install for better search performance." | echohl None
+    endif
+endif
+" }}}
+
+" vim-which-key {{{
+" Keybinding discovery - shows available mappings when you press Leader
+if PluginAvailable('vim-which-key')
+    " Enable which-key on Leader key
+    nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
+
+    " Timeout for which-key popup (milliseconds)
+    set timeoutlen=500
+
+    " Optional: Define custom labels for key groups
+    " let g:which_key_map = {}
+    " let g:which_key_map.f = { 'name' : '+find' }
+    " let g:which_key_map.g = { 'name' : '+git' }
+    " let g:which_key_map.s = { 'name' : '+search/spell' }
+    " let g:which_key_map.t = { 'name' : '+tabs/tests' }
+    " let g:which_key_map.w = { 'name' : '+windows' }
+    " call which_key#register('<Space>', "g:which_key_map")
+endif
+" }}}
+
+" vimwiki {{{
+" Personal wiki for note-taking and organization
+if PluginAvailable('vimwiki')
+    " Configure vimwiki directory
+    let g:vimwiki_list = [{'path': '~/.vimwiki/',
+                         \ 'syntax': 'markdown',
+                         \ 'ext': '.md'}]
+
+    " Don't treat all .md files as vimwiki (only files in vimwiki path)
+    let g:vimwiki_global_ext = 0
+
+    " Keybindings
+    " <Leader>ww - Open vimwiki index
+    " <Leader>wt - Open vimwiki index in new tab
+    " <Leader>ws - Select and open vimwiki index
+    " <Leader>wd - Delete vimwiki file
+    " <Leader>wr - Rename vimwiki file
+    " <Enter> - Follow/create wiki link
+    " <Backspace> - Go back to previous wiki page
+endif
+" }}}
+
+" vim-eunuch {{{
+" Unix shell commands - provides commands like :Delete, :Move, :Rename, :Chmod
+" No configuration needed - just use the commands:
+" :Delete      Delete current file and buffer
+" :Move        Move/rename current file
+" :Rename      Rename current file (alias for :Move)
+" :Chmod       Change file permissions
+" :Mkdir       Create directory
+" :Find        Run find and load results into quickfix
+" :Locate      Run locate and load results into quickfix
+" :SudoWrite   Write file using sudo
+" :SudoEdit    Edit file using sudo
+" :Wall        Write all buffers
+" }}}
+
+
+
+" }}}
+
+" ===> File Management Utilities {{{
+" Efficiently work with multiple files
+
+" Create a file if it doesn't exist
+function! s:Touch(file)
+  let l:path = empty(a:file) ? input('Path: ', '', 'file') : a:file
+  if empty(l:path)
+    return
+  endif
+  
+  let l:dir = fnamemodify(l:path, ':h')
+  if !isdirectory(l:dir)
+    call mkdir(l:dir, 'p')
+    echo "Created directory: " . l:dir
+  endif
+  
+  if !filereadable(l:path)
+    call writefile([], l:path)
+    echo "Created file: " . l:path
+  endif
+  execute 'edit ' . l:path
+endfunction
+
+command! -nargs=? -complete=file Touch call s:Touch(<q-args>)
+
+" Rename current file
+function! s:RenameFile()
+  let l:old_name = expand('%')
+  let l:new_name = input('New name: ', l:old_name, 'file')
+  if l:new_name != '' && l:new_name != l:old_name
+    exec ':saveas ' . l:new_name
+    exec ':silent !rm ' . l:old_name
+    redraw!
+    echo "Renamed file to: " . l:new_name
+  endif
+endfunction
+
+command! RenameFile call s:RenameFile()
+nnoremap <Leader>rf :RenameFile<CR>
+
+" Save file as sudo
+function! s:SudoSave()
+  if &modified
+    echo "Sudo saving: " . expand("%")
+    silent execute "write !sudo tee % > /dev/null"
+    edit!
+  endif
+endfunction
+
+command! SudoSave call s:SudoSave()
+nnoremap <Leader>ss :SudoSave<CR>
+
+" ===> Custom Functions {{{
+
+" Delete trailing whitespace on save
+" This function safely removes trailing whitespace while preserving cursor position
+" and only operates on modifiable buffers to prevent errors
+func! DeleteTrailingWS()
+  " Save cursor position
+  let l:save = winsaveview()
+  " Remove trailing whitespace - only if buffer is modifiable and not binary
+  if &modifiable && !&binary
+    keeppatterns silent! %s/\s\+$//ge
+  endif
+  " Restore cursor position
+  call winrestview(l:save)
+endfunc
+
+" Auto-remove trailing whitespace for specific filetypes
+augroup TrailingSpace
+  autocmd!
+  " Add more filetypes by uncommenting or adding new lines
+  autocmd BufWrite *.py :call DeleteTrailingWS()
+  "autocmd BufWrite *.coffee :call DeleteTrailingWS()
+  "autocmd BufWrite *.js,*.jsx,*.ts,*.tsx :call DeleteTrailingWS()
+  "autocmd BufWrite *.html,*.css :call DeleteTrailingWS()
+
+  " Uncomment to remove trailing whitespace from all files:
+  "autocmd BufWrite * :call DeleteTrailingWS()
+augroup END
+
+" Manual whitespace cleanup (like vim-trailing-whitespace plugin)
+command! FixWhitespace call DeleteTrailingWS()
+nnoremap <Leader>fw :FixWhitespace<CR>
+
+" Search and replace utilities
+" Simple replace all in current buffer
+function! ReplaceAll(from, to)
+  execute '%s/' . a:from . '/' . a:to . '/g'
+endfunction
+
+" Project-wide search and replace with position restoration
+function! ProjectReplace(pattern, replacement)
+  let l:save_cursor = getcurpos()
+  execute 'args `find . -type f -not -path "*/\\.git/*"`'
+  execute 'argdo %s/' . a:pattern . '/' . a:replacement . '/ge | update'
+  call setpos('.', l:save_cursor)
+  echo 'Replaced "' . a:pattern . '" with "' . a:replacement . '" across project'
+endfunction
+
+" Toggle window layout between horizontal and vertical splits
+function! ToggleWindowLayout()
+  if winnr('$') <= 1
+    return
+  endif
+
+  let l:saved_cursor = getcurpos()
+  let l:current_layout = winlayout()
+
+  " Check if we have simple top-level splits
+  if l:current_layout[0] == 'col'
+    " Switch from vertical to horizontal layout
+    windo wincmd H
+    echo "Switched to horizontal splits"
+  elseif l:current_layout[0] == 'row'
+    " Switch from horizontal to vertical layout
+    windo wincmd K
+    echo "Switched to vertical splits"
+  endif
+
+  call setpos('.', l:saved_cursor)
+endfunction
+
+" {{{ save & restore folds on exit/enter + a nice fold text display
+    " To enable automatic fold saving/loading, uncomment these lines:
+    " autocmd BufWinLeave *.* mkview
+    " autocmd BufWinEnter *.* silent! loadview
+    
+    " Create nicely formatted fold headers that display the folded content summary
+    " and the number of lines folded. Helps navigate large files with many folds.
+    function! NeatFoldText()
+        " Extract the first line of the fold and clean it up
+        let l:line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+        " Calculate number of lines in the fold
+        let l:lines_count = v:foldend - v:foldstart + 1
+        let l:lines_count_text = '| ' . printf("%10s", l:lines_count . ' lines') . ' |'
+        
+        " Get fold character from fillchars option
+        let l:foldchar = matchstr(&fillchars, 'fold:\zs.')
+        if empty(l:foldchar)
+            let l:foldchar = '-'
+        endif
+        
+        " Build the fold text with appropriate indentation based on fold level
+        let l:foldtextstart = strpart('+' . repeat(l:foldchar, v:foldlevel*2) . l:line, 0, (winwidth(0)*2)/3)
+        let l:foldtextend = l:lines_count_text . repeat(l:foldchar, 8)
+        let l:foldtextlength = strlen(substitute(l:foldtextstart . l:foldtextend, '.', 'x', 'g')) + &foldcolumn
+        
+        " Create the full fold text line with appropriate spacing
+        return l:foldtextstart . repeat(l:foldchar, winwidth(0)-l:foldtextlength) . l:foldtextend
+    endfunction
+
+    " Use our custom fold text function
+    set foldtext=NeatFoldText()
+" }}}
+
+
+" Simple session management
+function! s:MakeSession(name)
+  let l:session_dir = expand('~/.vim/sessions')
+  if !isdirectory(l:session_dir)
+    call mkdir(l:session_dir, 'p')
+  endif
+  let l:filename = l:session_dir . '/' . a:name . '.vim'
+  execute 'mksession! ' . l:filename
+  echo 'Session saved to ' . l:filename
+endfunction
+
+function! s:LoadSession(name)
+  let l:session_dir = expand('~/.vim/sessions')
+  let l:filename = l:session_dir . '/' . a:name . '.vim'
+  if filereadable(l:filename)
+    execute 'source ' . l:filename
+    echo 'Session loaded from ' . l:filename
+  else
+    echo 'Session file not found: ' . l:filename
+  endif
+endfunction
+
+command! -nargs=1 SaveSession call s:MakeSession(<f-args>)
+command! -nargs=1 LoadSession call s:LoadSession(<f-args>)
+command! -complete=customlist,s:SessionComplete -nargs=1 LoadSession call s:LoadSession(<f-args>)
+
+function! s:SessionComplete(ArgLead, CmdLine, CursorPos)
+  let l:session_dir = expand('~/.vim/sessions')
+  let l:sessions = split(glob(l:session_dir . '/*.vim'), '\n')
+  let l:names = []
+  for session in l:sessions
+    let l:names += [fnamemodify(session, ':t:r')]
+  endfor
+  return filter(l:names, 'v:val =~ "^' . a:ArgLead . '"')
+endfunction
+
+" Vim configuration health check
+function! HealthCheck()
+  echo "=== Vim Configuration Health Check ==="
+  echo ""
+
+  " Check Vim version
+  echo "Running: Vim " . v:version / 100 . "." . v:version % 100 . (has('patch-8.1.2269') ? ' with popup support' : '')
+  if v:version < 800
+    echohl WarningMsg | echo "Warning: Some features require Vim 8.0+" | echohl None
+  endif
+
+  " Check plugin manager
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    echohl ErrorMsg | echo "Error: vim-plug not installed!" | echohl None
+  else
+    echo "vim-plug: Installed"
+  endif
+  
+  " Check key external dependencies
+  let l:tools = ['git', 'rg', 'ctags', 'npm', 'python3']
+  echo "\nExternal Tools:"
+  for tool in l:tools
+    echo " - " . tool . ": " . (executable(tool) ? "Found" : "Not found")
+  endfor
+  
+  " Terminal capabilities
+  echo "\nTerminal:"
+  echo " - Colors: " . &t_Co
+  echo " - True color support: " . (exists('&termguicolors') && &termguicolors ? "Yes" : "No")
+  
+  " Plugin status
+  echo "\nPlugin Status:"
+  let l:essential_plugins = ['fzf.vim', 'vim-airline', 'ale']
+  for plugin in l:essential_plugins
+    echo " - " . plugin . ": " . (PluginAvailable(plugin) ? "Loaded" : "Not loaded")
+  endfor
+  
+  echo "\nUse :PlugInstall to install missing plugins"
+  echo "=== Health Check Complete ==="
+endfunction
+
+command! HealthCheck call HealthCheck()
+
+" }}}
+
+" ===> Overrides  {{{
+
+" global override - for system specific overrides - eg: work, personal
+try
+  source ~/.vimrc.local
+catch
+endtry
+
+" Project-specific configuration
+augroup ProjectConfig
+  autocmd!
+  " Load local .vim.local file when opening a file in any directory
+  autocmd BufNewFile,BufRead * call s:LoadProjectConfig()
+augroup END
+
+function! s:LoadProjectConfig()
+  " Find the project root (could be git repo or has certain files)
+  let l:current_dir = expand('%:p:h')
+  let l:config_file = findfile('.vim.local', l:current_dir . ';')
+  
+  " Load .vim.local if found and not already loaded
+  if filereadable(l:config_file) && !exists('b:project_config_loaded')
+    let b:project_config_loaded = 1
+    execute 'source ' . l:config_file
+    echo 'Loaded project config from ' . l:config_file
+  endif
+  
+  " Also support .lvimrc format which is more standard
+  let l:lvimrc = findfile('.lvimrc', l:current_dir . ';')
+  if filereadable(l:lvimrc) && !exists('b:project_lvimrc_loaded')
+    let b:project_lvimrc_loaded = 1
+    execute 'source ' . l:lvimrc
+    echo 'Loaded project config from ' . l:lvimrc
+  endif
+endfunction
+
+" Default local .vim.local template generator
+command! -nargs=0 GenerateLocalConfig call s:GenerateLocalConfig()
+
+function! s:GenerateLocalConfig()
+  let l:template = [
+        \ '" Project-specific Vim configuration',
+        \ '" Created: ' . strftime('%Y-%m-%d'),
+        \ '',
+        \ '" Example: Set specific indentation for this project',
+        \ 'setlocal tabstop=2',
+        \ 'setlocal shiftwidth=2',
+        \ 'setlocal softtabstop=2',
+        \ '',
+        \ '" Example: Set specific linters',
+        \ '" let b:ale_linters = {''javascript'': [''eslint'']}',
+        \ '',
+        \ '" Example: Add custom mappings',
+        \ '" nnoremap <buffer> <Leader>r :!npm run dev<CR>',
+        \ '',
+        \ '" Example: Set tags file',
+        \ '" set tags+=./.git/tags',
+        \ ]
+  
+  if filereadable('.vim.local')
+    echohl WarningMsg | echo ".vim.local already exists!" | echohl None
+    return
+  endif
+  
+  call writefile(l:template, '.vim.local')
+  echo "Created .vim.local template in current directory"
+endfunction
+" }}}
+
+" ===> Code Navigation and Jump List {{{
+" Enhanced navigation features
+
+" Navigate between methods/functions
+function! s:NextMethodOrFunction()
+  " Save view for smoother experience
+  let l:view = winsaveview()
+  
+  " Different patterns based on filetype
+  let l:pattern = '^\s*\(function\|def\|sub\|procedure\|method\|class\|interface\|impl\)\>'
+  
+  if &filetype == 'python'
+    let l:pattern = '^\s*def\s\+\w\+.*:$\|^\s*class\s\+\w\+.*:$'
+  elseif &filetype =~ 'javascript\|typescript'
+    let l:pattern = '^\s*function\s\+\w\+(.*)\|^\s*\(\w\+\|\[.*\]\|\{.*\}\)\s*[=:]\s*\(async\s\+\)\?function\|^\s*\(\w\+\|\[.*\]\)\s*(.*)\s*{$\|^\s*\(class\|interface\)\s\+\w\+'
+  elseif &filetype == 'java'
+    let l:pattern = '^\s*\(public\|private\|protected\|static\|final\)\+.*(.*).*{\|^\s*\(class\|interface\|enum\)\s\+\w\+'
+  elseif &filetype == 'scala'
+    let l:pattern = '^\s*\(def\|val\|var\|class\|object\|trait\)\s\+\w\+'
+  elseif &filetype == 'sql'
+    let l:pattern = '^\s*\(CREATE\|ALTER\|DROP\)\s\+\(TABLE\|VIEW\|FUNCTION\|PROCEDURE\|TRIGGER\)\|^\s*SELECT\s\+'
+  elseif &filetype == 'sh'
+    let l:pattern = '^\s*function\s\+\w\+\|^\s*\w\+\s*()\s*{'
+  elseif &filetype == 'vim'
+    let l:pattern = '^\s*function!\?\s\+\w\+(.*)\|^\s*command!\?\s\+-.*\s\+\w\+'
+  endif
+  
+  if search(l:pattern, 'W') == 0
+    " If not found, restore position
+    call winrestview(l:view)
+    echo "No more methods or functions found"
+  endif
+endfunction
+
+function! s:PrevMethodOrFunction()
+  " Save view for smoother experience
+  let l:view = winsaveview()
+  
+  " Different patterns based on filetype
+  let l:pattern = '^\s*\(function\|def\|sub\|procedure\|method\|class\|interface\|impl\)\>'
+  
+  if &filetype == 'python'
+    let l:pattern = '^\s*def\s\+\w\+.*:$\|^\s*class\s\+\w\+.*:$'
+  elseif &filetype =~ 'javascript\|typescript'
+    let l:pattern = '^\s*function\s\+\w\+(.*)\|^\s*\(\w\+\|\[.*\]\|\{.*\}\)\s*[=:]\s*\(async\s\+\)\?function\|^\s*\(\w\+\|\[.*\]\)\s*(.*)\s*{$\|^\s*\(class\|interface\)\s\+\w\+'
+  elseif &filetype == 'java'
+    let l:pattern = '^\s*\(public\|private\|protected\|static\|final\)\+.*(.*).*{\|^\s*\(class\|interface\|enum\)\s\+\w\+'
+  elseif &filetype == 'scala'
+    let l:pattern = '^\s*\(def\|val\|var\|class\|object\|trait\)\s\+\w\+'
+  elseif &filetype == 'sql'
+    let l:pattern = '^\s*\(CREATE\|ALTER\|DROP\)\s\+\(TABLE\|VIEW\|FUNCTION\|PROCEDURE\|TRIGGER\)\|^\s*SELECT\s\+'
+  elseif &filetype == 'sh'
+    let l:pattern = '^\s*function\s\+\w\+\|^\s*\w\+\s*()\s*{'
+  elseif &filetype == 'vim'
+    let l:pattern = '^\s*function!\?\s\+\w\+(.*)\|^\s*command!\?\s\+-.*\s\+\w\+'
+  endif
+  
+  if search(l:pattern, 'bW') == 0
+    " If not found, restore position
+    call winrestview(l:view)
+    echo "No previous methods or functions found"
+  endif
+endfunction
+
+" Navigation keybindings
+nnoremap <silent> [m :call <SID>PrevMethodOrFunction()<CR>
+nnoremap <silent> ]m :call <SID>NextMethodOrFunction()<CR>
+
+" Enhanced jumplist navigation - show info about the jump
+nnoremap <silent> <C-o> <C-o>:call <SID>EchoJumpInfo()<CR>
+nnoremap <silent> <C-i> <C-i>:call <SID>EchoJumpInfo()<CR>
+
+function! s:EchoJumpInfo()
+  let l:file = expand('%:p')
+  let l:line = line('.')
+  let l:col = col('.')
+  let l:text = getline('.')[:50] . (len(getline('.')) > 50 ? '...' : '')
+  echo printf('Jump: %s:%d:%d - %s', fnamemodify(l:file, ':~:.'), l:line, l:col, l:text)
+endfunction
+
+" }}}
+
+" ===> File Type Specific Settings {{{
+
+" Common programming language settings
+" Function to set up common development settings
+function! SetupDevEnvironment()
+  " Enable syntax folding for supported filetypes
+  if &filetype =~ 'python\|scala\|java\|javascript\|typescript\|json\|sql'
+    setlocal foldmethod=syntax
+    setlocal foldlevel=99  " Start unfolded
+  endif
+  
+  " Setup common code navigation commands
+  nnoremap <buffer> <Leader>] :tag <C-R><C-W><CR>
+  nnoremap <buffer> <Leader>[ :pop<CR>
+  
+  " Common coding settings
+  setlocal number
+  setlocal autoindent
+  setlocal smartindent
+endfunction
+
+" Python settings
+augroup python_settings
+  autocmd!
+  autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+  autocmd FileType python setlocal textwidth=88  " Black formatter default
+  autocmd FileType python setlocal colorcolumn=88
+  autocmd FileType python nnoremap <buffer> <Leader>r :update<CR>:exec '!python3' shellescape(@%, 1)<CR>
+  autocmd FileType python nnoremap <buffer> <Leader>i :update<CR>:exec '!python3 -i' shellescape(@%, 1)<CR>
+  " Linting/formatting if available
+  if executable('black')
+    autocmd FileType python nnoremap <buffer> <Leader>fb :update<CR>:silent !black %<CR>:e<CR>
+  endif
+  autocmd FileType python call SetupDevEnvironment()
+augroup END
+
+" Java settings
+augroup java_settings
+  autocmd!
+  autocmd FileType java setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+  autocmd FileType java nnoremap <buffer> <F9> :update<CR>:exec '!javac "%"'<CR>:exec '!java -cp "%:p:h" "%:t:r"'<CR>
+  autocmd FileType java nnoremap <buffer> <Leader>r :update<CR>:exec '!javac "%"'<CR>:exec '!java -cp "%:p:h" "%:t:r"'<CR>
+  autocmd FileType java call SetupDevEnvironment()
+  
+  " Java package/class generator
+  command! -buffer JavaCreateClass call JavaCreateClass()
+  nnoremap <buffer> <Leader>jc :JavaCreateClass<CR>
+  
+  function! JavaCreateClass()
+    let l:package = substitute(expand("%:p:h"), ".*src/\\(.*\\)", "\\1", "")
+    let l:package = substitute(l:package, "/", ".", "g")
+    let l:class = expand("%:t:r")
+    let l:template = ["package " . l:package . ";", "", "public class " . l:class . " {", "    public static void main(String[] args) {", "        System.out.println(\"Hello, World!\");", "    }", "}"]
+    call append(0, l:template)
+  endfunction
+augroup END
+
+" Scala settings - simplified but powerful
+augroup scala_settings
+  autocmd!
+  autocmd FileType scala setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  " Run with scala (basic)
+  if executable('scala')
+    autocmd FileType scala nnoremap <buffer> <Leader>r :update<CR>:exec '!scala "%"'<CR>
+  endif
+  " SBT support
+  if executable('sbt')
+    autocmd FileType scala nnoremap <buffer> <Leader>sb :update<CR>:!sbt run<CR>
+    autocmd FileType scala nnoremap <buffer> <Leader>st :update<CR>:!sbt test<CR>
+    autocmd FileType scala nnoremap <buffer> <Leader>sc :update<CR>:!sbt compile<CR>
+  endif
+  autocmd FileType scala call SetupDevEnvironment()
+augroup END
+
+" TypeScript/JavaScript settings
+augroup js_ts_settings
+  autocmd!
+  " Common settings for JS/TS files
+  autocmd FileType javascript,typescript,javascriptreact,typescriptreact 
+    \ setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  
+  " JavaScript execution
+  autocmd FileType javascript nnoremap <buffer> <Leader>r :update<CR>:exec '!node "%"'<CR>
+  
+  " TypeScript support - only if ts-node is available
+  if executable('ts-node')
+    autocmd FileType typescript nnoremap <buffer> <Leader>r :update<CR>:exec '!ts-node "%"'<CR>
+  endif
+  
+  " NPM integration if package.json exists
+  autocmd FileType javascript,typescript,javascriptreact,typescriptreact
+    \ if filereadable('package.json') | 
+    \   nnoremap <buffer> <Leader>nt :!npm test<CR> |
+    \   nnoremap <buffer> <Leader>ns :!npm start<CR> |
+    \   nnoremap <buffer> <Leader>nb :!npm run build<CR> |
+    \ endif
+  
+  autocmd FileType javascript,typescript,javascriptreact,typescriptreact call SetupDevEnvironment()
+augroup END
+
+" SQL settings
+augroup sql_settings
+  autocmd!
+  autocmd FileType sql setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType sql setlocal commentstring=--\ %s
+  
+  " SQL formatting if sqlformat is available
+  if executable('sqlformat')
+    autocmd FileType sql nnoremap <buffer> <Leader>sf :update<CR>:%!sqlformat --reindent --keywords upper --identifiers lower -<CR>
+  endif
+  
+  " If database tools are available, add shortcuts
+  if executable('psql')
+    command! -buffer -nargs=? -complete=file RunPostgres call RunSQL('psql', <f-args>)
+    autocmd FileType sql nnoremap <buffer> <Leader>rp :RunPostgres<CR>
+  endif
+  
+  if executable('sqlite3')
+    command! -buffer -nargs=? -complete=file RunSQLite call RunSQL('sqlite3', <f-args>)
+    autocmd FileType sql nnoremap <buffer> <Leader>rs :RunSQLite<CR>
+  endif
+  
+  " Function to run SQL with different engines
+  function! RunSQL(engine, ...)
+    let l:dbfile = a:0 >= 1 ? a:1 : input('Database: ')
+    if empty(l:dbfile) | return | endif
+    exec '!'.a:engine.' '.l:dbfile.' < %'
+  endfunction
+  
+  autocmd FileType sql call SetupDevEnvironment()
+augroup END
+
+" Shell script settings
+augroup sh_settings
+  autocmd!
+  autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType sh setlocal commentstring=#\ %s
+  autocmd FileType sh nnoremap <buffer> <Leader>r :update<CR>:exec '!bash "%"'<CR>
+  
+  " Make shell scripts executable automatically
+  autocmd BufWritePost *.sh silent !chmod +x "%"
+  
+  " Shell syntax checking
+  if executable('shellcheck')
+    autocmd FileType sh nnoremap <buffer> <Leader>sc :!shellcheck %<CR>
+  endif
+  
+  autocmd FileType sh call SetupDevEnvironment()
+augroup END
+
+" Markdown settings
+augroup markdown_settings
+  autocmd!
+  autocmd FileType markdown setlocal spell
+  autocmd FileType markdown setlocal textwidth=80
+  
+  " Preview markdown in browser
+  if has('mac')
+    autocmd FileType markdown nnoremap <buffer> <Leader>mp :silent !open -a "Safari" "%"<CR>:redraw!<CR>
+  elseif has('unix')
+    autocmd FileType markdown nnoremap <buffer> <Leader>mp :silent !xdg-open "%"<CR>:redraw!<CR>
+  endif
+augroup END
+
+" }}}
+
+" vim: set foldmethod=marker foldlevel=0 nomodeline:

@@ -186,25 +186,10 @@ alias macjava='/usr/libexec/java_home -V'
 # Calculator function (use: calc 2+2)
 calc() { echo "$*" | bc -l; }
 
-# Note-taking with fzf
+# Note-taking with vimwiki
 n() {
-    local notes_dir="$HOME/.notes"
-
-    # Create notes directory if it doesn't exist
-    if [[ ! -d "$notes_dir" ]]; then
-        mkdir -p "$notes_dir"
-        echo "Created notes directory: $notes_dir"
-    fi
-
-    # Use native shell globbing instead of ls
-    local note
-    note=$(find "$notes_dir" -maxdepth 1 -type f -name "*$**" -exec basename {} \; 2>/dev/null | \
-        fzf --info=inline \
-            --preview-window 'follow' \
-            --preview "bat --style=numbers --color=always $notes_dir/{1} 2>/dev/null || cat $notes_dir/{1}" \
-            --bind "enter:execute(${EDITOR:-vim} $notes_dir/{1})" \
-            --bind 'ctrl-n:print-query' \
-            --prompt "notes > ")
+    # Open vimwiki index in vim
+    vim -c "VimwikiIndex"
 }
 
 # ============================================================================

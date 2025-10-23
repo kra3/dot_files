@@ -1,0 +1,120 @@
+" ===> GVim/MacVim Configuration
+" Description: GUI-specific Vim settings for GVim/MacVim
+"
+" This file is loaded AFTER ~/.vimrc and contains only GUI-specific settings.
+" All core Vim configuration is in ~/.vimrc.
+
+" ===> Font Configuration {{{"
+
+" Use Nerd Font for icon/symbol support (matches terminal setup)
+set guifont=FuraCode\ Nerd\ Font\ Medium:h12
+
+" Enable ligatures on macOS (requires MacVim with ligature support)
+if has("gui_macvim")
+  set macligatures
+endif
+
+" }}}
+
+" ===> Window Appearance {{{"
+
+" Window size (adjust to your preference)
+set lines=50           " Height in lines
+set columns=150        " Width in columns
+
+" Start in fullscreen mode (optional - uncomment if desired)
+" if has("gui_macvim")
+"   set fuoptions=maxvert,maxhorz
+"   au GUIEnter * set fullscreen
+" endif
+
+" }}}
+
+" ===> GUI Options - Minimal Interface {{{"
+
+" Remove GUI clutter for clean, distraction-free editing
+set guioptions-=T      " No Toolbar
+set guioptions-=m      " No Menubar
+set guioptions-=l      " No left scrollbar
+set guioptions-=L      " No left scrollbar when vsplit
+set guioptions-=r      " No right scrollbar
+set guioptions-=R      " No right scrollbar when vsplit
+set guioptions-=b      " No bottom scrollbar
+
+" Keep these useful GUI options:
+" set guioptions+=a    " Visual selection auto-copies to clipboard
+" set guioptions+=c    " Use console dialogs instead of popup dialogs
+" set guioptions+=e    " Use GUI tabs (instead of terminal-style)
+
+" }}}
+
+" ===> macOS-Specific Settings {{{"
+
+if has("gui_macvim")
+  " Better font rendering
+  set antialias
+
+  " Subtle transparency (0=opaque, 100=transparent)
+  " Adjust to your preference or comment out for opaque background
+  set transparency=5
+
+  " Use macOS keybindings for common operations
+  " Cmd+C/V/X for copy/paste/cut
+  " (MacVim usually handles this automatically)
+
+  " Full keyboard access for dialogs (enable tabbing through buttons)
+  set macmeta
+endif
+
+" }}}
+
+" ===> Color Scheme {{{"
+
+" Match terminal theme - Catppuccin Mocha
+" This ensures consistency between terminal Vim and GUI Vim
+if exists('g:plugs') && has_key(g:plugs, 'vim')
+  " Only set if Catppuccin is installed
+  try
+    colorscheme catppuccin_mocha
+  catch
+    " Catppuccin not available, use default
+  endtry
+endif
+
+" Ensure true color support
+set termguicolors
+
+" }}}
+
+" ===> Clipboard Integration {{{"
+
+" Use system clipboard by default (same as terminal Vim)
+" This is usually set in ~/.vimrc, but ensuring it here too
+set clipboard=unnamed,unnamedplus
+
+" }}}
+
+" ===> Cursor Settings {{{"
+
+" Cursor shape and blinking
+" Block cursor in normal mode, vertical bar in insert mode
+" set guicursor=n-v-c:block-Cursor
+" set guicursor+=i:ver25-Cursor
+" set guicursor+=r-cr:hor20-Cursor
+
+" Disable cursor blinking (personal preference)
+set guicursor+=a:blinkon0
+
+" }}}
+
+" ===> Mouse Settings {{{"
+
+" Enable mouse support in all modes
+set mouse=a
+
+" Hide mouse pointer while typing
+set mousehide
+
+" }}}
+
+" vim: set foldmethod=marker foldlevel=0 nomodeline:
