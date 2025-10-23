@@ -1,0 +1,15 @@
+XIM=ibus
+XIM_PROGRAM="/usr/bin/ibus-daemon"
+ICON="/usr/share/icons/hicolor/scalable/apps/ibus.svg"
+XIM_ARGS="-r --xim"
+PREFERENCE_PROGRAM=/usr/bin/ibus-setup
+SHORT_DESC="IBus"
+GTK_IM_MODULE=ibus
+
+if test -f /usr/lib/qt4/plugins/inputmethods/libqtim-ibus.so || \
+   test -f /usr/lib64/qt4/plugins/inputmethods/libqtim-ibus.so;
+then
+    QT_IM_MODULE=ibus
+else
+    QT_IM_MODULE=xim
+fi

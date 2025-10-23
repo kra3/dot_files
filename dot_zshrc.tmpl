@@ -1,0 +1,171 @@
+# ============================================================================
+# zsh Configuration
+# ============================================================================
+
+# ============================================================================
+# Powerlevel10k Instant Prompt
+# ============================================================================
+
+# Enable Powerlevel10k instant prompt. MUST be at the very top for best performance.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Detect Homebrew prefix (works on both Apple Silicon and Intel Macs)
+BREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix 2>/dev/null)}"
+
+# ============================================================================
+# Source Common Shell Configuration
+# ============================================================================
+
+# Source common shell configuration AFTER instant prompt
+[ -f ~/.shell_common.sh ] && source ~/.shell_common.sh
+
+# ============================================================================
+# zsh Completions
+# ============================================================================
+
+# Add Homebrew completions to fpath
+if [[ -n "$BREW_PREFIX" ]]; then
+    fpath=("$BREW_PREFIX/share/zsh-completions" $fpath)
+    # Also add site-functions (for Homebrew-installed tools)
+    fpath=("$BREW_PREFIX/share/zsh/site-functions" $fpath)
+fi
+
+# Add custom completions directory
+fpath=(~/.zsh/completions $fpath)
+
+# Generate completions for tools that support it (run once)
+# Docker
+if command -v docker &> /dev/null && [[ ! -f ~/.zsh/completions/_docker ]]; then
+    mkdir -p ~/.zsh/completions
+    docker completion zsh > ~/.zsh/completions/_docker 2>/dev/null
+fi
+
+# Speed up compinit by only checking cache once a day
+autoload -Uz compinit
+if [[ -n ${HOME}/.zcompdump(#qNmh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
+
+# Generate completions for tools that need eval (run each time)
+# GitHub CLI
+if command -v gh &> /dev/null; then
+    eval "$(gh completion -s zsh)"
+fi
+
+# AWS CLI (zsh-style completion)
+if command -v aws_completer &> /dev/null; then
+    autoload -Uz bashcompinit && bashcompinit
+    complete -C aws_completer aws
+fi
+
+# Modern completion styling
+zstyle ':completion:*' menu select                                    # Enable menu selection
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"              # Colorize completions using LS_COLORS
+zstyle ':completion:*' group-name ''                                  # Group completions by type
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'    # Style for descriptions
+zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'        # Style for messages
+zstyle ':completion:*:warnings' format '%F{red}-- no matches --%f'   # Style for warnings
+
+# Completion caching (speeds up slow completions like apt, brew, etc.)
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+# ============================================================================
+# History Configuration
+# ============================================================================
+
+HISTSIZE=50000                # More history in memory
+SAVEHIST=100000               # More history in file
+HISTFILE=~/.zsh_history
+
+# History options
+setopt EXTENDED_HISTORY          # Write timestamp to history file
+setopt HIST_IGNORE_ALL_DUPS      # Don't record duplicate entries
+setopt HIST_FIND_NO_DUPS         # Don't display duplicates in search
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicates first when trimming
+setopt HIST_VERIFY               # Show command with history expansion before running
+setopt SHARE_HISTORY             # Share history between sessions
+setopt APPEND_HISTORY            # Append to history file
+setopt INC_APPEND_HISTORY        # Write to history file immediately
+
+# ============================================================================
+# zsh Options
+# ============================================================================
+
+# Completion options
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # Case-insensitive completion
+setopt COMPLETE_IN_WORD          # Complete from cursor position
+setopt ALWAYS_TO_END             # Move cursor to end after completion
+setopt LIST_PACKED               # Compact completion lists (more per screen)
+
+# Glob options
+setopt EXTENDED_GLOB             # Enable extended globbing (#, ~, ^)
+setopt NUMERIC_GLOB_SORT         # Sort numerically (file1, file2, file10)
+
+# Directory navigation
+setopt AUTO_CD                   # cd to directory by typing name
+setopt AUTO_PUSHD                # Push directories onto stack
+setopt PUSHD_IGNORE_DUPS         # Don't push duplicates
+setopt PUSHD_SILENT              # Don't print directory stack
+
+# Safety options
+setopt NO_CLOBBER                # Don't overwrite files with > (use >| to override)
+
+# Misc options
+setopt CORRECT                   # Command correction
+
+# ============================================================================
+# Zinit Plugin Manager
+# ============================================================================
+
+# Zinit installation is handled by provisioning script: run_once_install-tools.sh
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Verify Zinit is installed
+if [[ ! -d "$ZINIT_HOME" ]]; then
+    echo "⚠️  Zinit not found. Run: chezmoi apply (or re-run provisioning script)"
+    echo "   Installation will happen automatically on next chezmoi apply."
+else
+    # Load zinit
+    source "${ZINIT_HOME}/zinit.zsh"
+
+    # Load Powerlevel10k theme (must be loaded early, but after instant prompt)
+    zinit ice depth=1
+    zinit light romkatv/powerlevel10k
+
+    # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
+    [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+    # Load plugins in turbo mode (after prompt, zero startup impact)
+    # zsh-autosuggestions - Fish-like autosuggestions
+    zinit ice wait'0' lucid atload'_zsh_autosuggest_start'
+    zinit light zsh-users/zsh-autosuggestions
+
+    # zsh-syntax-highlighting - Command validation as you type
+    # MUST be loaded after compinit and other plugins
+    zinit ice wait'0' lucid
+    zinit light zsh-users/zsh-syntax-highlighting
+fi
+
+# ============================================================================
+# Key Bindings
+# ============================================================================
+
+# Use emacs key bindings
+bindkey -e
+
+# Better history search (Ctrl+R/S for incremental search)
+bindkey '^R' history-incremental-search-backward
+bindkey '^S' history-incremental-search-forward
+
+# Up/Down arrow search history based on typed prefix (like .inputrc)
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search        # Up arrow
+bindkey '^[[B' down-line-or-beginning-search      # Down arrow

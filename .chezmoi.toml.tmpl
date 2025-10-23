@@ -1,0 +1,56 @@
+{{- $hostname := .chezmoi.hostname -}}
+{{- $fqdnHostname := .chezmoi.fqdnHostname -}}
+{{- $sourceDir := .chezmoi.sourceDir -}}
+
+{{- /* Detect if this is a work machine first */ -}}
+{{- $workHostname := "" -}}
+{{- if hasKey . "workHostname" -}}
+{{-   $workHostname = .workHostname -}}
+{{- else -}}
+{{-   $workHostname = promptString "Work machine hostname (without .local)" "Work-MacBook-Pro" -}}
+{{- end -}}
+
+{{- $isWork := or (eq $hostname $workHostname) (eq $fqdnHostname (printf "%s.local" $workHostname)) -}}
+
+{{- /* Prompt for email and GitHub username (only once, based on machine type) */ -}}
+{{- $email := "" -}}
+{{- $githubUser := "" -}}
+
+{{- if hasKey . "email" -}}
+{{-   $email = .email -}}
+{{- else -}}
+{{-   if $isWork -}}
+{{-     $email = promptString "Work email address" "your.name@company.com" -}}
+{{-   else -}}
+{{-     $email = promptString "Personal email address" "your.email@gmail.com" -}}
+{{-   end -}}
+{{- end -}}
+
+{{- if hasKey . "githubUser" -}}
+{{-   $githubUser = .githubUser -}}
+{{- else -}}
+{{-   if $isWork -}}
+{{-     $githubUser = promptString "Work GitHub username" "work-username" -}}
+{{-   else -}}
+{{-     $githubUser = promptString "Personal GitHub username" "personal-username" -}}
+{{-   end -}}
+{{- end -}}
+
+sourceDir = {{ $sourceDir | quote }}
+
+[data]
+    hostname = {{ $hostname | quote }}
+    fqdnHostname = {{ $fqdnHostname | quote }}
+    workHostname = {{ $workHostname | quote }}
+    email = {{ $email | quote }}
+    githubUser = {{ $githubUser | quote }}
+
+    {{- if $isWork }}
+    # Work machine
+    isWork = true
+    isPersonal = false
+    {{- else }}
+    # Personal machine
+    isWork = false
+    isPersonal = true
+    {{- end }}

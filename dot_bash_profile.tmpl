@@ -1,0 +1,17 @@
+# ============================================================================
+# bash Profile - Entry Point
+# ============================================================================
+
+# ============================================================================
+# pyenv Path Setup
+# ============================================================================
+# Must run before 'pyenv init -' in .bashrc (pyenv v2.0+ style)
+
+if command -v pyenv &> /dev/null; then
+    eval "$(pyenv init --path)"
+fi
+
+# Source bashrc if it exists
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+fi

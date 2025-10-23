@@ -1,0 +1,13 @@
+# ============================================================================
+# zsh Profile - Login Shell Configuration
+# ============================================================================
+# This file is sourced by login shells BEFORE .zshrc
+
+# ============================================================================
+# pyenv Path Setup
+# ============================================================================
+# Must run before 'pyenv init -' in .zshrc (pyenv v2.0+ style)
+
+if command -v pyenv &> /dev/null; then
+    eval "$(pyenv init --path)"
+fi

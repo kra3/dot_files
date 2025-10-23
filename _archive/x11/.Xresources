@@ -1,0 +1,185 @@
+!You may want to run $ xrdb -merge ~/.Xresources with each update
+
+!Xft settings:
+
+Xft*dpi:                96
+Xft*hinting:            true
+! hintstyle 3 for flat-panel displays
+Xft*hintstyle:          2
+Xft*antialias:          true
+! uncomment/adjust for flat-panel display
+Xft*rgba:              rgb
+
+! Solarized color scheme for the X Window System
+!
+! http://ethanschoonover.com/solarized
+
+! Common
+
+#define S_yellow        #b58900
+#define S_orange        #cb4b16
+#define S_red           #dc322f
+#define S_magenta       #d33682
+#define S_violet        #6c71c4
+#define S_blue          #268bd2
+#define S_cyan          #2aa198
+#define S_green         #859900
+
+! Dark
+#define S_base03        #002b36
+#define S_base02        #073642
+#define S_base01        #586e75
+#define S_base00        #657b83
+#define S_base0         #839496
+#define S_base1         #93a1a1
+#define S_base2         #eee8d5
+#define S_base3         #fdf6e3
+
+! Light
+!#define S_base03        #fdf6e3
+!#define S_base02        #eee8d5
+!#define S_base01        #93a1a1
+!#define S_base00        #839496
+!#define S_base0         #657b83
+!#define S_base1         #586e75
+!#define S_base2         #073642
+!#define S_base3         #002b36
+
+
+! Solarized color scheme for the X Window System
+
+
+! To only apply colors to your terminal, for example, prefix
+! the color assignment statement with its name. Example:
+!
+! URxvt*background:            S_base03
+
+*background:              S_base03
+*foreground:              S_base0
+*fading:                  40
+*fadeColor:               S_base03
+*cursorColor:             S_base1
+*pointerColorBackground:  S_base01
+*pointerColorForeground:  S_base1
+
+*color0:                  S_base02
+*color1:                  S_red
+*color2:                  S_green
+*color3:                  S_yellow
+*color4:                  S_blue
+*color5:                  S_magenta
+*color6:                  S_cyan
+*color7:                  S_base2
+*color8:                  S_base03
+*color9:                  S_orange
+*color10:                 S_base01
+*color11:                 S_base00
+*color12:                 S_base0
+*color13:                 S_violet
+*color14:                 S_base1
+*color15:                 S_base3
+
+! URxvt settings
+
+!URxvt.font:              -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
+URxvt.font:              xft:Terminus:size=12:hinting=true;xft:AnjaliOldLipi:style=Regular:hinting=true
+URxvt.boldFont:          -*-terminus-medium-r-*-*-14-*-*-*-*-*-*-*
+URxvt.loginShell:        true
+URxvt.scrollBar:         false
+URxvt.secondaryScroll:   true
+URxvt.scrollTtyKeypress: true
+URxvt.scrollstyle:       plain
+!URxvt.scrollBar_right:  true
+URxvt.termName:          rxvt-unicode-256color
+URxvt.buffered:          true
+!URxvt.perl-ext:          default,matcher
+URxvt.perl-ext-common:   keyboard-select, url-select, clipboard
+URxvt.matcher.button:    1
+URxvt.urlLauncher:       /usr/bin/firefox
+URxvt.borderColor:       #000030
+URxvt.internalBorder:    1
+URxvt.transparent:       false
+URxvt.depth:             32
+URxvt.dynamicColors:     on
+URxvt.geometry:          80x24
+URxvt.allow_bold:        false
+URxvt.colorUL:           #366060
+URxvt.underlineColor:    #dfaf8f
+URxvt.intensityStyles:   true
+!URxvt.reverseVideo:      true
+!URxvt.inputMethod:       ibus
+!URxvt.preeditType:       OverTheSpot
+!URxvt.keysym.C-A-c:      perl:clipboard:copy
+!URxvt.keysym.C-A-v:      perl:clipboard:paste
+URxvt.keysym.M-Escape:   perl:keyboard-select:activate
+URxvt.keysym.M-s:        perl:keyboard-select:search
+URxvt.keysym.M-u:        perl:url-select:select_next
+URxvt.keysym.M-c:        perl:clipboard:copy
+URxvt.keysym.M-v:        perl:clipboard:paste
+URxvt.keysym.M-C-v:      perl:clipboard:paste_escaped
+URxvt.url-select.autocopy:  true
+URxvt.url-select.underline: true
+URxvt.clipboard.autocopy:   true
+
+! xterm settings:
+
+xterm*loginShell:       true
+xterm*termName:         xterm-256color
+xterm*faceName:         xft:Terminus:size=12:hinting=true,AnjaliOldLipi:style=Regular:size=12
+!xterm*altSendsEscape:   true
+! stop eating ALT-
+xterm*eightBitInput:    false
+xterm*eightBitControl:  false
+xterm*eightBitOutput:   true
+xterm*saveLines:        32767
+xterm*scrollTtyKeypress:true
+xterm*scrollTtyOutput:  false
+xterm*scrollBar:        false
+xterm*VT100.geometry:   80x24
+xterm*rightScrollBar:   true
+xterm*jumpScroll:       true
+xterm*multiScroll:      true
+xterm*toolBar:          false
+xterm*metaSendsEscape:  true
+xterm*cursorBlink:      true
+xterm*cursorOffTime:    500
+xterm*cursorOnTime:     500
+xterm*reverseVideo:     false
+xterm*colorBD:          white
+xterm*colorBDMode:      true
+xterm*colorRVMode:      false
+xterm*colorULMode:      true
+xterm*wideChars:        false
+xterm*boldMode:         false
+xterm*colorUL:          #366060
+xterm*underlineColor:   #dfaf8f
+
+! http://blog.ssokolow.com/archives/2011/05/01/modernizing-xterms-paste/
+! {{{ Quick Reference
+!
+! Scrolling:
+!   Scroll Wheel
+!   Shift-PgUp/PgDn
+!
+! Copy/Paste:
+!   Mouse-Select        : Copy to PRIMARY
+!   Shift + Mouse-Select: Copy to CLIPBOARD
+!
+!   Middle-Click        : Paste from PRIMARY
+!   Shift + Middle-Click: Paste from CLIPBOARD
+!
+!   Ctrl+Shift+V        : Paste from CLIPBOARD
+!   Ctrl+Alt+Shift+V    : Paste from PRIMARY
+!
+
+*VT100.Translations: #override \
+                    Shift <Key>Up:              scroll-back(1) \n\
+                    Shift <Key>Down:            scroll-forw(1) \n\
+                    ~Meta Shift Ctrl <Key>V:    insert-selection(CLIPBOARD) \n\
+                     Meta Shift Ctrl <Key>V:    insert-selection(PRIMARY) \n\
+                    ~Shift <Btn1Up>:            select-end(PRIMARY, CUT_BUFFER0) \n\
+                     Shift <Btn1Up>:            select-end(CLIPBOARD, CUT_BUFFER1) \n\
+                    ~Shift ~Ctrl ~Meta <Btn2Up>:insert-selection(PRIMARY, CUT_BUFFER0) \n\
+                     Shift ~Ctrl ~Meta <Btn2Up>:insert-selection(CLIPBOARD, CUT_BUFFER1)
+
+

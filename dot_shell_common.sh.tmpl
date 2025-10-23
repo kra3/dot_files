@@ -1,0 +1,383 @@
+#!/usr/bin/env bash
+# Common shell configuration for both bash and zsh
+# Sourced by ~/.bashrc and ~/.zshrc
+
+# ============================================================================
+# Environment Variables
+# ============================================================================
+
+export EDITOR="vim"
+export LC_ALL=en_US.UTF-8
+export LC_COLLATE=C
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+
+# XDG Base Directory Specification
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+
+# Detect Homebrew prefix (works on both Apple Silicon and Intel Macs)
+if [[ -z "$BREW_PREFIX" ]]; then
+    if [[ -x /opt/homebrew/bin/brew ]]; then
+        BREW_PREFIX="/opt/homebrew"
+    elif [[ -x /usr/local/bin/brew ]]; then
+        BREW_PREFIX="/usr/local"
+    else
+        BREW_PREFIX="$(brew --prefix 2>/dev/null)"
+    fi
+fi
+
+# Color configuration for ls
+# Use vivid for modern, maintainable LS_COLORS (if available)
+if command -v vivid &> /dev/null; then
+    export LS_COLORS="$(vivid generate catppuccin-mocha)"
+else
+    # Fallback to reasonable defaults
+    export LS_COLORS='di=34:ln=36:so=35:pi=33:ex=32:bd=33:cd=33:su=31:sg=31:tw=34:ow=34'
+fi
+
+# Quick cd to common directories
+# Note: Not exported to avoid breaking scripts that use 'cd'
+# CDPATH only affects interactive cd commands in your shell
+CDPATH=.:~:~/src
+
+# Pager configuration
+export PAGER="less"
+export LESS="-R -F -X -i"  # Raw colors, quit if one screen, no init, case-insensitive
+if [[ -n "$BREW_PREFIX" && -x "$BREW_PREFIX/bin/lesspipe.sh" ]]; then
+    export LESSOPEN="|$BREW_PREFIX/bin/lesspipe.sh %s"
+fi
+
+# Python configuration
+export PYENV_ROOT="$HOME/.pyenv"
+export PIP_REQUIRE_VIRTUALENV=true  # Prevent accidental system-wide pip installs
+
+# FZF configuration
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Gradle configuration
+export GRADLE_COMPLETION_UNQUALIFIED_TASKS="true"
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+
+# ============================================================================
+# PATH Configuration
+# ============================================================================
+
+# Helper function to add to PATH (avoids duplicates)
+_add_to_path() {
+    local dir="$1"
+    local position="${2:-prepend}"  # prepend or append
+
+    # Only add if directory exists and not already in PATH
+    if [[ -d "$dir" && ":$PATH:" != *":$dir:"* ]]; then
+        if [[ "$position" == "append" ]]; then
+            PATH="$PATH:$dir"
+        else
+            PATH="$dir:$PATH"
+        fi
+    fi
+}
+
+# Priority paths (prepend - highest priority first)
+_add_to_path "$HOME/bin"
+_add_to_path "$HOME/.local/bin"
+
+# Homebrew (works on both Apple Silicon and Intel Macs)
+if [[ -n "$BREW_PREFIX" ]]; then
+    _add_to_path "$BREW_PREFIX/bin"
+    _add_to_path "$BREW_PREFIX/sbin"
+    _add_to_path "$BREW_PREFIX/opt/libpq/bin"  # PostgreSQL client tools
+fi
+
+# Version managers
+_add_to_path "$HOME/.jenv/bin"  # jenv (Java)
+
+# Language-specific package managers
+_add_to_path "$HOME/.yarn/bin"
+_add_to_path "$HOME/.config/yarn/global/node_modules/.bin"
+
+# Development tools (append - lower priority)
+_add_to_path "$HOME/Library/Application Support/Coursier/bin" append
+_add_to_path "$HOME/.local/share/coursier/bin" append
+_add_to_path "$HOME/Library/Application Support/JetBrains/Toolbox/scripts" append
+_add_to_path "$HOME/.local/share/JetBrains/Toolbox/scripts" append
+
+# Clean up helper function
+unset -f _add_to_path
+
+# Export PATH
+export PATH
+
+# ============================================================================
+# Aliases
+# ============================================================================
+
+# System
+if [[ $(uname -s) = Darwin ]]; then
+    alias brewup='brew update; brew upgrade; brew cleanup; brew doctor'
+fi
+
+# Modern CLI tools - eza, bat, ripgrep
+alias ls='eza'
+alias l='eza -F'
+alias ll='eza -lhF --git'
+alias la='eza -lhaF --git'
+alias lla='eza -al --git'
+alias lsd='eza -lD'  # List only directories
+alias tree='eza --tree'
+
+alias cat='bat --paging=never'
+alias less='bat --paging=always'
+
+# Note: ripgrep (rg) has different flags than grep
+# Don't alias grep='rg' as it breaks scripts expecting POSIX grep
+# Use rg directly for better performance and features
+
+# Navigation
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias -- -="cd -"
+
+# Safety
+alias rm='rm -iv'
+alias cp='cp -v'
+alias mv='mv -v'
+
+# Utilities
+alias cls='clear'
+alias vi='vim'
+alias h='history'
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T"'
+alias today='date +"%d-%m-%Y"'
+alias mount='mount | column -t'
+
+# Git
+alias g='git'
+
+# Diff
+if command -v colordiff > /dev/null 2>&1; then
+    alias diff='colordiff'
+fi
+
+# Gradle wrapper
+alias gradle='gw'
+
+# Python install with framework on macOS
+alias pyenvinstall='env PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install'
+
+{{- if eq .chezmoi.os "darwin" }}
+# macOS-specific: List Java versions
+alias macjava='/usr/libexec/java_home -V'
+{{- end }}
+
+# ============================================================================
+# Functions
+# ============================================================================
+
+# Calculator function (use: calc 2+2)
+calc() { echo "$*" | bc -l; }
+
+# Note-taking with fzf
+n() {
+    local notes_dir="$HOME/.notes"
+
+    # Create notes directory if it doesn't exist
+    if [[ ! -d "$notes_dir" ]]; then
+        mkdir -p "$notes_dir"
+        echo "Created notes directory: $notes_dir"
+    fi
+
+    # Use native shell globbing instead of ls
+    local note
+    note=$(find "$notes_dir" -maxdepth 1 -type f -name "*$**" -exec basename {} \; 2>/dev/null | \
+        fzf --info=inline \
+            --preview-window 'follow' \
+            --preview "bat --style=numbers --color=always $notes_dir/{1} 2>/dev/null || cat $notes_dir/{1}" \
+            --bind "enter:execute(${EDITOR:-vim} $notes_dir/{1})" \
+            --bind 'ctrl-n:print-query' \
+            --prompt "notes > ")
+}
+
+# ============================================================================
+# Tool Initializations
+# ============================================================================
+
+# jenv (Java version manager)
+if command -v jenv &> /dev/null; then
+    eval "$(jenv init -)"
+fi
+
+# pyenv (Python version manager)
+if command -v pyenv &> /dev/null; then
+    eval "$(pyenv init -)"
+    # Only initialize virtualenv if in bash (zsh doesn't need it)
+    if [ -n "$BASH_VERSION" ]; then
+        eval "$(pyenv virtualenv-init -)"
+    fi
+fi
+
+# nvm (Node Version Manager) - Lazy loading for performance
+# nvm is slow to load, so we lazy-load it when first needed
+if [[ -n "$BREW_PREFIX" && -s "$BREW_PREFIX/opt/nvm/nvm.sh" ]]; then
+    # Set NVM_DIR but don't load nvm yet
+    export NVM_DIR="$HOME/.nvm"
+
+    # Create lazy-loading wrapper functions
+    nvm() {
+        unset -f nvm node npm npx
+        # Now load nvm
+        [ -s "$BREW_PREFIX/opt/nvm/nvm.sh" ] && source "$BREW_PREFIX/opt/nvm/nvm.sh"
+        # Load bash completion if in bash
+        if [ -n "$BASH_VERSION" ]; then
+            [ -s "$BREW_PREFIX/opt/nvm/bash_completion.d/nvm" ] && source "$BREW_PREFIX/opt/nvm/bash_completion.d/nvm"
+        elif [ -n "$ZSH_VERSION" ]; then
+            [ -s "$BREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$BREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
+        fi
+        # Execute the actual nvm command
+        nvm "$@"
+    }
+
+    # Lazy-load for node, npm, npx too
+    node() {
+        unset -f nvm node npm npx
+        [ -s "$BREW_PREFIX/opt/nvm/nvm.sh" ] && source "$BREW_PREFIX/opt/nvm/nvm.sh"
+        node "$@"
+    }
+
+    npm() {
+        unset -f nvm node npm npx
+        [ -s "$BREW_PREFIX/opt/nvm/nvm.sh" ] && source "$BREW_PREFIX/opt/nvm/nvm.sh"
+        npm "$@"
+    }
+
+    npx() {
+        unset -f nvm node npm npx
+        [ -s "$BREW_PREFIX/opt/nvm/nvm.sh" ] && source "$BREW_PREFIX/opt/nvm/nvm.sh"
+        npx "$@"
+    }
+fi
+
+# zoxide - smart cd
+if command -v zoxide &> /dev/null; then
+    if [ -n "$ZSH_VERSION" ]; then
+        eval "$(zoxide init zsh)"
+    elif [ -n "$BASH_VERSION" ]; then
+        eval "$(zoxide init bash)"
+    fi
+fi
+
+# fzf - fuzzy finder
+if [ -n "$BASH_VERSION" ]; then
+    [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+elif [ -n "$ZSH_VERSION" ]; then
+    [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+fi
+
+# direnv
+if command -v direnv &> /dev/null; then
+    if [ -n "$ZSH_VERSION" ]; then
+        eval "$(direnv hook zsh)"
+    elif [ -n "$BASH_VERSION" ]; then
+        eval "$(direnv hook bash)"
+    fi
+fi
+
+# ============================================================================
+# Tmux Functions
+# ============================================================================
+
+# Sesh integration - quick session connect
+ts() {
+    if [ -z "$1" ]; then
+        # Interactive mode with fzf
+        if command -v sesh &> /dev/null && command -v fzf &> /dev/null; then
+            local session
+            session=$(sesh list | fzf --height 40% --reverse --border --prompt '⚡ ' \
+                --color 'fg:#cdd6f4,bg:#1e1e2e,hl:#cba6f7' \
+                --color 'fg+:#cdd6f4,bg+:#313244,hl+:#cba6f7' \
+                --color 'info:#89b4fa,prompt:#cba6f7,pointer:#f38ba8')
+            [ -n "$session" ] && sesh connect "$session"
+        else
+            echo "sesh or fzf not found. Install with: brew install sesh fzf"
+        fi
+    else
+        # Direct mode with session name/path
+        sesh connect "$1"
+    fi
+}
+
+# Quick tmux session for current directory
+tn() {
+    local session_name="${1:-$(basename "$PWD")}"
+    tmux new-session -A -s "$session_name"
+}
+
+# Kill tmux session with fzf
+tk() {
+    if [ -z "$1" ]; then
+        local session
+        session=$(tmux list-sessions -F '#S' | fzf --height 40% --reverse --prompt 'Kill session: ')
+        [ -n "$session" ] && tmux kill-session -t "$session"
+    else
+        tmux kill-session -t "$1"
+    fi
+}
+
+# Tmux session switcher (works from inside tmux)
+tw() {
+    if [ -n "$TMUX" ]; then
+        local session current_session
+        current_session=$(tmux display-message -p '#S')
+        session=$(tmux list-sessions -F '#S' | command grep -v "^${current_session}$" | fzf --height 40% --reverse --prompt 'Switch to: ')
+        [ -n "$session" ] && tmux switch-client -t "$session"
+    else
+        echo "Not in a tmux session"
+    fi
+}
+
+# Tmux window switcher (works from inside tmux)
+twd() {
+    if [ -n "$TMUX" ]; then
+        local window
+        window=$(tmux list-windows -a -F '#S:#I:#W' | fzf --height 40% --reverse --prompt 'Go to window: ')
+        [ -n "$window" ] && tmux switch-client -t "$(echo "$window" | awk -F: '{print $1":"$2}')"
+    else
+        echo "Not in a tmux session"
+    fi
+}
+
+# List all tmux sessions with colors
+tls() {
+    if command -v tmux &> /dev/null; then
+        echo "Active tmux sessions:"
+        tmux list-sessions 2>/dev/null || echo "No active sessions"
+    fi
+}
+
+# Shortcut to edit tmux config
+tedit() {
+    ${EDITOR:-vim} ~/.tmux/.tmux.conf
+}
+
+# Reload tmux config from outside tmux
+treload() {
+    tmux source-file ~/.tmux/.tmux.conf
+    echo "Tmux config reloaded"
+}
+
+# ============================================================================
+# Local/Private Configuration
+# ============================================================================
+
+# Source local aliases and functions not tracked in git
+# Create ~/.shell_local for machine-specific or private configs
+[ -f ~/.shell_local ] && source ~/.shell_local

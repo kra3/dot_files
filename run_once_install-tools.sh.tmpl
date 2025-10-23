@@ -1,0 +1,255 @@
+#!/bin/bash
+# Development tools installation for dotfiles
+# This script runs once on first chezmoi apply
+
+set -e
+
+echo "📦 Installing development tools..."
+echo ""
+
+{{- if eq .chezmoi.os "darwin" }}
+# macOS installation via Homebrew
+if ! command -v brew &> /dev/null; then
+    echo "⚠️  Homebrew not found. Please install it first:"
+    echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+    exit 1
+fi
+
+echo "🍺 Installing via Homebrew..."
+echo ""
+
+# Core tools
+brew install \
+    git \
+    git-delta \
+    git-absorb \
+    difftastic \
+    gh \
+    lazygit \
+    tmux \
+    fzf \
+    zoxide \
+    sesh \
+    eza \
+    bat \
+    ripgrep \
+    vim \
+    curl \
+    jq \
+    awscli \
+    docker \
+    docker-compose
+
+# Shell enhancements
+brew install \
+    zsh-completions \
+    direnv \
+    colordiff \
+    lesspipe \
+    bc \
+    vivid
+
+# Version managers
+brew install \
+    pyenv \
+    pyenv-virtualenv \
+    jenv \
+    nvm
+
+# Build tools
+brew install gng  # Gradle/Maven wrapper (provides 'gw' command)
+
+{{- else if eq .chezmoi.os "linux" }}
+# Linux installation
+if command -v apt-get &> /dev/null; then
+    echo "📦 Installing via apt..."
+    sudo apt-get update
+
+    # Core tools
+    sudo apt-get install -y \
+        git \
+        tmux \
+        fzf \
+        ripgrep \
+        gh \
+        vim \
+        curl \
+        jq \
+        docker.io \
+        docker-compose
+
+    # AWS CLI (via pip if not available)
+    if ! command -v aws &> /dev/null; then
+        echo "Installing AWS CLI..."
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+        unzip -q /tmp/awscliv2.zip -d /tmp
+        sudo /tmp/aws/install
+        rm -rf /tmp/aws /tmp/awscliv2.zip
+    fi
+
+    # Shell enhancements (if available)
+    sudo apt-get install -y \
+        direnv \
+        colordiff \
+        bc \
+        zoxide \
+        eza \
+        bat 2>/dev/null || echo "⚠️  Some packages not available via apt"
+
+    # Version managers
+    echo "Installing pyenv..."
+    if [ ! -d "$HOME/.pyenv" ]; then
+        curl https://pyenv.run | bash
+    fi
+
+    echo ""
+    echo "⚠️  Some tools need manual installation:"
+    [ ! -x "$(command -v sesh)" ] && echo "  • sesh: https://github.com/joshmedeski/sesh/releases"
+    [ ! -x "$(command -v lazygit)" ] && echo "  • lazygit: https://github.com/jesseduffield/lazygit/releases"
+    [ ! -x "$(command -v git-absorb)" ] && echo "  • git-absorb: https://github.com/tummychow/git-absorb/releases"
+    [ ! -x "$(command -v difft)" ] && echo "  • difftastic: https://github.com/Wilfred/difftastic/releases"
+    [ ! -x "$(command -v git-delta)" ] && echo "  • git-delta: https://github.com/dandavison/delta/releases"
+    [ ! -x "$(command -v jenv)" ] && echo "  • jenv: https://github.com/jenv/jenv"
+    [ ! -d "$HOME/.nvm" ] && echo "  • nvm: https://github.com/nvm-sh/nvm"
+
+elif command -v yum &> /dev/null; then
+    echo "📦 Installing via yum..."
+
+    # Install available packages
+    sudo yum install -y \
+        git \
+        tmux \
+        fzf \
+        zoxide \
+        eza \
+        bat \
+        ripgrep
+
+    # GitHub CLI
+    if ! command -v gh &> /dev/null; then
+        sudo yum install -y 'dnf-command(config-manager)'
+        sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+        sudo yum install -y gh
+    fi
+
+    echo ""
+    echo "⚠️  Some tools need manual installation:"
+    echo "  • sesh: https://github.com/joshmedeski/sesh/releases"
+    echo "  • lazygit: https://github.com/jesseduffield/lazygit/releases"
+    echo "  • git-delta: https://github.com/dandavison/delta/releases"
+    echo "  • git-absorb: https://github.com/tummychow/git-absorb/releases"
+    echo "  • difftastic: https://github.com/Wilfred/difftastic/releases"
+else
+    echo "⚠️  Unknown package manager. Install manually:"
+    echo ""
+    echo "Core tools:"
+    echo "  • git, tmux, fzf, zoxide, sesh, eza, bat, ripgrep"
+    echo ""
+    echo "Git tools:"
+    echo "  • git-delta: https://github.com/dandavison/delta"
+    echo "  • git-absorb: https://github.com/tummychow/git-absorb"
+    echo "  • difftastic: https://github.com/Wilfred/difftastic"
+    echo "  • gh: https://cli.github.com/"
+    exit 1
+fi
+{{- end }}
+
+# Install TPM (Tmux Plugin Manager)
+echo ""
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+    echo "📥 Installing TPM (Tmux Plugin Manager)..."
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    echo "✅ TPM installed"
+else
+    echo "✅ TPM already installed"
+fi
+
+# Install Zinit (Zsh Plugin Manager)
+echo ""
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [ ! -d "$ZINIT_HOME" ]; then
+    echo "📥 Installing Zinit (Zsh Plugin Manager)..."
+    mkdir -p "$(dirname "$ZINIT_HOME")"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+    echo "✅ Zinit installed"
+else
+    echo "✅ Zinit already installed"
+fi
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ Installation complete!"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "📋 Installed tools:"
+echo ""
+echo "Core:"
+echo "  • git        - Version control"
+echo "  • gh         - GitHub CLI"
+echo "  • vim        - Text editor"
+echo "  • curl       - Data transfer tool"
+echo "  • jq         - JSON processor"
+echo "  • awscli     - AWS command line interface"
+echo "  • docker     - Container platform"
+echo ""
+echo "Terminal multiplexing:"
+echo "  • tmux       - Terminal multiplexer"
+echo "  • sesh       - Smart session manager"
+echo ""
+echo "Navigation & Search:"
+echo "  • fzf        - Fuzzy finder"
+echo "  • zoxide     - Smart directory jumper"
+echo ""
+echo "Git tools:"
+echo "  • delta      - Modern diff pager"
+echo "  • git-absorb - Automatic fixup commits"
+echo "  • difftastic - Syntax-aware structural diffs"
+echo "  • lazygit    - Terminal UI for git"
+echo "  • gh         - GitHub CLI"
+echo ""
+echo "CLI tools:"
+echo "  • eza        - Modern ls replacement"
+echo "  • bat        - Modern cat with syntax highlighting"
+echo "  • ripgrep    - Fast search tool (rg)"
+echo "  • direnv     - Directory-specific environments"
+echo "  • colordiff  - Colorized diff output"
+echo ""
+echo "Shell enhancements:"
+echo "  • zsh-completions - Additional completions"
+echo "  • zinit       - Zsh plugin manager"
+echo "  • lesspipe   - Less input preprocessor"
+echo "  • bc         - Calculator for shell"
+echo "  • vivid      - LS_COLORS generator"
+echo ""
+echo "Version managers:"
+echo "  • pyenv      - Python version manager"
+echo "  • jenv       - Java version manager"
+echo "  • nvm        - Node version manager"
+echo ""
+echo "Build tools:"
+echo "  • gng        - Gradle/Maven wrapper (gw command)"
+echo ""
+echo "Plugin managers:"
+echo "  • tpm        - Tmux plugin manager"
+echo "  • zinit      - Zsh plugin manager"
+echo ""
+echo "Zsh plugins (via Zinit):"
+echo "  • powerlevel10k - Modern zsh theme"
+echo "  • zsh-autosuggestions - Fish-like suggestions"
+echo "  • zsh-syntax-highlighting - Command validation"
+echo ""
+echo "🚀 Next steps:"
+echo "  1. Start a new shell to load all tools"
+echo "  2. Start tmux: tmux"
+echo "  3. Install tmux plugins: Ctrl+a then Shift+I"
+echo "  4. Session manager: Ctrl+a K"
+echo "  5. Lazygit in tmux: Ctrl+a g"
+echo "  6. Configure p10k: p10k configure (for zsh)"
+echo ""
+echo "📖 Git usage:"
+echo "  • git diff   → delta (automatic)"
+echo "  • git dft    → difftastic (structural)"
+echo "  • git absorb → auto-fixup commits"
+echo "  • git fixup  → interactive fixup"
+echo "  • lazygit    → full TUI (or Ctrl+a g in tmux)"
+echo ""

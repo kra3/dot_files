@@ -1,0 +1,15 @@
+[submodule "tmux/addon"]
+	path = tmux/addon
+	url = git://github.com/thewtex/tmux-mem-cpu-load.git
+[submodule "screen/addon"]
+	path = _archive/screen/addon
+	url = git://github.com/thewtex/screen-cpu-mem.git
+[submodule "liquidprompt"]
+	path = _archive/liquidprompt
+	url = https://github.com/nojhan/liquidprompt
+[submodule "virtualenv_wrapper_hooks"]
+	path = _archive/virtualenv_wrapper_hooks
+	url = https://gist.github.com/6224580.git
+[submodule "autojump"]
+	path = _archive/autojump
+	url = git://github.com/joelthelion/autojump.git

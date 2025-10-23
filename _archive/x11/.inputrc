@@ -1,0 +1,19 @@
+# list ambiguous results on single tab press
+set show-all-if-ambiguous on
+
+# character denoting file's type appended to filename (like ls -F)
+set visible-stats on
+
+# vim mode
+# set editing-mode vi
+
+# set completion-ignore-case on
+# set menu-complete-display-prefix on
+# set bell-style none
+#
+# $if Bash
+#   Space: magic-space
+# $endif
+#
+# Tab to menucomplete, Shift + Tab to do it backward
+# Tab: menu-complete

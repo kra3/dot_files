@@ -1,0 +1,96 @@
+# ============================================================================
+# bash Configuration
+# ============================================================================
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# Source common shell configuration
+[ -f ~/.shell_common.sh ] && source ~/.shell_common.sh
+
+# ============================================================================
+# bash Options
+# ============================================================================
+
+# History settings
+HISTCONTROL=ignoreboth:erasedups  # Ignore duplicates and commands starting with space; erase all previous dups
+HISTSIZE=50000                    # More history in memory
+HISTFILESIZE=100000               # More history in file
+HISTTIMEFORMAT='%F %T '           # Timestamp format in history
+
+# Append to history, don't overwrite
+shopt -s histappend
+
+# Check window size after each command
+shopt -s checkwinsize
+
+# Case-insensitive globbing
+shopt -s nocaseglob
+
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell
+
+# Correct directory spelling errors during completion
+shopt -s dirspell
+
+# Enable extended globbing patterns
+shopt -s extglob
+
+# Enable ** for recursive globbing (bash 4.0+)
+shopt -s globstar
+
+# Change directory by typing directory name (bash 4.0+)
+shopt -s autocd
+
+# No accidental overwrites by redirection (can override with >|)
+set -o noclobber
+
+# Enhanced debug output (shows file:line:function when using bash -x)
+export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+
+# Bash 5.1+ options (version check)
+if [[ ${BASH_VERSINFO[0]} -eq 5 && ${BASH_VERSINFO[1]} -ge 1 ]] || [[ ${BASH_VERSINFO[0]} -gt 5 ]]; then
+    shopt -s checkjobs        # Warn about stopped jobs before exit
+    shopt -s progcomp_alias   # Enable completion for aliases
+    shopt -s direxpand        # Expand directory names during completion
+    shopt -s globasciiranges  # Use ASCII ordering for ranges
+fi
+
+# ============================================================================
+# Completions
+# ============================================================================
+
+# cd completion (only directories)
+complete -d cd
+
+# bash completion v2 (Homebrew - works on both Apple Silicon and Intel Macs)
+BREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix 2>/dev/null)}"
+if [[ -n "$BREW_PREFIX" && -r "$BREW_PREFIX/etc/profile.d/bash_completion.sh" ]]; then
+    # bash-completion v2
+    source "$BREW_PREFIX/etc/profile.d/bash_completion.sh"
+elif [[ -r "/usr/share/bash-completion/bash_completion" ]]; then
+    # bash-completion v2 (Linux)
+    source "/usr/share/bash-completion/bash_completion"
+elif [[ -r "/etc/bash_completion" ]]; then
+    # bash-completion v1 (fallback)
+    source "/etc/bash_completion"
+fi
+
+# ============================================================================
+# Prompt
+# ============================================================================
+
+# Simple, informative prompt
+# Format: user@host:~/path$
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # Color prompt
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    # No color
+    PS1='\u@\h:\w\$ '
+fi
+
+{{- if eq .chezmoi.os "darwin" }}
+# Silence bash deprecation warning on macOS
+export BASH_SILENCE_DEPRECATION_WARNING=1
+{{- end }}
