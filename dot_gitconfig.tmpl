@@ -1,0 +1,213 @@
+[init]
+    defaultBranch = main
+
+[core]
+    pager = delta
+    excludesfile = ~/.gitignore_global
+    ignorecase = false
+
+{{- if .isWork }}
+[user]
+    name = Arun Karunagath (kra3)
+    email = {{ .email }}
+
+[github]
+    user = {{ .githubUser }}
+{{- else }}
+[user]
+    name = Arun Karunagath
+    email = {{ .email }}
+
+[github]
+    user = {{ .githubUser }}
+{{- end }}
+
+[push]
+    default = current
+    autoSetupRemote = true    # Auto-track on first push (Git 2.37+)
+
+[pull]
+    rebase = true             # Prefer rebase over merge
+
+[fetch]
+    prune = true              # Auto-prune deleted branches
+    prunetags = true          # Prune deleted tags too
+
+[rebase]
+    autoStash = true          # Auto-stash/unstash when rebasing
+    autoSquash = true         # Auto-squash fixup! commits
+
+[branch]
+    sort = -committerdate     # Sort branches by date (newest first)
+
+[column]
+    ui = auto                 # Columnize output when terminal is wide
+    branch = auto
+    tag = auto
+
+[log]
+    date = relative           # Use relative dates by default
+
+[alias]
+    # Show verbose output about tags, branches or remotes
+    tags = tag -l
+
+    # Branch management
+    b = branch
+    ba = branch -a
+    branches = branch -a
+    currentbranch = "!git symbolic-ref --short HEAD"
+
+    # Remote management
+    r = remote -v
+    remotes = remote -v
+    fu = fetch upstream
+
+    # Branch cleanup
+    cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d"
+    gone = "!git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
+
+    # Pretty log output
+    ll = log --pretty=oneline --abbrev-commit --graph
+    l = log --oneline --graph -10
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+    # Status
+    st = status -sb
+
+    # Commit
+    ci = commit
+    amend = commit --amend
+    wip = !git add . && git commit -n -m "WIP"
+
+    # Checkout / Switch (modern Git 2.23+)
+    co = checkout
+    sw = switch
+    swc = switch -c
+    restore = restore
+    # list branches ordered with latest changed, select with fzf, and checkout
+    coo = "!git branch --sort=-committerdate --no-color --format=\"%(refname:short)\" | fzf | xargs git checkout"
+    cm = checkout main
+    nb = checkout -b
+
+    # Diff
+    df = diff
+    dc = diff --cached
+    ds = diff --staged
+    dw = diff --word-diff
+    dl = diff HEAD~1
+    dft = difftool --tool=difftastic  # Structural diff (syntax-aware)
+    changes = diff --name-status
+    patch = !git --no-pager diff --no-color
+
+    # Add
+    a = add
+    aa = add --all
+    ap = add --patch
+
+    # Reset/Undo
+    undo = reset --soft HEAD^
+    unstage = reset HEAD
+
+    # Stash
+    sl = stash list
+    sp = stash pop
+    ss = stash save
+    sa = stash apply
+
+    # Cherry-pick
+    cp = cherry-pick
+
+    # Fixup workflow
+    fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+    absorb = "!git-absorb --and-rebase"
+
+    # Publishing
+    publish = "!git push -u origin $(git currentbranch)"
+    unpublish = "!git push origin :$(git currentbranch)"
+
+    # PR workflow
+    copr = !sh -c 'git fetch upstream refs/pull/${1}/head && git checkout FETCH_HEAD' -
+    team-remote = !sh -c 'git remote add $1 $(git config --get remote.origin.url | sed -E \"s|([^:]+:)([^/]+)(/.+)|\\1$1\\3|g\") && git fetch $1' -
+
+    # Utilities
+    ctags = !.git/hooks/ctags
+    gh = "!f() { git clone https://github.com/$1; }; f"
+
+[color]
+    # Use colors in Git commands that are capable of colored output when outputting to the terminal
+    ui = true
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = 227
+    frag = magenta bold
+    old = red bold
+    new = green bold
+    commit = 227 bold
+    whitespace = red reverse
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
+[delta]
+    navigate = true              # Use n and N to move between diff sections
+    light = false                # Dark mode
+    line-numbers = true
+    side-by-side = false         # Use unified diff by default
+    syntax-theme = Monokai Extended
+    features = decorations
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+    hunk-header-decoration-style = cyan box ul
+
+[interactive]
+    diffFilter = delta --color-only
+
+[merge]
+    conflictstyle = diff3
+    tool = vimdiff
+    prompt = false
+
+[difftool]
+    prompt = false
+
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+
+[rerere]
+    enabled = true
+
+# GitHub credential helper (works for both personal and work accounts)
+[credential "https://github.com"]
+    helper =
+    helper = !/opt/homebrew/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+    helper =
+    helper = !/opt/homebrew/bin/gh auth git-credential
+
+# Enable commit signing (work machines use company-specific signing tool, personal machines use standard GPG)
+[commit]
+    gpgsign = true
+
+{{- if .isWork }}
+# Include work-specific git configuration
+[include]
+    path = ~/.gitconfig.work
+{{- end }}
