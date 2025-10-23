@@ -6,10 +6,10 @@ Modern tmux 3.5a configuration with sesh session management, fzf integration, an
 
 - **Modern tmux 3.5a+** - Uses latest features (extended-keys, set-clipboard, allow-passthrough)
 - **True color support** - Full 24-bit color in terminal
-- **Vuesion-inspired theme** - Dark blue-gray with purple/blue accents
+- **Catppuccin Mocha theme** - Matches Vim theme for consistent look
 - **Popup workflows** - Fuzzy finders, lazygit, session management
 - **Smart session management** - sesh integration for project discovery
-- **Plugin ecosystem** - TPM with resurrect, yank, vim-navigator
+- **Plugin ecosystem** - TPM with catppuccin, resurrect, yank, vim-navigator
 
 ## Quick Start
 
@@ -133,32 +133,35 @@ directory = "~/.config/sesh/scripts"
 Create executable scripts in `~/.config/sesh/scripts/`:
 
 ```bash
-#!/bin/bash
-# ~/.config/sesh/scripts/snoopy-dev.sh
+#!/usr/bin/env bash
+# ~/.config/sesh/scripts/project-dev.sh
 
-session_name="snoopy-dev"
-project_root="$HOME/src/snoopy"
+set -euo pipefail
 
-# Create session
-tmux new-session -d -s "$session_name" -c "$project_root"
+SESSION_NAME="${SESSION_NAME:-webapp}"
+PROJECT_DIR="${PROJECT_DIR:-$HOME/projects/web-app}"
 
-# Window 1: Editor
-tmux send-keys -t "$session_name:1" "cd $project_root && vim" C-m
+if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+    tmux new-session -d -s "$SESSION_NAME" -c "$PROJECT_DIR" -n "editor"
 
-# Window 2: Server
-tmux new-window -t "$session_name:2" -c "$project_root"
-tmux send-keys -t "$session_name:2" "npm run dev" C-m
+    tmux new-window -t "${SESSION_NAME}:2" -n "server" -c "$PROJECT_DIR"
+    tmux send-keys -t "${SESSION_NAME}:2" "${START_SERVER_CMD:-# run: npm run dev}" C-m
 
-# Window 3: Terminal
-tmux new-window -t "$session_name:3" -c "$project_root"
+    tmux new-window -t "${SESSION_NAME}:3" -n "tests" -c "$PROJECT_DIR"
+    tmux send-keys -t "${SESSION_NAME}:3" "${TEST_CMD:-# run: npm test}" C-m
 
-# Select window 1
-tmux select-window -t "$session_name:1"
+    tmux new-window -t "${SESSION_NAME}:4" -n "db" -c "$PROJECT_DIR"
+    tmux send-keys -t "${SESSION_NAME}:4" "${DB_CMD:-# connect to your database client}" C-m
+
+    tmux select-window -t "${SESSION_NAME}:1"
+fi
+
+tmux attach-session -t "$SESSION_NAME"
 ```
 
 Make it executable:
 ```bash
-chmod +x ~/.config/sesh/scripts/snoopy-dev.sh
+chmod +x ~/.config/sesh/scripts/project-dev.sh
 ```
 
 ## Plugins
@@ -167,6 +170,7 @@ Managed via TPM (Tmux Plugin Manager).
 
 ### Installed Plugins
 
+- **catppuccin/tmux** - Catppuccin Mocha theme (matches Vim)
 - **tmux-resurrect** - Save/restore sessions (survives reboots)
 - **tmux-continuum** - Auto-save sessions every 15 minutes
 - **vim-tmux-navigator** - Seamless vim/tmux pane navigation
@@ -185,22 +189,48 @@ Managed via TPM (Tmux Plugin Manager).
 
 ## Theme
 
-Vuesion-inspired color scheme with deep blue-grays and purple/blue accents.
+**Catppuccin Mocha** - Official theme plugin matching Vim configuration.
+
+The theme uses the Catppuccin Mocha color palette:
 
 ```bash
-# Color palette
-tmux_bg="#1e1e2e"           # Deep blue-gray background
-tmux_fg="#cdd6f4"           # Light blue-gray text
-tmux_bg_dark="#11111b"      # Darker background
-tmux_gray="#45475a"         # Muted gray
-tmux_blue="#89b4fa"         # Bright blue
-tmux_purple="#cba6f7"       # Purple accent
-tmux_green="#a6e3a1"        # Green accent
-tmux_yellow="#f9e2af"       # Yellow accent
-tmux_red="#f38ba8"          # Red accent
+# Catppuccin Mocha colors (applied automatically by plugin)
+base="#1e1e2e"           # Deep blue-gray background
+text="#cdd6f4"           # Light blue-gray text
+crust="#11111b"          # Darker background
+surface1="#45475a"       # Muted gray
+blue="#89b4fa"           # Bright blue
+mauve="#cba6f7"          # Purple accent
+green="#a6e3a1"          # Green accent
+yellow="#f9e2af"         # Yellow accent
+red="#f38ba8"            # Red accent
 ```
 
-To customize, edit `~/.tmux/.tmux.conf` lines 181-189.
+### Theme Configuration
+
+The Catppuccin theme is configured in `~/.tmux/.tmux.conf`:
+
+```bash
+# Set flavor to match Vim
+set -g @catppuccin_flavour 'mocha'
+
+# Customize status modules (right side)
+set -g @catppuccin_status_modules_right "session host date_time"
+
+# Date/time format
+set -g @catppuccin_date_time_text "%H:%M %d %b"
+```
+
+Available flavors: `mocha`, `macchiato`, `frappe`, `latte` (change to match your Vim theme).
+
+### Customization
+
+Edit `~/.tmux/.tmux.conf` to modify:
+- Status modules: `set -g @catppuccin_status_modules_right "..."`
+- Window separators: `set -g @catppuccin_window_left_separator "..."`
+- Date/time format: `set -g @catppuccin_date_time_text "..."`
+
+See [Catppuccin tmux documentation](https://github.com/catppuccin/tmux) for all options.
 
 ## Performance Settings
 
@@ -301,13 +331,14 @@ bind C-t display-popup -E -w 80% -h 80% -d "#{pane_current_path}" \
 
 ### Custom Status Bar
 
-Edit lines 192-227 in `~/.tmux/.tmux.conf`:
-```bash
-# Status left (session info)
-set -g status-left "#[fg=$tmux_bg_dark,bg=$tmux_purple,bold] 󰇘 #S #[fg=$tmux_purple,bg=$tmux_bg]"
+The Catppuccin plugin manages the status bar. To customize modules:
 
-# Status right (time and hostname)
-set -g status-right "#[fg=$tmux_green,bg=$tmux_bg] %H:%M #[fg=$tmux_gray,bg=$tmux_bg] │ #[fg=$tmux_yellow,bg=$tmux_bg] %d %b"
+```bash
+# Edit ~/.tmux/.tmux.conf
+set -g @catppuccin_status_modules_right "session host date_time"
+
+# Available modules: application, session, user, host, directory, date_time
+# See: https://github.com/catppuccin/tmux#status-modules
 ```
 
 ## Resources
