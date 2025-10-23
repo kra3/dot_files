@@ -1,0 +1,26 @@
+# Sesh Configuration
+# https://github.com/joshmedeski/sesh
+
+# Default session directory
+default_session_dir = "~"
+
+# Startup session (optional)
+# startup_session = "main"
+
+# Session search paths (sesh will auto-discover projects here)
+[[session_path]]
+path = "~/src/poi.org"
+depth = 2
+
+[[session_path]]
+path = "~/src"
+depth = 1
+
+# Icon mappings for different project types
+[icons]
+default = "📁"
+git = "󰊢"
+home = ""
+config = ""
+downloads = ""
+documents = ""
