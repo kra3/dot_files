@@ -176,6 +176,17 @@ else
     echo "✅ Zinit already installed"
 fi
 
+# Install vim-plug (Vim Plugin Manager)
+echo ""
+if [ ! -f ~/.vim/autoload/plug.vim ]; then
+    echo "📥 Installing vim-plug (Vim Plugin Manager)..."
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    echo "✅ vim-plug installed"
+else
+    echo "✅ vim-plug already installed"
+fi
+
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "✅ Installation complete!"
@@ -232,6 +243,7 @@ echo ""
 echo "Plugin managers:"
 echo "  • tpm        - Tmux plugin manager"
 echo "  • zinit      - Zsh plugin manager"
+echo "  • vim-plug   - Vim plugin manager"
 echo ""
 echo "Zsh plugins (via Zinit):"
 echo "  • powerlevel10k - Modern zsh theme"
@@ -242,9 +254,10 @@ echo "🚀 Next steps:"
 echo "  1. Start a new shell to load all tools"
 echo "  2. Start tmux: tmux"
 echo "  3. Install tmux plugins: Ctrl+a then Shift+I"
-echo "  4. Session manager: Ctrl+a K"
-echo "  5. Lazygit in tmux: Ctrl+a g"
-echo "  6. Configure p10k: p10k configure (for zsh)"
+echo "  4. Install vim plugins: vim +PlugInstall +qall"
+echo "  5. Session manager: Ctrl+a K"
+echo "  6. Lazygit in tmux: Ctrl+a g"
+echo "  7. Configure p10k: p10k configure (for zsh)"
 echo ""
 echo "📖 Git usage:"
 echo "  • git diff   → delta (automatic)"

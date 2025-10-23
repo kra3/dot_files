@@ -1,0 +1,360 @@
+" ===> IdeaVim Configuration
+" Description: Vim emulation for IntelliJ IDEA and JetBrains IDEs
+"
+" Documentation:
+" - IdeaVim Commands: https://jb.gg/h38q75
+" - Available Actions: :actionlist
+" - Plugin List: https://jb.gg/ideavim-plugins
+"
+" Note: This file does NOT source ~/.vimrc to avoid loading vim-specific
+" plugins and features that don't work in IntelliJ. Essential settings are
+" duplicated here for IdeaVim compatibility.
+
+" ===> IdeaVim Plugins {{{"
+" Built-in IdeaVim emulation plugins (lighter than full Vim plugins)
+
+" Highlight yanked text
+Plug 'machakann/vim-highlightedyank'
+
+" Commentary plugin - toggle comments
+Plug 'tpope/vim-commentary'
+
+" Surround plugin - manipulate surrounding chars
+" ds<char>      delete surrounding
+" cs<char><new> change surrounding
+" ys<motion>    add surrounding
+Plug 'tpope/vim-surround'
+
+" Argument text objects
+" daa  delete-an-argument
+" cia  change-inner-argument
+" via  select-inner-argument
+Plug 'vim-scripts/argtextobj.vim'
+
+" Extended matching with %
+" Jump between if/else/elif, try/catch, etc.
+Plug 'vim-matchit'
+
+" }}}
+
+" ===> General Settings {{{"
+
+" Leader key - Space (matches main vimrc)
+let mapleader = "\<Space>"
+
+" Scrolling - show context around cursor
+set scrolloff=5
+
+" Search
+set incsearch           " Incremental search as you type
+set hlsearch            " Highlight search results
+set ignorecase          " Case insensitive search
+set smartcase           " Case sensitive if pattern has uppercase
+
+" Line numbers
+set number              " Show line numbers
+set relativenumber      " Relative line numbers
+
+" Toggle relative numbers based on mode
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
+
+" Clipboard integration
+set clipboard+=unnamed  " Use system clipboard
+
+" Visual bell instead of beeping
+set visualbell
+
+" Join lines without adding spaces
+set nojoinspaces
+
+" }}}
+
+" ===> IdeaVim Features {{{"
+" Enable IdeaVim-specific features that emulate popular Vim plugins
+
+" EasyMotion emulation (via AceJump plugin)
+set easymotion
+
+" Highlight jump targets for f/t motions
+set quickscope
+
+" Preview registers when pressing "
+set peekaboo
+
+" Show keybinding popup (like which-key.nvim)
+set which-key
+set timeoutlen=5000     " 5 second timeout for which-key display
+
+" Multiple cursors support (like vim-multiple-cursors)
+set multiple-cursors
+
+" Exchange text objects (like vim-exchange)
+set exchange
+
+" NERDTree emulation
+set NERDTree
+
+" }}}
+
+" ===> Basic Keybindings {{{"
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" Clear search highlighting
+nnoremap <silent> <Leader><CR> :noh<CR>
+
+" Faster command entry
+noremap ; :
+
+" Keep cursor centered when searching
+nnoremap n nzz
+nnoremap N Nzz
+
+" Visual mode: maintain selection after indent
+vnoremap < <gv
+vnoremap > >gv
+
+" Move visual block up/down
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" }}}
+
+" ===> IDE Navigation {{{"
+
+" File Navigation
+nmap <Leader>ff <Action>(GotoFile)
+nmap <Leader>fc <Action>(GotoClass)
+nmap <Leader>fa <Action>(GotoAction)
+nmap <Leader>fs <Action>(GotoSymbol)
+nmap <Leader>fr <Action>(RecentFiles)
+nmap <Leader>fe <Action>(RecentLocations)
+nmap <Leader>fl <Action>(RecentChangedFiles)
+
+" Code Navigation
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoTypeDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap gr <Action>(FindUsages)
+nmap gs <Action>(GotoSuperMethod)
+nmap gt <Action>(GotoTest)
+nmap gT <Action>(GotoRelated)
+
+" Navigate back/forward (works with IntelliJ's navigation history)
+nmap <C-o> <Action>(Back)
+nmap <C-i> <Action>(Forward)
+
+" Next/previous error
+nmap ]e <Action>(GotoNextError)
+nmap [e <Action>(GotoPreviousError)
+
+" Next/previous change
+nmap ]c <Action>(VcsShowNextChangeMarker)
+nmap [c <Action>(VcsShowPrevChangeMarker)
+
+" Next/previous method
+nmap ]m <Action>(MethodDown)
+nmap [m <Action>(MethodUp)
+
+" Symbol navigation
+nmap <Leader>/ <Action>(FileStructurePopup)
+
+" }}}
+
+" ===> Code Actions & Refactoring {{{"
+
+" Show all code actions
+nmap <Leader>ca <Action>(ShowIntentionActions)
+
+" Refactoring - using consistent Leader-r prefix
+nmap <Leader>rn <Action>(RenameElement)
+nmap <Leader>rm <Action>(ExtractMethod)
+nmap <Leader>rv <Action>(IntroduceVariable)
+nmap <Leader>rf <Action>(IntroduceField)
+nmap <Leader>rc <Action>(IntroduceConstant)
+nmap <Leader>rp <Action>(IntroduceParameter)
+nmap <Leader>ri <Action>(Inline)
+nmap <Leader>rs <Action>(ChangeSignature)
+nmap <Leader>rr <Action>(Refactorings.QuickListPopupAction)
+
+" Code formatting
+nmap <Leader>f <Action>(ReformatCode)
+vmap <Leader>f <Action>(ReformatCode)
+nmap <Leader>o <Action>(OptimizeImports)
+
+" Code generation
+nmap <Leader>cg <Action>(Generate)
+
+" Show documentation
+nmap K <Action>(QuickJavaDoc)
+nmap <Leader>cd <Action>(QuickJavaDoc)
+
+" Show error description
+nmap <Leader>ce <Action>(ShowErrorDescription)
+
+" Code completion (trigger manually if needed)
+imap <C-Space> <Action>(CodeCompletion)
+
+" Parameter info
+imap <C-P> <Action>(ParameterInfo)
+
+" }}}
+
+" ===> Debugging & Running {{{"
+
+" Run/Debug
+nmap <Leader>tr <Action>(Run)
+nmap <Leader>tR <Action>(RunClass)
+nmap <Leader>td <Action>(Debug)
+nmap <Leader>tD <Action>(DebugClass)
+nmap <Leader>ts <Action>(Stop)
+nmap <Leader>tc <Action>(ChooseRunConfiguration)
+
+" Debugging - using Leader-d prefix
+nmap <Leader>d <Action>(Debug)
+nmap <Leader>db <Action>(ToggleLineBreakpoint)
+nmap <Leader>dm <Action>(ToggleMethodBreakpoint)
+nmap <Leader>dv <Action>(ViewBreakpoints)
+nmap <Leader>de <Action>(EditBreakpoint)
+
+" Step through code (standard Vim-style mappings)
+nmap <Leader>dn <Action>(StepOver)
+nmap <Leader>di <Action>(StepInto)
+nmap <Leader>do <Action>(StepOut)
+nmap <Leader>dr <Action>(Resume)
+nmap <Leader>dx <Action>(EvaluateExpression)
+
+" Tests
+nmap <Leader>tt <Action>(RunClass)
+nmap <Leader>tm <Action>(RunCurrentTestMethod)
+nmap <Leader>ta <Action>(RunAllTestsInPackage)
+
+" }}}
+
+" ===> Window & Tab Management {{{"
+
+" Split navigation
+nmap <Leader>h <C-w>h
+nmap <Leader>j <C-w>j
+nmap <Leader>k <C-w>k
+nmap <Leader>l <C-w>l
+
+" Split actions
+nmap <Leader>wv <Action>(SplitVertically)
+nmap <Leader>ws <Action>(SplitHorizontally)
+nmap <Leader>wu <Action>(Unsplit)
+nmap <Leader>wm <Action>(MoveEditorToOppositeTabGroup)
+
+" Tab navigation
+nmap <Leader>tn <Action>(NextTab)
+nmap <Leader>tp <Action>(PreviousTab)
+nmap <Leader>tc <Action>(CloseContent)
+nmap <Leader>tC <Action>(CloseAllEditors)
+nmap <Leader>to <Action>(CloseAllEditorsButActive)
+nmap <Leader>tr <Action>(ReopenClosedTab)
+
+" Pin/unpin tab
+nmap <Leader>tP <Action>(PinActiveEditorTab)
+
+" }}}
+
+" ===> Git/VCS Integration {{{"
+
+" Git operations - using Leader-g prefix
+nmap <Leader>gb <Action>(Annotate)
+nmap <Leader>gB <Action>(Git.Branches)
+nmap <Leader>gc <Action>(CheckinProject)
+nmap <Leader>gd <Action>(Compare.SameVersion)
+nmap <Leader>gD <Action>(Vcs.ShowTabbedFileHistory)
+nmap <Leader>gh <Action>(Vcs.ShowTabbedFileHistory)
+nmap <Leader>gl <Action>(Vcs.Show.Log)
+nmap <Leader>gp <Action>(Vcs.Push)
+nmap <Leader>gr <Action>(Vcs.RollbackChangedLines)
+nmap <Leader>gs <Action>(Vcs.Show.Local.Changes)
+nmap <Leader>gu <Action>(Vcs.UpdateProject)
+
+" Show changes
+nmap <Leader>gv <Action>(Vcs.QuickListPopupAction)
+
+" }}}
+
+" ===> Search & Replace {{{"
+
+" Find in files
+nmap <Leader>sf <Action>(FindInPath)
+nmap <Leader>sr <Action>(ReplaceInPath)
+
+" Find usages
+nmap <Leader>su <Action>(FindUsages)
+nmap <Leader>sU <Action>(FindUsagesInFile)
+
+" Highlight usages
+nmap <Leader>sh <Action>(HighlightUsagesInFile)
+
+" }}}
+
+" ===> Tool Windows {{{"
+
+" Toggle tool windows
+nmap <Leader>1 <Action>(ActivateProjectToolWindow)
+nmap <Leader>2 <Action>(ActivateFavoritesToolWindow)
+nmap <Leader>3 <Action>(ActivateFindToolWindow)
+nmap <Leader>4 <Action>(ActivateRunToolWindow)
+nmap <Leader>5 <Action>(ActivateDebugToolWindow)
+nmap <Leader>6 <Action>(ActivateProblemsViewToolWindow)
+nmap <Leader>7 <Action>(ActivateStructureToolWindow)
+nmap <Leader>8 <Action>(ActivateServicesToolWindow)
+nmap <Leader>9 <Action>(ActivateVersionControlToolWindow)
+nmap <Leader>0 <Action>(ActivateTerminalToolWindow)
+
+" Hide all tool windows
+nmap <Leader>wh <Action>(HideAllWindows)
+
+" Project view
+nmap <Leader>n <Action>(ActivateProjectToolWindow)
+nmap <Leader>nf <Action>(SelectInProjectView)
+
+" Terminal
+nmap <Leader>tt <Action>(ActivateTerminalToolWindow)
+
+" }}}
+
+" ===> Miscellaneous {{{"
+
+" Show context actions
+nmap <Leader>? <Action>(ShowIntentionActions)
+
+" Recent actions
+nmap <Leader>a <Action>(RecentLocations)
+
+" Command palette (like Cmd+Shift+A)
+nmap <Leader>: <Action>(GotoAction)
+
+" Settings
+nmap <Leader>S <Action>(ShowSettings)
+
+" Zen mode / distraction free
+nmap <Leader>z <Action>(ToggleDistractionFreeMode)
+
+" Bookmarks
+nmap mm <Action>(ToggleBookmark)
+nmap ml <Action>(ShowBookmarks)
+
+" Folding
+nmap za <Action>(ExpandCollapseToggleAction)
+nmap zc <Action>(CollapseRegion)
+nmap zo <Action>(ExpandRegion)
+nmap zC <Action>(CollapseAllRegions)
+nmap zO <Action>(ExpandAllRegions)
+
+" Quick documentation
+nmap <Leader>k <Action>(QuickJavaDoc)
+
+" }}}
+
+" vim: set foldmethod=marker foldlevel=0 nomodeline:
