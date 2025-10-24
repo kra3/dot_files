@@ -1,0 +1,37 @@
+# bat configuration
+# Modern cat replacement with syntax highlighting
+
+# Theme (Catppuccin Mocha to match Vim and Tmux)
+# Note: This requires Catppuccin theme to be installed
+# Run: mkdir -p "$(bat --config-dir)/themes"
+# Then: cd "$(bat --config-dir)/themes" && curl -O https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Mocha.tmTheme
+# Finally: bat cache --build
+--theme="Catppuccin Mocha"
+
+# Show line numbers, Git modifications and file header (but no grid)
+--style="numbers,changes,header"
+
+# Use italic text on the terminal (not supported on all terminals)
+--italic-text=always
+
+# Add mouse scrolling support in less (does not work with all terminals)
+--pager="less -FR"
+
+# Use C++ syntax for .h header files
+--map-syntax="*.h:C++"
+
+# Use Terraform syntax for .tf files
+--map-syntax="*.tf:Terraform"
+
+# Use YAML syntax for .yml files
+--map-syntax="*.yml:YAML"
+
+# Show non-printable characters like space, tab, etc.
+# Uncomment if you want to see whitespace characters:
+# --show-all
+
+# Wrap text (uncomment to enable)
+# --wrap=auto
+
+# Tab width
+--tabs=4

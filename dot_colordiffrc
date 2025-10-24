@@ -1,0 +1,17 @@
+# colordiff configuration
+# Colorized diff output - Catppuccin Mocha inspired colors
+
+# Plain text
+plain=white
+
+# New lines (additions)
+newtext=green
+
+# Old lines (deletions)
+oldtext=red
+
+# Diff stuff (@@, line numbers, etc)
+diffstuff=cyan
+
+# Changed lines
+cvsstuff=magenta

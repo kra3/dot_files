@@ -1,0 +1,43 @@
+# GitHub CLI configuration
+# Configuration for gh command line tool
+
+# Default git protocol (https or ssh)
+git_protocol: ssh
+
+# Default editor for gh commands
+editor: vim
+
+# Prompt behavior (enabled or disabled)
+prompt: enabled
+
+# Default pager
+pager: less
+
+# HTTP Unix socket (optional, for debugging)
+# http_unix_socket:
+
+# Browser command (leave empty to use system default)
+browser:
+
+# Aliases for common operations
+aliases:
+    co: pr checkout
+    pv: pr view
+    pc: pr create
+    pl: pr list
+    rv: repo view
+    rc: repo clone
+    il: issue list
+    ic: issue create
+    iv: issue view
+    rl: release list
+    rv: release view
+
+# Default settings for specific commands
+# Uncomment and modify as needed
+# pr:
+#     status:
+#         enabled: true
+#     list:
+#         limit: 30
+#         state: open
