@@ -97,7 +97,40 @@ if command -v apt-get &> /dev/null; then
         eza \
         bat 2>/dev/null || echo "⚠️  Some packages not available via apt"
 
+    # Linux desktop environment (X11/i3/dwm) - optional
+    echo ""
+    read -p "📦 Install Linux desktop environment tools (i3, irssi, conky, X11 utils)? [y/N] " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "Installing desktop environment tools..."
+        sudo apt-get install -y \
+            i3 \
+            i3status \
+            i3lock \
+            rofi \
+            picom \
+            xautolock \
+            unclutter \
+            irssi \
+            conky-all \
+            rxvt-unicode \
+            xterm \
+            ibus \
+            ibus-gtk \
+            ibus-gtk3 \
+            imagemagick \
+            libnotify-bin \
+            python3-gi \
+            python3-dbus \
+            gir1.2-notify-0.7 \
+            libcanberra-gtk-module 2>/dev/null || echo "⚠️  Some desktop packages not available"
+        echo "✅ Desktop environment tools installed"
+    else
+        echo "⏭️  Skipping desktop environment tools"
+    fi
+
     # Version managers
+    echo ""
     echo "Installing pyenv..."
     if [ ! -d "$HOME/.pyenv" ]; then
         curl https://pyenv.run | bash

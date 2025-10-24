@@ -72,6 +72,17 @@ This file is:
 - ✅ **Vim** - LSP-powered Vim 9 with 45 plugins, 6 languages, Catppuccin theme ([docs](docs/vim.md))
 - ✅ **Terminal.app** - Catppuccin theme for consistent look (macOS)
 
+### Linux Desktop Environment (X11/Wayland)
+
+Modern Linux configurations with unified Catppuccin Mocha theming:
+
+- ✅ **i3** - Tiling window manager with Vim bindings, rofi launcher, Catppuccin theme
+- ✅ **X11** - `.xinitrc` session startup, `.Xresources` with URxvt/xterm configs, `.xinputrc` for ibus
+- ✅ **irssi** - IRC client with Libera.Chat, SSL/TLS, Perl scripts (4 docs: setup, scripts, themes)
+- ✅ **conky** - System monitor (desktop widget + status bar for dwm/i3bar)
+- ✅ **dwm** - Desktop entry for display manager session list
+- ✅ **Utility scripts** - i3lock-blur (screenshot lock), notify-listener (irssi notifications)
+
 ### Tool Configurations
 
 All major CLI tools have been configured with sensible defaults and Catppuccin theming:
@@ -301,12 +312,31 @@ Chezmoi automatically detects:
 ├── dot_vimrc                        # Vim configuration
 ├── dot_tmux/
 │   └── dot_tmux.conf.tmpl          # Tmux configuration
+├── dot_xinitrc.tmpl                 # X11 session startup (Linux)
+├── dot_Xresources.tmpl              # X11 resources (Linux)
+├── dot_xinputrc                     # IBus input method (Linux)
 ├── dot_config/                      # Tool configurations
 │   ├── bat/config                  # bat theme and settings
 │   ├── lazygit/config.yml          # lazygit configuration
 │   ├── gh/config.yml.tmpl          # GitHub CLI settings
 │   ├── direnv/direnv.toml.tmpl     # direnv whitelist
-│   └── sesh/sesh.toml              # sesh session manager
+│   ├── sesh/sesh.toml              # sesh session manager
+│   ├── i3/config.tmpl              # i3 window manager (Linux)
+│   ├── irssi/                      # IRC client (Linux)
+│   │   ├── config.tmpl             # irssi configuration
+│   │   ├── scripts/                # Perl scripts
+│   │   └── README.md               # irssi documentation
+│   └── conky/                       # System monitor (Linux)
+│       ├── conky.conf.tmpl         # Desktop widget
+│       ├── conky-status.conf.tmpl  # Status bar
+│       └── README.md               # conky documentation
+├── dot_local/share/xsessions/       # Desktop entries (Linux)
+│   ├── dwm.desktop.tmpl            # dwm session
+│   └── README.md                   # Session documentation
+├── dot_local/bin/                   # Utility scripts (Linux)
+│   ├── executable_i3lock-blur.tmpl # Screenshot-based screen lock
+│   ├── executable_notify-listener.py.tmpl # Irssi desktop notifications
+│   └── README.md                   # Script documentation
 └── run_once_install-tools.sh.tmpl  # Tool installation script
 ```
 
@@ -326,6 +356,7 @@ This repository has been modernized from a manual symlink-based setup to chezmoi
 - ✅ Vim modernization (LSP support, 45 plugins, 6 languages)
 - ✅ Unified theming (Catppuccin Mocha for Vim, Tmux, bat, Terminal.app)
 - ✅ Tool configurations (lazygit, bat, ripgrep, direnv, gh, colordiff)
+- ✅ Linux desktop environment (i3, X11, irssi, conky, dwm)
 
 **Planned**:
 - 📋 Neovim migration (optional)

@@ -1,8 +1,0 @@
-# Documentation - kept in repo but not deployed
-docs/
-
-# Local/private configuration - machine-specific, not in repo
-.shell_local
-.gitconfig.work
-docs/migration-todo.md
-docs/tool-analysis.md

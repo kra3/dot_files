@@ -1,0 +1,53 @@
+{{- if eq .chezmoi.os "linux" -}}
+-- ============================================================================
+-- Conky Status Bar Configuration (For dwm/i3bar)
+-- ============================================================================
+-- Requires: conky 1.10+
+-- Documentation: https://conky.cc/config_settings
+--
+-- Output: Single-line text to stdout (for xsetroot or i3bar)
+-- Usage with dwm: conky -c ~/.config/conky/conky-status.conf | while read -r; do xsetroot -name "$REPLY"; done &
+-- Usage with i3bar: conky -c ~/.config/conky/conky-status.conf
+
+conky.config = {
+    -- Output to console for piping to xsetroot/i3bar
+    out_to_console = true,
+    out_to_x = false,
+
+    -- Performance
+    update_interval = 2.0,
+    total_run_times = 0,
+
+    -- No window needed
+    own_window = false,
+    background = false,
+
+    -- Text formatting
+    use_spacer = 'none',
+
+    -- Network interface auto-detection
+    -- Modify these if needed:
+    -- template0 = 'wlan0',
+    -- template1 = 'eth0',
+}
+
+conky.text = [[
+${if_existing /sys/class/net/eth0}\
+${if_match "${addr eth0}" != "No Address"}\
+Eth: ${downspeed eth0}↓ ${upspeed eth0}↑ | \
+${endif}\
+${endif}\
+${if_existing /sys/class/net/wlan0}\
+${if_match "${addr wlan0}" != "No Address"}\
+${wireless_essid wlan0}: ${downspeed wlan0}↓ ${upspeed wlan0}↑ | \
+${endif}\
+${endif}\
+${if_existing /sys/class/power_supply/BAT0}\
+Bat: ${battery_short BAT0} | \
+${endif}\
+CPU: ${cpu}% @ ${freq_g}GHz | \
+Mem: ${memperc}% | \
+/: ${fs_used_perc /}% | \
+${time %a %b %d %I:%M%P}
+]]
+{{- end -}}

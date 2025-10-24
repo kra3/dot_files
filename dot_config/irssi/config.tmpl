@@ -1,0 +1,364 @@
+# ============================================================================
+# Irssi IRC Client Configuration
+# ============================================================================
+# Documentation: https://irssi.org/documentation/
+# Modern IRC: Most communities are on Libera.Chat (former Freenode)
+#
+# Quick start:
+# 1. Launch: irssi
+# 2. Connect: /connect liberachat
+# 3. Register: /msg NickServ REGISTER password email@example.com
+# 4. Identify: /msg NickServ IDENTIFY password
+# 5. Join channel: /join #channel
+
+servers = (
+  # ============================================================================
+  # Modern IRC Networks (SSL enabled by default)
+  # ============================================================================
+
+  # Libera.Chat - Successor to Freenode (FOSS community)
+  {
+    address = "irc.libera.chat";
+    chatnet = "LiberaChat";
+    port = "6697";
+    use_tls = "yes";
+    tls_verify = "yes";
+    autoconnect = "yes";
+  },
+
+  # OFTC - Open and Free Technology Community
+  {
+    address = "irc.oftc.net";
+    chatnet = "OFTC";
+    port = "6697";
+    use_tls = "yes";
+    tls_verify = "yes";
+  },
+
+  # IRCnet - One of the oldest networks
+  {
+    address = "irc.eu.ircnet.net";
+    chatnet = "IRCnet";
+    port = "6697";
+    use_tls = "yes";
+    tls_verify = "yes";
+  },
+
+  # ============================================================================
+  # Legacy Networks (for reference)
+  # ============================================================================
+
+  { address = "irc.efnet.org"; chatnet = "EFNet"; port = "6697"; use_tls = "yes"; },
+  { address = "irc.undernet.org"; chatnet = "Undernet"; port = "6697"; use_tls = "yes"; },
+  { address = "irc.dal.net"; chatnet = "DALnet"; port = "6697"; use_tls = "yes"; },
+  { address = "irc.quakenet.org"; chatnet = "QuakeNet"; port = "6697"; use_tls = "yes"; },
+  { address = "irc.rizon.net"; chatnet = "Rizon"; port = "6697"; use_tls = "yes"; }
+);
+
+chatnets = {
+  LiberaChat = {
+    type = "IRC";
+    max_kicks = "4";
+    max_msgs = "4";
+    max_whois = "1";
+    # Uncomment and configure NickServ auto-identification:
+    # autosendcmd = "/^msg NickServ IDENTIFY your_password_here;wait 2000";
+  };
+
+  OFTC = {
+    type = "IRC";
+    max_kicks = "1";
+    max_msgs = "3";
+    max_whois = "30";
+  };
+
+  IRCnet = {
+    type = "IRC";
+    max_kicks = "4";
+    max_msgs = "5";
+    max_whois = "4";
+    max_query_chans = "5";
+  };
+
+  EFNet = {
+    type = "IRC";
+    max_kicks = "4";
+    max_msgs = "3";
+    max_whois = "1";
+  };
+
+  Undernet = {
+    type = "IRC";
+    max_kicks = "1";
+    max_msgs = "3";
+    max_whois = "30";
+  };
+
+  DALnet = {
+    type = "IRC";
+    max_kicks = "4";
+    max_msgs = "3";
+    max_whois = "30";
+  };
+
+  QuakeNet = {
+    type = "IRC";
+    max_kicks = "1";
+    max_msgs = "3";
+    max_whois = "30";
+  };
+
+  Rizon = {
+    type = "IRC";
+    max_kicks = "1";
+    max_msgs = "3";
+    max_whois = "30";
+  };
+};
+
+# ============================================================================
+# Default Channels (Auto-join)
+# ============================================================================
+# Uncomment and customize:
+
+channels = (
+  # { name = "#irssi"; chatnet = "LiberaChat"; autojoin = "yes"; },
+  # { name = "#linux"; chatnet = "LiberaChat"; autojoin = "yes"; }
+);
+
+# ============================================================================
+# Aliases (Command Shortcuts)
+# ============================================================================
+
+aliases = {
+  # Navigation
+  J = "join";
+  LEAVE = "part";
+  BYE = "quit";
+  EXIT = "quit";
+
+  # User info
+  WI = "whois";
+  WII = "whois $0 $0";
+  WW = "whowas";
+  W = "who";
+  N = "names";
+
+  # Messaging
+  M = "msg";
+  Q = "query";
+  SAY = "msg *";
+
+  # Channel management
+  T = "topic";
+  K = "kick";
+  KB = "kickban";
+  B = "ban";
+  UB = "unban";
+
+  # Window management
+  C = "clear";
+  CL = "clear";
+  WC = "window close";
+  WN = "window new hide";
+  WG = "window goto";
+
+  # Utility
+  CALC = "exec - if command -v bc >/dev/null 2>&1\\; then printf '%s=' '$*'\\; echo '$*' | bc -l\\; else echo bc was not found\\; fi";
+  SB = "scrollback";
+  GOTO = "sb goto";
+
+  # Scripts
+  RUN = "script load";
+
+  # Settings
+  SBAR = "statusbar";
+  UNSET = "set -clear";
+  RESET = "set -default";
+};
+
+# ============================================================================
+# Settings
+# ============================================================================
+
+settings = {
+  core = {
+{{- if .email }}
+    real_name = "{{ .email }}";
+{{- else }}
+    real_name = "IRC User";
+{{- end }}
+{{- if .githubUser }}
+    user_name = "{{ .githubUser }}";
+    nick = "{{ .githubUser }}";
+{{- else }}
+    user_name = "ircuser";
+    nick = "ircuser";
+{{- end }}
+    timestamp_format = "%H:%M:%S";
+  };
+
+  "fe-text" = {
+    actlist_sort = "refnum";
+    term_force_colors = "yes";
+    autostick_split_windows = "yes";
+  };
+
+  "fe-common/core" = {
+    # Logging
+    autolog = "yes";
+    autolog_path = "~/irclogs/%Y/$tag/$0.%m-%d.log";
+
+    # Window management
+    autoclose_windows = "no";
+    reuse_unused_windows = "yes";
+    windows_auto_renumber = "no";
+    autocreate_own_query = "no";
+    autocreate_query_level = "MSGS";
+    use_status_window = "yes";
+    use_msgs_window = "no";
+
+    # Display
+    print_active_channel = "yes";
+
+    # Notifications
+    beep_when_window_active = "yes";
+    beep_when_away = "yes";
+    beep_msg_level = "MSGS NOTICES DCC DCCMSGS HILIGHT";
+    bell_beeps = "yes";
+
+    # Theme - using default, can switch to others
+    theme = "default";
+  };
+
+  # Script-specific settings
+  "perl/core/scripts" = {
+    # Advanced window list (awl)
+    awl_display_key = "$Q%K|%n$H$C$S";
+    awl_block = "-14";
+    awl_display_key_active = "$Q%K|$N%n $H%U$C%n$S";
+    awl_display_nokey = "[$N]$H$C$S";
+
+    # Screen/tmux integration
+    screen_away_active = "no";
+    nicklist_automode = "SCREEN";
+  };
+};
+
+# ============================================================================
+# Highlights (Notifications)
+# ============================================================================
+
+hilights = (
+{{- if .githubUser }}
+  { text = "{{ .githubUser }}"; nick = "no"; word = "yes"; }
+{{- else }}
+  # { text = "yournick"; nick = "no"; word = "yes"; }
+{{- end }}
+);
+
+# ============================================================================
+# Keyboard Shortcuts
+# ============================================================================
+
+keyboard = (
+  # Nicklist scrolling (requires nicklist.pl script)
+  { key = "^up"; id = "command"; data = "nicklist scroll -10"; },
+  { key = "^down"; id = "command"; data = "nicklist scroll +10"; }
+);
+
+# ============================================================================
+# Status Bar Configuration
+# ============================================================================
+
+statusbar = {
+  items = {
+    barstart = "{sbstart}";
+    barend = "{sbend}";
+    topicbarstart = "{topicsbstart}";
+    topicbarend = "{topicsbend}";
+    time = "{sb $Z}";
+    user = "{sb {sbnickmode $cumode}$N{sbmode $usermode}{sbaway $A}}";
+    window = "{sb $winref:$tag/$itemname{sbmode $M}}";
+    window_empty = "{sb $winref{sbservertag $tag}}";
+    prompt = "{prompt $[.15]itemname}";
+    prompt_empty = "{prompt $winname}";
+    topic = " $topic";
+    topic_empty = " Irssi v$J - https://irssi.org";
+    lag = "{sb Lag: $0-}";
+    act = "{sb Act: $0-}";
+    more = "-- more --";
+  };
+
+  default = {
+    window = {
+      disabled = "no";
+      type = "window";
+      placement = "bottom";
+      position = "1";
+      visible = "active";
+      items = {
+        barstart = { priority = "100"; };
+        time = { };
+        user = { };
+        window = { };
+        window_empty = { };
+        lag = { priority = "-1"; };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+
+    window_inact = {
+      type = "window";
+      placement = "bottom";
+      position = "1";
+      visible = "inactive";
+      items = {
+        barstart = { priority = "100"; };
+        window = { };
+        window_empty = { };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+
+    prompt = {
+      type = "root";
+      placement = "bottom";
+      position = "100";
+      visible = "always";
+      items = {
+        prompt = { priority = "-1"; };
+        prompt_empty = { priority = "-1"; };
+        input = { priority = "10"; };
+      };
+    };
+
+    topic = {
+      type = "root";
+      placement = "top";
+      position = "1";
+      visible = "always";
+      items = {
+        topicbarstart = { priority = "100"; };
+        topic = { };
+        topic_empty = { };
+        topicbarend = { priority = "100"; alignment = "right"; };
+      };
+    };
+  };
+};
+
+# ============================================================================
+# Windows (Auto-created on first run)
+# ============================================================================
+
+windows = {
+  1 = {
+    immortal = "yes";
+    name = "(status)";
+    level = "ALL";
+  };
+  2 = { name = "hilight"; };
+};
