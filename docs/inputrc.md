@@ -2,7 +2,6 @@
 
 Modern GNU Readline configuration with vi mode, advanced completion, and security features.
 
-> **Last Updated**: October 2025
 > **Config Location**: `~/.inputrc` (managed via chezmoi as `dot_inputrc.tmpl`)
 > **Requires**: readline 7.0+ (bash 5.0+) for modern features
 
@@ -680,8 +679,3 @@ See `~/.inputrc` - this is what we use by default.
 - [Bindable Readline Commands](https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html)
 - [Readline Vi Mode](https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html)
 
----
-
-**Last Updated**: October 2025
-**Maintainer**: Arun Karunagath
-**GitHub**: [kra3/dot_files](https://github.com/kra3/dot_files)
