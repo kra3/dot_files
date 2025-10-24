@@ -1,75 +1,123 @@
 # ============================================================================
 # Readline Configuration
 # ============================================================================
-# Applies to all readline-enabled programs: bash, python, mysql, psql, etc.
+# Requires: readline 7.0+ (bash 5.0+) for modern features
+#
+# Complete documentation: docs/inputrc.md
+# Quick reload: Press Ctrl-x Ctrl-r in bash
+# Test bindings: bind -p (show all), bind -v (show variables)
 
 # ============================================================================
 # Completion Behavior
 # ============================================================================
 
-# Case-insensitive completion
 set completion-ignore-case on
-
-# Show all matches on first Tab (no double-tab needed)
+set completion-map-case on
 set show-all-if-ambiguous on
-
-# Colorize completion list using LS_COLORS
+set show-all-if-unmodified on
 set colored-stats on
-
-# Add / to symlinked directories
-set mark-symlinked-directories on
-
-# Show file type indicators (@=symbolic link, *=executable, /=directory)
-set visible-stats on
-
-# Color the common completion prefix (bash 4.4+)
 set colored-completion-prefix on
-
-# Show prefix before cycling through completions (bash 4.4+)
 set menu-complete-display-prefix on
+set mark-symlinked-directories on
+set visible-stats on
+set mark-directories on
 
 # ============================================================================
 # Bell & Display
 # ============================================================================
 
-# No bell on completion
 set bell-style none
-
-# Page completions if too many
 set page-completions on
-
-# Ask before showing >100 completions
 set completion-query-items 100
+set echo-control-characters off
 
 # ============================================================================
-# Editing Mode
+# Modern Readline Features (7.0+)
 # ============================================================================
 
-# Use emacs keybindings (default)
-set editing-mode emacs
-
-# For vi mode, uncomment:
-# set editing-mode vi
-# set keymap vi-command
-
-# ============================================================================
-# History Search Bindings
-# ============================================================================
-
-# Up/Down arrows search history based on current input
-# Example: type "git" then Up → shows previous "git" commands
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+set enable-bracketed-paste on
+set revert-all-at-newline on
+set show-mode-in-prompt on
+set vi-ins-mode-string "\1\e[6 q\2"
+set vi-cmd-mode-string "\1\e[2 q\2"
 
 # ============================================================================
 # Misc Settings
 # ============================================================================
 
-# Immediately show matches without bell
-set show-all-if-unmodified on
-
-# Expand tilde to full path
 set expand-tilde on
-
-# Skip completed text when moving cursor (bash 5.0+)
 set skip-completed-text on
+
+# ============================================================================
+# Editing Mode - Vi
+# ============================================================================
+# For emacs mode: comment out lines 59-106, uncomment line 111
+
+set editing-mode vi
+
+# Vi Insert Mode Keybindings
+set keymap vi-insert
+
+# History search
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+Control-p: previous-history
+Control-n: next-history
+Control-r: reverse-search-history
+Control-s: forward-search-history
+
+# Fast escape
+"jj": vi-movement-mode
+
+# Emacs-style navigation
+Control-a: beginning-of-line
+Control-e: end-of-line
+Control-l: clear-screen
+
+# Emacs-style editing
+Control-w: backward-kill-word
+Control-k: kill-line
+Control-u: unix-line-discard
+Control-y: yank
+Control-d: delete-char
+
+# Completion
+"\t": complete
+"\e[Z": menu-complete-backward
+
+# Home/End keys
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+# Ctrl-Left/Right: word movement
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+# Vi Command Mode Keybindings
+set keymap vi-command
+
+# History search
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+Control-r: reverse-search-history
+
+# Edit command in $EDITOR
+"v": edit-and-execute-command
+
+# Emacs compatibility
+Control-l: clear-screen
+Control-a: beginning-of-line
+Control-e: end-of-line
+
+# Home/End keys
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+# ============================================================================
+# Alternative: Emacs Mode
+# ============================================================================
+# Uncomment for emacs mode, comment out Vi Mode section above
+
+# set editing-mode emacs
+# "\e[A": history-search-backward
+# "\e[B": history-search-forward
