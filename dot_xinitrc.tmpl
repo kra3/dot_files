@@ -1,0 +1,136 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env bash
+# ============================================================================
+# X11 Session Initialization
+# ============================================================================
+# Executes when starting an X11 session (startx, xinit, display manager)
+# Documentation: https://wiki.archlinux.org/title/Xinit
+
+# ============================================================================
+# X Resources
+# ============================================================================
+
+# Load Xresources configuration (fonts, colors, terminal settings)
+xrdb -merge ~/.Xresources &
+
+# ============================================================================
+# Security & Session Management
+# ============================================================================
+
+# Auto-lock screen after 5 minutes of inactivity
+# Requires: xautolock, i3lock, imagemagick
+if command -v xautolock >/dev/null 2>&1 && [ -x "$HOME/.local/bin/i3lock-blur" ]; then
+    xautolock -time 5 -locker "$HOME/.local/bin/i3lock-blur" &
+fi
+
+# Hide mouse cursor after 5 seconds of inactivity
+# Requires: unclutter
+if command -v unclutter >/dev/null 2>&1; then
+    unclutter -root -idle 5 &
+fi
+
+# Start SSH agent for key management
+eval $(ssh-agent) >/dev/null 2>&1
+
+# ============================================================================
+# Terminal Setup
+# ============================================================================
+
+# Start URxvt in daemon mode for faster terminal spawning
+# Requires: rxvt-unicode
+if command -v urxvtd >/dev/null 2>&1; then
+    urxvtd -q -f -o &
+fi
+
+# ============================================================================
+# Keyboard & Input
+# ============================================================================
+
+# Enable multiple keyboard layouts with Alt+Shift toggle
+# Layout 1: US English (primary)
+# Layout 2: French (secondary)
+if command -v setxkbmap >/dev/null 2>&1; then
+    setxkbmap -layout "us,fr" -option "grp:alt_shift_toggle"
+fi
+
+# Enable Numlock on startup (optional)
+# if command -v numlockx >/dev/null 2>&1; then
+#     numlockx &
+# fi
+
+# ============================================================================
+# Input Method - IBus
+# ============================================================================
+# IBus provides multilingual input support (Chinese, Japanese, Korean, etc.)
+
+if command -v ibus-daemon >/dev/null 2>&1; then
+    export GTK_IM_MODULE=ibus
+    export XMODIFIERS=@im=ibus
+    export QT_IM_MODULE=ibus
+    ibus-daemon -drx &
+fi
+
+# ============================================================================
+# Optional Components
+# ============================================================================
+
+# Irssi desktop notifications (via DBus)
+if [ -x "$HOME/.local/bin/notify-listener.py" ]; then
+    "$HOME/.local/bin/notify-listener.py" &
+fi
+
+# Network Manager applet (system tray icon)
+# if command -v nm-applet >/dev/null 2>&1; then
+#     nm-applet --sm-disable &
+# fi
+
+# Clipboard manager (unifies primary and clipboard selections)
+# if command -v parcellite >/dev/null 2>&1; then
+#     parcellite &
+# fi
+
+# Wallpaper (requires feh and image file)
+# if command -v feh >/dev/null 2>&1 && [ -f ~/.wallpaper.jpg ]; then
+#     feh --bg-fill ~/.wallpaper.jpg &
+# fi
+
+# Status bar integration (for dwm)
+# if command -v conky >/dev/null 2>&1; then
+#     sleep 5 && conky | while read -r; do xsetroot -name "$REPLY"; done &
+# fi
+
+# ============================================================================
+# Custom Font Paths (if needed)
+# ============================================================================
+
+# Add custom font directory (e.g., Terminus on Ubuntu)
+# xset +fp /usr/share/fonts/X11/misc/
+# xset fp rehash
+
+# ============================================================================
+# Machine-Specific Configuration
+# ============================================================================
+
+# Source local customizations (not tracked in dotfiles)
+# Example: Display setup (arandr), work-specific tools, etc.
+if [ -f "$HOME/.xinitrc_local" ]; then
+    . "$HOME/.xinitrc_local"
+fi
+
+# ============================================================================
+# Window Manager / Desktop Environment Launch
+# ============================================================================
+# Typically handled by display manager (GDM, LightDM, SDDM)
+# Uncomment if using startx manually:
+
+# session=${1:-i3}
+#
+# case $session in
+#     i3) exec i3 ;;
+#     dwm) exec dwm ;;
+#     gnome) exec gnome-session ;;
+#     kde) exec startplasma-x11 ;;
+#     xfce) exec startxfce4 ;;
+#     *) exec $1 ;;
+# esac
+{{- end -}}

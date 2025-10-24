@@ -1,0 +1,13 @@
+{{- if eq .chezmoi.os "linux" -}}
+[Desktop Entry]
+Name=dwm
+Comment=Dynamic window manager
+Exec=dwm
+Icon=dwm
+Type=Application
+DesktopNames=dwm
+Keywords=tiling;wm;windowmanager;window;manager;
+
+[Window Manager]
+SessionManaged=true
+{{- end -}}

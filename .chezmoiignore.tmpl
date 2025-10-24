@@ -1,0 +1,21 @@
+# Documentation - kept in repo but not deployed
+docs/
+
+# Local/private configuration - machine-specific, not in repo
+.shell_local
+.gitconfig.work
+docs/migration-todo.md
+docs/tool-analysis.md
+
+# Linux-specific configs - only deploy on Linux
+{{ if ne .chezmoi.os "linux" }}
+.xinitrc
+.Xresources
+.xinputrc
+.config/i3/
+.config/irssi/
+.config/conky/
+.local/share/xsessions/
+.local/bin/i3lock-blur
+.local/bin/notify-listener.py
+{{ end }}

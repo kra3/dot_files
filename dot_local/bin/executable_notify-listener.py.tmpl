@@ -1,0 +1,115 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env python3
+# ============================================================================
+# Irssi Desktop Notification Listener
+# ============================================================================
+# Listens for irssi notifications via DBus and displays desktop notifications
+# with sound alerts
+#
+# Requirements:
+# - python3-gi (PyGObject)
+# - python3-dbus
+# - gir1.2-notify-0.7 (notification daemon)
+# - libcanberra-gtk-module (sound support)
+# - irssi with notify.pl script
+#
+# Setup:
+# 1. Install dependencies:
+#    sudo apt install python3-gi python3-dbus gir1.2-notify-0.7 libcanberra-gtk-module
+#
+# 2. Install irssi notify.pl script:
+#    mkdir -p ~/.config/irssi/scripts/autorun
+#    wget -O ~/.config/irssi/scripts/notify.pl https://scripts.irssi.org/scripts/notify.pl
+#    ln -s ~/.config/irssi/scripts/notify.pl ~/.config/irssi/scripts/autorun/
+#
+# 3. Start listener in background:
+#    ~/bin/notify-listener.py &
+#
+# 4. Or add to ~/.xinitrc:
+#    ~/bin/notify-listener.py &
+
+import os
+import sys
+
+try:
+    from gi.repository import Notify, GObject
+except ImportError:
+    print('Error: Could not import pygobject', file=sys.stderr)
+    print('Install: sudo apt install python3-gi gir1.2-notify-0.7', file=sys.stderr)
+    sys.exit(1)
+
+try:
+    import dbus
+    import dbus.mainloop.glib
+except ImportError:
+    print('Error: Could not import dbus', file=sys.stderr)
+    print('Install: sudo apt install python3-dbus', file=sys.stderr)
+    sys.exit(1)
+
+
+# Find sound player (canberra-gtk-play for alert sounds)
+player = None
+for path in os.environ.get('PATH', '').split(os.pathsep):
+    player_path = os.path.join(path, 'canberra-gtk-play')
+    if os.path.isfile(player_path):
+        player = player_path
+        break
+
+
+class IrssiListener:
+    """Listens for irssi notifications via DBus and shows desktop notifications"""
+
+    def __init__(self):
+        # Setup DBus main loop
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+        self.bus = dbus.SessionBus()
+
+        # Register signal receiver for irssi notifications
+        self.bus.add_signal_receiver(
+            self.notify,
+            signal_name='IrssiNotify',
+            dbus_interface='org.irssi.Irssi',
+            path='/org/irssi/Irssi'
+        )
+
+        # Initialize notification system
+        Notify.init('irssi')
+        print('Irssi notification listener started')
+
+    def notify(self, subject, message):
+        """Display desktop notification for irssi message"""
+        print(f'{subject}: {message}')
+
+        # Create and show notification
+        notification = Notify.Notification.new(
+            subject.encode('utf-8').decode('utf-8'),
+            message.encode('utf-8').decode('utf-8'),
+            'dialog-information'
+        )
+        notification.show()
+
+        # Play notification sound
+        if player is not None:
+            os.spawnlp(
+                os.P_NOWAIT,
+                'canberra-gtk-play',
+                player,
+                '-i', 'message-new-instant'
+            )
+
+    def __del__(self):
+        Notify.uninit()
+
+
+if __name__ == '__main__':
+    try:
+        listener = IrssiListener()
+        loop = GObject.MainLoop()
+        loop.run()
+    except KeyboardInterrupt:
+        print('\nNotification listener stopped')
+        sys.exit(0)
+    except Exception as e:
+        print(f'Error: {e}', file=sys.stderr)
+        sys.exit(1)
+{{- end -}}

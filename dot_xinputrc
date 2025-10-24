@@ -1,0 +1,37 @@
+# ============================================================================
+# X Input Method Configuration - IBus
+# ============================================================================
+# IBus (Intelligent Input Bus) provides multilingual input support
+# Languages: Chinese, Japanese, Korean, Vietnamese, Thai, and more
+#
+# Documentation: https://github.com/ibus/ibus/wiki
+# Install: sudo apt install ibus ibus-gtk ibus-gtk3 ibus-qt4
+#
+# Usage:
+# - Start: ibus-daemon -drx
+# - Configure: ibus-setup
+# - Toggle input: Super+Space (default)
+
+# ============================================================================
+# IBus Configuration
+# ============================================================================
+
+XIM=ibus
+XIM_PROGRAM="/usr/bin/ibus-daemon"
+ICON="/usr/share/icons/hicolor/scalable/apps/ibus.svg"
+XIM_ARGS="-r --xim"
+PREFERENCE_PROGRAM=/usr/bin/ibus-setup
+SHORT_DESC="IBus"
+GTK_IM_MODULE=ibus
+
+# ============================================================================
+# Qt Input Module Detection
+# ============================================================================
+# Use native IBus Qt plugin if available, fallback to XIM
+
+if test -f /usr/lib/qt4/plugins/inputmethods/libqtim-ibus.so || \
+   test -f /usr/lib64/qt4/plugins/inputmethods/libqtim-ibus.so; then
+    QT_IM_MODULE=ibus
+else
+    QT_IM_MODULE=xim
+fi

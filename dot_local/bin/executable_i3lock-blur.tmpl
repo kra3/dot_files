@@ -1,0 +1,34 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+# ============================================================================
+# i3lock with Blurred Screenshot
+# ============================================================================
+# Takes a screenshot of the current desktop and uses it as lock screen
+# background with blur effect
+#
+# Requirements:
+# - imagemagick (for convert command)
+# - i3lock
+#
+# Usage:
+# - Direct: ~/bin/i3lock-blur
+# - With xautolock: xautolock -time 5 -locker ~/bin/i3lock-blur
+
+set -e
+
+SCREENSHOT="/tmp/.desktop-lock.png"
+
+# Take screenshot of current desktop
+import -window root "$SCREENSHOT"
+
+# Apply blur effect (optional - remove if you want sharp screenshot)
+if command -v convert >/dev/null 2>&1; then
+    convert "$SCREENSHOT" -scale 10% -blur 0x2.5 -resize 1000% "$SCREENSHOT"
+fi
+
+# Lock screen with screenshot as background
+i3lock -i "$SCREENSHOT" -c 000000 -p win
+
+# Clean up
+rm -f "$SCREENSHOT"
+{{- end -}}
