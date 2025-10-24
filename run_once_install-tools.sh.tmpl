@@ -187,6 +187,32 @@ else
     echo "✅ vim-plug already installed"
 fi
 
+{{- if eq .chezmoi.os "darwin" }}
+# Install Catppuccin theme for Terminal.app
+echo ""
+THEME_DIR="$HOME/.config/terminal-themes"
+if [ ! -f "$THEME_DIR/Catppuccin-Mocha.terminal" ]; then
+    echo "📥 Installing Catppuccin theme for Terminal.app..."
+    mkdir -p "$THEME_DIR"
+
+    # Download all Catppuccin flavors for Terminal.app
+    curl -fsSL -o "$THEME_DIR/Catppuccin-Mocha.terminal" \
+        https://raw.githubusercontent.com/catppuccin/Terminal.app/main/themes/catppuccin-mocha.terminal
+    curl -fsSL -o "$THEME_DIR/Catppuccin-Macchiato.terminal" \
+        https://raw.githubusercontent.com/catppuccin/Terminal.app/main/themes/catppuccin-macchiato.terminal
+    curl -fsSL -o "$THEME_DIR/Catppuccin-Frappe.terminal" \
+        https://raw.githubusercontent.com/catppuccin/Terminal.app/main/themes/catppuccin-frappe.terminal
+    curl -fsSL -o "$THEME_DIR/Catppuccin-Latte.terminal" \
+        https://raw.githubusercontent.com/catppuccin/Terminal.app/main/themes/catppuccin-latte.terminal
+
+    echo "✅ Catppuccin themes downloaded to $THEME_DIR"
+    echo "   To apply: Terminal.app → Settings → Profiles → Import..."
+    echo "   Then select: $THEME_DIR/Catppuccin-Mocha.terminal"
+else
+    echo "✅ Catppuccin themes already installed"
+fi
+{{- end }}
+
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "✅ Installation complete!"
@@ -252,12 +278,25 @@ echo "  • zsh-syntax-highlighting - Command validation"
 echo ""
 echo "🚀 Next steps:"
 echo "  1. Start a new shell to load all tools"
+{{- if eq .chezmoi.os "darwin" }}
+echo "  2. Apply Terminal.app theme:"
+echo "     • Terminal → Settings → Profiles → Import"
+echo "     • Select: ~/.config/terminal-themes/Catppuccin-Mocha.terminal"
+echo "     • Set as default profile"
+echo "  3. Start tmux: tmux"
+echo "  4. Install tmux plugins: Ctrl+a then Shift+I"
+echo "  5. Install vim plugins: vim +PlugInstall +qall"
+echo "  6. Session manager: Ctrl+a K"
+echo "  7. Lazygit in tmux: Ctrl+a g"
+echo "  8. Configure p10k: p10k configure (for zsh)"
+{{- else }}
 echo "  2. Start tmux: tmux"
 echo "  3. Install tmux plugins: Ctrl+a then Shift+I"
 echo "  4. Install vim plugins: vim +PlugInstall +qall"
 echo "  5. Session manager: Ctrl+a K"
 echo "  6. Lazygit in tmux: Ctrl+a g"
 echo "  7. Configure p10k: p10k configure (for zsh)"
+{{- end }}
 echo ""
 echo "📖 Git usage:"
 echo "  • git diff   → delta (automatic)"
