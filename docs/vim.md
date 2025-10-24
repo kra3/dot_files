@@ -2,7 +2,6 @@
 
 Modern Vim 9 configuration with LSP support, 45 carefully curated plugins, and comprehensive language support.
 
-> **Last Updated**: October 2025
 > **Vim Version Required**: 9.0+
 > **Config Location**: `~/.vimrc` (managed via chezmoi as `dot_vimrc`)
 
@@ -952,8 +951,3 @@ Potential additions being considered:
 - [Vim Help](https://vimhelp.org/) - Official Vim documentation
 - [Learn Vimscript the Hard Way](https://learnvimscriptthehardway.stevelosh.com/) - Vimscript guide
 
----
-
-**Last Updated**: October 2025
-**Maintainer**: Arun Karunagath
-**GitHub**: [kra3/dot_files](https://github.com/kra3/dot_files)
