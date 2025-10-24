@@ -1,9 +1,6 @@
 # Documentation - kept in repo but not deployed
 docs/
 
-# Helper scripts - kept in repo but not deployed
-scripts/
-
 # Local/private configuration - machine-specific, not in repo
 .shell_local
 .gitconfig.work

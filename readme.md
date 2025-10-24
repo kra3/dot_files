@@ -72,12 +72,24 @@ This file is:
 - ✅ **Vim** - LSP-powered Vim 9 with 45 plugins, 6 languages, Catppuccin theme ([docs](docs/vim.md))
 - ✅ **Terminal.app** - Catppuccin theme for consistent look (macOS)
 
-### Tools Installed (31 Total)
+### Tool Configurations
+
+All major CLI tools have been configured with sensible defaults and Catppuccin theming:
+
+- ✅ **lazygit** - Catppuccin Mocha theme, custom keybindings, delta integration
+- ✅ **bat** - Catppuccin Mocha syntax highlighting, line numbers, Git diff markers
+- ✅ **ripgrep** - Smart case, hidden files, comprehensive ignore patterns
+- ✅ **direnv** - Auto-whitelist for project directories
+- ✅ **GitHub CLI (gh)** - SSH protocol, vim editor, common aliases
+- ✅ **colordiff** - Catppuccin-inspired color scheme
+
+### Tools Installed (32 Total)
 
 **Core:**
 - `git`, `gh` - Version control and GitHub CLI
 - `vim` - Text editor
 - `curl`, `jq` - Data transfer and JSON processing
+- `node` - JavaScript runtime (includes npm for LSP servers)
 - `awscli` - AWS command line interface
 - `docker`, `docker-compose` - Container platform
 
@@ -167,6 +179,11 @@ All components use the **Catppuccin Mocha** theme for a consistent, modern look.
 - **Theme**: Catppuccin Mocha (via `catppuccin/tmux` plugin)
 - **Setup**: Install plugins with `Ctrl+a Shift+I` in tmux
 - **Config**: `~/.tmux/.tmux.conf`
+
+### bat (Syntax Highlighting)
+- **Theme**: Catppuccin Mocha
+- **Setup**: Automatic via provisioning script
+- **Config**: `~/.config/bat/config`
 
 ### Terminal.app (macOS)
 - **Theme**: Catppuccin Mocha (4 flavors available)
@@ -274,16 +291,22 @@ Chezmoi automatically detects:
 │   ├── bash.md                     # Bash documentation
 │   ├── zsh.md                      # Zsh documentation
 │   ├── git.md                      # Git documentation
-│   └── tmux-cheatsheet.md          # Quick reference
-├── scripts/                        # Helper scripts
+│   └── vim.md                      # Vim documentation
 ├── dot_bash_profile.tmpl           # Bash login shell
 ├── dot_bashrc.tmpl                 # Bash interactive shell
 ├── dot_zprofile.tmpl               # Zsh login shell
 ├── dot_zshrc.tmpl                  # Zsh interactive shell
 ├── dot_shell_common.sh.tmpl        # Shared bash/zsh config
 ├── dot_gitconfig.tmpl              # Git configuration
+├── dot_vimrc                        # Vim configuration
 ├── dot_tmux/
 │   └── dot_tmux.conf.tmpl          # Tmux configuration
+├── dot_config/                      # Tool configurations
+│   ├── bat/config                  # bat theme and settings
+│   ├── lazygit/config.yml          # lazygit configuration
+│   ├── gh/config.yml.tmpl          # GitHub CLI settings
+│   ├── direnv/direnv.toml.tmpl     # direnv whitelist
+│   └── sesh/sesh.toml              # sesh session manager
 └── run_once_install-tools.sh.tmpl  # Tool installation script
 ```
 
@@ -297,11 +320,12 @@ This repository has been modernized from a manual symlink-based setup to chezmoi
 - ✅ Git modernization (delta, git-absorb, difftastic, 50+ aliases)
 - ✅ Bash modernization (5.3+ with enhanced history, lazy-loading)
 - ✅ Zsh modernization (5.9+ with Powerlevel10k, performance optimization)
-- ✅ Comprehensive provisioning script (31 tools)
+- ✅ Comprehensive provisioning script (32 tools)
 - ✅ Complete documentation (tmux, git, bash, zsh, vim)
 - ✅ Work/personal separation via local config files
 - ✅ Vim modernization (LSP support, 45 plugins, 6 languages)
-- ✅ Unified theming (Catppuccin Mocha for Vim, Tmux, Terminal.app)
+- ✅ Unified theming (Catppuccin Mocha for Vim, Tmux, bat, Terminal.app)
+- ✅ Tool configurations (lazygit, bat, ripgrep, direnv, gh, colordiff)
 
 **Planned**:
 - 📋 Neovim migration (optional)

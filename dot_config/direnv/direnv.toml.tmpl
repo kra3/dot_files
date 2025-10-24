@@ -1,0 +1,27 @@
+# direnv configuration
+# Manages directory-specific environment variables
+
+# Whitelist configuration
+# By default, direnv requires manual approval for .envrc files
+# You can whitelist directories here to auto-allow .envrc files
+
+# Example: Whitelist your entire src directory (uncomment if desired)
+# [whitelist]
+# prefix = [ "~/src" ]
+
+# Whitelist specific directories (examples)
+[whitelist]
+prefix = [
+    "~/src",
+]
+
+# Logging configuration
+[global]
+# Load times that exceed this duration will be logged
+warn_timeout = "5s"
+
+# Hide "direnv: loading" messages (set to true for quiet mode)
+hide_env_diff = false
+
+# Disable hints (set to true to hide suggestions)
+disable_stdin = false

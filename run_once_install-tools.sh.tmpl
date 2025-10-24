@@ -36,6 +36,7 @@ brew install \
     vim \
     curl \
     jq \
+    node \
     awscli \
     docker \
     docker-compose
@@ -187,6 +188,24 @@ else
     echo "✅ vim-plug already installed"
 fi
 
+# Install Catppuccin theme for bat
+echo ""
+BAT_THEME_DIR="$(bat --config-dir)/themes"
+if [ ! -f "$BAT_THEME_DIR/Catppuccin Mocha.tmTheme" ]; then
+    echo "📥 Installing Catppuccin theme for bat..."
+    mkdir -p "$BAT_THEME_DIR"
+
+    curl -fsSL -o "$BAT_THEME_DIR/Catppuccin Mocha.tmTheme" \
+        https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Mocha.tmTheme
+
+    # Rebuild bat cache
+    bat cache --build > /dev/null 2>&1
+
+    echo "✅ Catppuccin theme installed for bat"
+else
+    echo "✅ Catppuccin theme already installed for bat"
+fi
+
 {{- if eq .chezmoi.os "darwin" }}
 # Install Catppuccin theme for Terminal.app
 echo ""
@@ -226,6 +245,7 @@ echo "  • gh         - GitHub CLI"
 echo "  • vim        - Text editor"
 echo "  • curl       - Data transfer tool"
 echo "  • jq         - JSON processor"
+echo "  • node       - JavaScript runtime (includes npm)"
 echo "  • awscli     - AWS command line interface"
 echo "  • docker     - Container platform"
 echo ""
