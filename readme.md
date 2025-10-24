@@ -65,11 +65,12 @@ This file is:
 
 ### Currently Managed
 
-- ✅ **Tmux** - Modern tmux 3.5a with sesh session management, popups, fzf ([docs](docs/tmux.md))
+- ✅ **Tmux** - Modern tmux 3.5a with Catppuccin theme, sesh, popups, fzf ([docs](docs/tmux.md))
 - ✅ **Git** - Delta, git-absorb, difftastic, 50+ aliases ([docs](docs/git.md))
 - ✅ **Bash** - Modern bash 5.3+ with enhanced history, completions ([docs](docs/bash.md))
 - ✅ **Zsh** - Powerlevel10k, optimized completions, instant prompt ([docs](docs/zsh.md))
-- ✅ **Vim** - LSP-powered Vim 9 with 45 plugins, 6 languages supported ([docs](docs/vim.md))
+- ✅ **Vim** - LSP-powered Vim 9 with 45 plugins, 6 languages, Catppuccin theme ([docs](docs/vim.md))
+- ✅ **Terminal.app** - Catppuccin theme for consistent look (macOS)
 
 ### Tools Installed (31 Total)
 
@@ -152,6 +153,32 @@ chezmoi update
 chezmoi state delete-bucket --bucket=scriptState
 chezmoi apply
 ```
+
+## Theme Configuration
+
+All components use the **Catppuccin Mocha** theme for a consistent, modern look.
+
+### Vim
+- **Theme**: Catppuccin Mocha (via `catppuccin/vim` plugin)
+- **Setup**: Automatic after running `vim +PlugInstall +qall`
+- **Config**: `~/.vimrc` line 245
+
+### Tmux
+- **Theme**: Catppuccin Mocha (via `catppuccin/tmux` plugin)
+- **Setup**: Install plugins with `Ctrl+a Shift+I` in tmux
+- **Config**: `~/.tmux/.tmux.conf`
+
+### Terminal.app (macOS)
+- **Theme**: Catppuccin Mocha (4 flavors available)
+- **Location**: `~/.config/terminal-themes/`
+- **Setup**:
+  1. Open Terminal.app
+  2. Go to Settings → Profiles
+  3. Click the gear icon (⚙️) → Import...
+  4. Select: `~/.config/terminal-themes/Catppuccin-Mocha.terminal`
+  5. Set as default profile
+
+**Available flavors**: Mocha (dark), Macchiato (dark), Frappe (dark), Latte (light)
 
 ## Local/Private Configuration
 
@@ -266,7 +293,7 @@ This repository has been modernized from a manual symlink-based setup to chezmoi
 
 **Completed**:
 - ✅ Chezmoi initialization and environment detection
-- ✅ Tmux modernization (3.5a with Vuesion theme, popups, sesh)
+- ✅ Tmux modernization (3.5a with Catppuccin theme, popups, sesh)
 - ✅ Git modernization (delta, git-absorb, difftastic, 50+ aliases)
 - ✅ Bash modernization (5.3+ with enhanced history, lazy-loading)
 - ✅ Zsh modernization (5.9+ with Powerlevel10k, performance optimization)
@@ -274,6 +301,7 @@ This repository has been modernized from a manual symlink-based setup to chezmoi
 - ✅ Complete documentation (tmux, git, bash, zsh, vim)
 - ✅ Work/personal separation via local config files
 - ✅ Vim modernization (LSP support, 45 plugins, 6 languages)
+- ✅ Unified theming (Catppuccin Mocha for Vim, Tmux, Terminal.app)
 
 **Planned**:
 - 📋 Neovim migration (optional)
