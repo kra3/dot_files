@@ -112,6 +112,11 @@ Plug 'liuchengxu/vim-which-key'                      " Keybinding helper - shows
 Plug 'vimwiki/vimwiki'                               " Personal wiki for notes
 Plug 'tpope/vim-eunuch'                              " Unix shell commands (:Delete, :Move, :Rename, etc.)
 
+"==============================================================================
+" AI/LLM INTEGRATION
+"==============================================================================
+Plug 'madox2/vim-ai'                                 " AI-powered code assistance via Ollama
+
 call plug#end()
 
 " }}}
@@ -1000,6 +1005,75 @@ endif
 " :SudoWrite   Write file using sudo
 " :SudoEdit    Edit file using sudo
 " :Wall        Write all buffers
+" }}}
+
+" vim-ai {{{
+" AI-powered code assistance using local Ollama
+if PluginAvailable('vim-ai')
+    " Configure vim-ai to use local Ollama
+    let g:vim_ai_complete = {
+    \  "engine": "complete",
+    \  "options": {
+    \    "model": "qwen2.5-coder:14b",
+    \    "endpoint_url": "http://localhost:11434/v1/completions",
+    \    "enable_auth": 0,
+    \    "request_timeout": 20,
+    \    "selection_boundary": "",
+    \    "max_tokens": 1000,
+    \    "temperature": 0.1,
+    \  },
+    \}
+
+    let g:vim_ai_chat = {
+    \  "options": {
+    \    "model": "qwen2.5-coder:14b",
+    \    "endpoint_url": "http://localhost:11434/v1/chat/completions",
+    \    "max_tokens": 2000,
+    \    "temperature": 0.2,
+    \    "enable_auth": 0,
+    \    "request_timeout": 30,
+    \  },
+    \  "ui": {
+    \    "open_chat_command": "preset_below",
+    \    "scratch_buffer_keep_open": 0,
+    \    "paste_mode": 1,
+    \  },
+    \}
+
+    let g:vim_ai_edit = {
+    \  "engine": "complete",
+    \  "options": {
+    \    "model": "qwen2.5-coder:14b",
+    \    "endpoint_url": "http://localhost:11434/v1/completions",
+    \    "max_tokens": 2000,
+    \    "temperature": 0.2,
+    \    "enable_auth": 0,
+    \    "request_timeout": 30,
+    \  },
+    \  "ui": {
+    \    "paste_mode": 1,
+    \  },
+    \}
+
+    " Keybindings for AI commands
+    " Visual mode: AI complete selection
+    xnoremap <leader>a :AIEdit<CR>
+    xnoremap <leader>ac :AIChat<CR>
+
+    " Normal mode: AI complete from cursor
+    nnoremap <leader>a :AI<CR>
+    nnoremap <leader>ac :AIChat<CR>
+
+    " Common AI prompts
+    xnoremap <leader>as :AI fix spelling and grammar<CR>
+    xnoremap <leader>ae :AI explain the code<CR>
+    xnoremap <leader>ar :AI refactor this code<CR>
+    xnoremap <leader>at :AI add types to this code<CR>
+    xnoremap <leader>ad :AI add documentation to this code<CR>
+    xnoremap <leader>af :AI fix bugs in this code<CR>
+    xnoremap <leader>ao :AI optimize this code<CR>
+    xnoremap <leader>au :AI add unit tests for this code<CR>
+endif
 " }}}
 
 

@@ -94,7 +94,7 @@ All major CLI tools have been configured with sensible defaults and Catppuccin t
 - ✅ **GitHub CLI (gh)** - SSH protocol, vim editor, common aliases
 - ✅ **colordiff** - Catppuccin-inspired color scheme
 
-### Tools Installed (32 Total)
+### Tools Installed (33 Total)
 
 **Core:**
 - `git`, `gh` - Version control and GitHub CLI
@@ -138,6 +138,9 @@ All major CLI tools have been configured with sensible defaults and Catppuccin t
 
 **Build Tools:**
 - `gng` - Gradle/Maven wrapper (provides `gw` command)
+
+**AI/ML Tools:**
+- `ollama` - Local LLM runtime for running AI models
 
 **Plugin Managers:**
 - `zinit` - Zsh plugin manager (installs p10k, autosuggestions, syntax-highlighting)
@@ -375,9 +378,3 @@ This repository has been modernized from a manual symlink-based setup to chezmoi
 - [Bash Configuration](docs/bash.md)
 - [Zsh Configuration](docs/zsh.md)
 - [Migration Notes](_archive/README.md)
-
----
-
-**Last Updated**: October 2025
-**Chezmoi Version**: 2.66.1+
-**Status**: Fully modernized and documented
