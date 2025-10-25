@@ -60,6 +60,9 @@ brew install \
 # Build tools
 brew install gng  # Gradle/Maven wrapper (provides 'gw' command)
 
+# AI/ML tools
+brew install ollama
+
 {{- else if eq .chezmoi.os "linux" }}
 # Linux installation
 if command -v apt-get &> /dev/null; then
@@ -134,6 +137,13 @@ if command -v apt-get &> /dev/null; then
     echo "Installing pyenv..."
     if [ ! -d "$HOME/.pyenv" ]; then
         curl https://pyenv.run | bash
+    fi
+
+    # AI/ML tools
+    echo ""
+    if ! command -v ollama &> /dev/null; then
+        echo "Installing Ollama..."
+        curl -fsSL https://ollama.com/install.sh | sh
     fi
 
     echo ""
@@ -265,6 +275,46 @@ else
 fi
 {{- end }}
 
+# Install Ollama models (optional - ~18GB total)
+echo ""
+if command -v ollama &> /dev/null; then
+    echo "📦 Ollama is installed. Pull AI models? (~18GB total)"
+    echo "   • qwen2.5-coder:14b     - 9.0 GB  - Code generation & completion"
+    echo "   • mistral-nemo:latest   - 7.1 GB  - General purpose LLM"
+    echo "   • starcoder2:3b         - 1.7 GB  - Fast code completion"
+    echo "   • nomic-embed-text      - 274 MB  - Text embeddings"
+    read -p "Pull Ollama models? [y/N] " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "📥 Pulling Ollama models (this may take a while)..."
+
+        echo "  → Pulling qwen2.5-coder:14b (9.0 GB)..."
+        ollama pull qwen2.5-coder:14b
+
+        echo "  → Pulling mistral-nemo:latest (7.1 GB)..."
+        ollama pull mistral-nemo:latest
+
+        echo "  → Pulling starcoder2:3b (1.7 GB)..."
+        ollama pull starcoder2:3b
+
+        echo "  → Pulling nomic-embed-text:latest (274 MB)..."
+        ollama pull nomic-embed-text:latest
+
+        echo "✅ Ollama models installed"
+        echo ""
+        echo "📖 Usage:"
+        echo "  • ollama run qwen2.5-coder:14b    - Code generation"
+        echo "  • ollama run mistral-nemo         - Chat/general queries"
+        echo "  • ollama run starcoder2:3b        - Fast code completion"
+        echo "  • ollama list                     - List installed models"
+    else
+        echo "⏭️  Skipping Ollama models"
+        echo "   To install later: ollama pull <model-name>"
+    fi
+else
+    echo "⚠️  Ollama not installed, skipping model installation"
+fi
+
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "✅ Installation complete!"
@@ -319,6 +369,9 @@ echo ""
 echo "Build tools:"
 echo "  • gng        - Gradle/Maven wrapper (gw command)"
 echo ""
+echo "AI/ML tools:"
+echo "  • ollama     - Local LLM runtime"
+echo ""
 echo "Plugin managers:"
 echo "  • tpm        - Tmux plugin manager"
 echo "  • zinit      - Zsh plugin manager"
@@ -357,4 +410,10 @@ echo "  • git dft    → difftastic (structural)"
 echo "  • git absorb → auto-fixup commits"
 echo "  • git fixup  → interactive fixup"
 echo "  • lazygit    → full TUI (or Ctrl+a g in tmux)"
+echo ""
+echo "🤖 Ollama usage:"
+echo "  • ollama list                  → List installed models"
+echo "  • ollama run qwen2.5-coder:14b → Code generation"
+echo "  • ollama run mistral-nemo      → Chat/general queries"
+echo "  • ollama pull <model>          → Download additional models"
 echo ""
