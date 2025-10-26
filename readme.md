@@ -255,11 +255,11 @@ This file is:
 # Work-specific credential helpers
 [credential "https://github.com"]
     helper =
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 
 [credential "https://github.company.com"]
     helper =
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 
 # GPG signing with company tools (example)
 [gpg "x509"]
@@ -276,6 +276,25 @@ This file is:
 - Included by `~/.gitconfig` on work machines
 - Not tracked in git (in `.chezmoiignore`)
 - Work-machine only
+
+### Git Configuration: `~/.gitconfig.local`
+
+```ini
+# Example ~/.gitconfig.local (not tracked in git)
+
+[user]
+    signingkey = ABCDEF1234567890
+
+[commit]
+    gpgsign = true
+```
+
+This file is:
+- Included by `~/.gitconfig` on all machines
+- Not tracked in git (ignored via `.chezmoiignore`)
+- Ideal for personal secrets (GPG keys, tokens, extra aliases)
+
+GPG pinentry prompts work in both macOS and Linux shells because `~/.shell_common.sh` exports `GPG_TTY=$(tty)` whenever `gpg` is installed.
 
 ## Environment Detection
 
@@ -378,3 +397,4 @@ This repository has been modernized from a manual symlink-based setup to chezmoi
 - [Bash Configuration](docs/bash.md)
 - [Zsh Configuration](docs/zsh.md)
 - [Migration Notes](_archive/README.md)
+- [Repository Guidelines](AGENTS.md)

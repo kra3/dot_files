@@ -7,10 +7,14 @@
 # ============================================================================
 
 export EDITOR="vim"
-export LC_ALL=en_US.UTF-8
-export LC_COLLATE=C
 export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
+export LC_ALL=$LANG
+export LC_CTYPE=$LANG
+
+# Ensure gpg pinentry can talk to the current terminal
+if command -v gpg >/dev/null 2>&1 && [[ -t 1 ]]; then
+    export GPG_TTY="$(tty)"
+fi
 
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -153,7 +157,9 @@ alias mv='mv -v'
 
 # Utilities
 alias cls='clear'
-alias vi='vim'
+if command -v vim > /dev/null 2>&1; then
+    alias vi="$(command -v vim)"
+fi
 alias h='history'
 alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T"'

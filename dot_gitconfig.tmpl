@@ -196,11 +196,11 @@
 # GitHub credential helper (works for both personal and work accounts)
 [credential "https://github.com"]
     helper =
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 
 [credential "https://gist.github.com"]
     helper =
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 
 # Enable commit signing (work machines use company-specific signing tool, personal machines use standard GPG)
 [commit]
@@ -211,3 +211,7 @@
 [include]
     path = ~/.gitconfig.work
 {{- end }}
+
+# Include personal overrides (kept out of chezmoi)
+[include]
+    path = ~/.gitconfig.local

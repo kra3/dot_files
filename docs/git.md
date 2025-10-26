@@ -34,7 +34,7 @@ Work-specific overrides (not tracked in git):
 Example:
 ```ini
 [credential "https://github.enterprise.com"]
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 
 [gpg "x509"]
     program = /usr/local/bin/company-sign
@@ -42,6 +42,19 @@ Example:
 [gpg]
     format = x509
 ```
+
+### `.gitconfig.local` (Personal)
+
+Personal overrides, secrets, and signing keys (kept out of version control):
+```ini
+[user]
+    signingkey = ABCDEF1234567890
+
+[commit]
+    gpgsign = true
+```
+
+Place this file at `~/.gitconfig.local`; chezmoi ignores it, but the main template includes it so Git loads the settings automatically.
 
 ## Core Settings
 
@@ -306,7 +319,7 @@ git rebase -i HEAD~5
 
 ```ini
 [credential "https://github.com"]
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 ```
 
 Setup:
@@ -323,7 +336,7 @@ GH_HOST=github.enterprise.com gh auth login
 In `~/.gitconfig.work`:
 ```ini
 [credential "https://github.enterprise.com"]
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 ```
 
 ## Commit Signing
@@ -334,6 +347,8 @@ In `~/.gitconfig.work`:
 [commit]
     gpgsign = true
 ```
+
+Terminal shells export `GPG_TTY=$(tty)` when `gpg` is available so pinentry prompts work on both macOS and Linux.
 
 Setup:
 ```bash
