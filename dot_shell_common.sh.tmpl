@@ -11,6 +11,7 @@ export EDITOR="/opt/homebrew/bin/vim"
 {{- else }}
 export EDITOR="vim"
 {{- end }}
+
 export LANG=en_US.UTF-8
 export LC_ALL=$LANG
 export LC_CTYPE=$LANG
@@ -92,12 +93,20 @@ _add_to_path() {
     local dir="$1"
     local position="${2:-prepend}"  # prepend or append
 
-    # Only add if directory exists and not already in PATH
-    if [[ -d "$dir" && ":$PATH:" != *":$dir:"* ]]; then
+    # Only add if directory exists
+    if [[ -d "$dir" ]]; then
+        # Remove existing occurrences to maintain ordering guarantees
+        local sanitized=":$PATH:"
+        sanitized="${sanitized//:$dir:/:}"
+        sanitized="${sanitized//::/:}"
+        sanitized="${sanitized#:}"
+        sanitized="${sanitized%:}"
+        PATH="$sanitized"
+
         if [[ "$position" == "append" ]]; then
-            PATH="$PATH:$dir"
+            PATH="${PATH:+$PATH:}$dir"
         else
-            PATH="$dir:$PATH"
+            PATH="$dir${PATH:+:$PATH}"
         fi
     fi
 }
