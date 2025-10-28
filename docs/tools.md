@@ -8,7 +8,7 @@ These tools are configured in `.shell_common.sh` and work identically in both ba
 
 ## Tool Categories
 
-- **Search & Navigation** - fzf, zoxide, ripgrep
+- **Search & Navigation** - fzf, fd, zoxide, ripgrep
 - **File Operations** - eza, bat
 - **Version Management** - pyenv, jenv, nvm
 - **Environment** - direnv
@@ -33,9 +33,19 @@ brew install fzf
 
 **Configuration:**
 ```bash
-# Use ripgrep for file search
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# Prefer fd (modern find) over ripgrep for file listing
+# fd is faster and more versatile for finding files
+if command -v fd &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+elif command -v fdfind &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+elif command -v rg &> /dev/null; then
+    # Fallback to ripgrep if fd not available
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
 ```
 
 **Usage Examples:**
@@ -189,6 +199,144 @@ rg -l "import"
 - Automatic file type detection
 - Colored output by default
 - Searches compressed files
+
+---
+
+### fd - Modern find
+
+**Purpose:** Fast and user-friendly alternative to `find` command.
+
+**Installation:**
+```bash
+brew install fd
+```
+
+**Aliases:**
+```bash
+# On Debian/Ubuntu, fd is installed as 'fdfind'
+# Automatically aliased to 'fd' in .shell_common.sh
+if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
+    alias fd='fdfind'
+fi
+```
+
+**Configuration:**
+- Respects `.gitignore` by default
+- Uses `.fdignore` for additional exclusions (similar to `.gitignore`)
+- Global ignore file at `~/.fdignore`
+
+**Basic Usage:**
+```bash
+# Find files by name (regex by default)
+fd pattern
+
+# Find files by extension
+fd -e js
+fd -e py
+
+# Find directories only
+fd -t d pattern
+
+# Find files only
+fd -t f pattern
+
+# Case-insensitive search
+fd -i readme
+
+# Include hidden files
+fd -H pattern
+
+# Follow symlinks
+fd -L pattern
+```
+
+**Advanced:**
+```bash
+# Search in specific directory
+fd pattern ~/src
+
+# Exclude patterns
+fd --exclude node_modules pattern
+
+# Show full path
+fd -a pattern
+
+# Execute command on results
+fd -e jpg -x convert {} {.}.png
+
+# List all files (like find)
+fd
+
+# Find files modified in last 24 hours
+fd --changed-within 24h
+
+# Find large files (> 100MB)
+fd --size +100m
+
+# Multiple file types
+fd -e js -e ts
+```
+
+**Comparison with find:**
+```bash
+# find command
+find . -name '*.js' -type f
+
+# fd equivalent (simpler)
+fd -e js
+
+# find with exclusions
+find . -name '*.py' -type f ! -path '*/node_modules/*'
+
+# fd equivalent (respects .gitignore automatically)
+fd -e py
+```
+
+**Integration:**
+```bash
+# Use with fzf (configured by default)
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+
+# Use in vim
+let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow --exclude .git'
+
+# Use in tmux (sesh session manager - directories only, no hidden)
+fd -d 3 -t d -E .Trash . ~
+```
+
+**.fdignore Configuration:**
+Create `~/.fdignore` for global exclusions:
+```
+# Build artifacts
+node_modules/
+target/
+build/
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+```
+
+**Advantages over find:**
+- 3-10x faster
+- Simpler syntax (regex by default)
+- Respects `.gitignore` automatically
+- Colorized output
+- Parallel directory traversal
+- Smart case sensitivity (case-insensitive if pattern is lowercase)
+
+**Pro Tips:**
+- Use `fd` without arguments to list all files (like `find .`)
+- `fd -t d` for directories, `-t f` for files, `-t l` for symlinks
+- `fd -H` includes hidden files, `-I` includes ignored files
+- `fd --changed-within 1d` for recent changes
+- `fd -x` to execute commands on results
+- Default search depth is unlimited; use `-d N` to limit
 
 ---
 
@@ -542,7 +690,7 @@ alias cat='bat --paging=never'
 # Use 'rg' directly for better performance
 
 # Environment variables
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export EDITOR="vim"
 export PAGER="less"
 export LESS="-R -F -X -i"
@@ -560,8 +708,9 @@ fi
 1. **nvm lazy-loading** - Already configured (saves 500ms startup)
 2. **zoxide** - Very fast (written in Rust)
 3. **fzf** - Fast even with large datasets
-4. **ripgrep** - 10-100x faster than grep
-5. **eza/bat** - Minimal overhead
+4. **fd** - 3-10x faster than find
+5. **ripgrep** - 10-100x faster than grep
+6. **eza/bat** - Minimal overhead
 
 ---
 
@@ -634,6 +783,7 @@ direnv status
 ## Resources
 
 - [fzf](https://github.com/junegunn/fzf)
+- [fd](https://github.com/sharkdp/fd)
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
 - [eza](https://github.com/eza-community/eza)

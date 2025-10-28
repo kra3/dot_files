@@ -1,0 +1,234 @@
+# ============================================================================
+# Modern tmux Configuration (tmux 3.5a)
+# ============================================================================
+
+# ============================================================================
+# General Settings
+# ============================================================================
+# True color support (override tmux-sensible's "screen-256color")
+set -g default-terminal "tmux-256color"
+set -ag terminal-overrides ",xterm-256color:RGB"
+
+# Undercurl support (for better terminal rendering)
+set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
+set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
+
+# Enable mouse support
+set -g mouse on
+
+# Start windows and panes at 1, not 0
+set -g base-index 1
+setw -g pane-base-index 1
+
+# Renumber windows when one is closed
+set -g renumber-windows on
+
+# Escape time: 10ms (override tmux-sensible's 0ms for better terminal compatibility)
+set -s escape-time 10
+
+# Increase repeat timeout
+set -sg repeat-time 400
+
+# Modern tmux 3.2+ features
+set -s extended-keys on              # Better key binding support
+set -s set-clipboard on              # External clipboard access
+set -g allow-passthrough on          # Modern terminal features (OSC sequences)
+
+# Set terminal title
+set -g set-titles on
+set -g set-titles-string '#h ❐ #S ● #I #W'
+
+# Activity monitoring
+set -g monitor-activity on
+set -g visual-activity off
+
+# Automatic window rename
+setw -g automatic-rename on
+
+# ============================================================================
+# Key Bindings
+# ============================================================================
+
+# Remap prefix from 'C-b' to 'C-a' (screen-like)
+unbind C-b
+set -g prefix C-a
+
+# Force Vi mode
+set -g status-keys vi
+set -g mode-keys vi
+
+# Edit configuration
+bind e new-window -n "~/.tmux.conf" "sh -c '\${EDITOR:-vim} \$(chezmoi source-path ~/.tmux.conf) && chezmoi apply ~/.tmux.conf && tmux source ~/.tmux.conf && tmux display \"Config sourced\"'"
+
+# ============================================================================
+# Pane & Window Management
+# ============================================================================
+
+# New window with current path
+bind c new-window -c "#{pane_current_path}"
+
+# Pane swapping - swap positions within window
+bind -r '{' swap-pane -U    # Swap with previous pane
+bind -r '}' swap-pane -D    # Swap with next pane
+
+# Break pane to new window
+bind T break-pane
+
+# Merge pane from another window (non-conflicting with resize H/J/K/L)
+bind m choose-window 'join-pane -h -s "%%"'  # Horizontal merge (m = merge)
+bind v choose-window 'join-pane -v -s "%%"'  # Vertical merge (v = vertical)
+
+# ============================================================================
+# Window Navigation
+# ============================================================================
+
+# Kill pane/window (modern workflow - no confirmation)
+bind x kill-pane
+bind X kill-window
+
+# Quick session tree
+bind s choose-tree -Zs
+
+# Window reordering - shift windows left/right in the list
+bind -r '<' swap-window -t -1 -d    # Move window left
+bind -r '>' swap-window -t +1 -d    # Move window right
+
+# ============================================================================
+# Copy Mode (Vi-style)
+# ============================================================================
+
+bind Enter copy-mode
+bind b list-buffers
+bind p paste-buffer
+bind P choose-buffer
+
+# Vi-style selection
+bind -T copy-mode-vi v send -X begin-selection
+bind -T copy-mode-vi C-v send -X rectangle-toggle
+bind -T copy-mode-vi Escape send -X cancel
+bind -T copy-mode-vi H send -X start-of-line
+bind -T copy-mode-vi L send -X end-of-line
+
+# ============================================================================
+# Session Management
+# ============================================================================
+
+# Last session (Shift+a) - complements 'a' for last-window from tmux-sensible
+bind A switch-client -l
+
+# Sesh session manager (C-a S) - advanced with multiple modes
+bind "S" run-shell "sesh connect \"$(
+  sesh list --icons | fzf-tmux -p 80%,70% \
+    --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
+    --bind 'tab:down,btab:up' \
+    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+    --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+    --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -d 3 -t d -E .Trash . ~)' \
+    --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+    --preview-window 'right:55%' \
+    --preview 'sesh preview {}'
+)\""
+
+# Window finder with fzf (C-w) - find windows across all sessions
+bind C-w display-popup -E -w 60% -h 60% \
+  "tmux list-windows -a -F '#S:#I:#W' | fzf --height 40% --reverse --border-label ' windows ' --border --prompt '🪟  ' | cut -d: -f1,2 | xargs tmux switch-client -t"
+
+# Popup for quick notes
+bind N run-shell "mkdir -p ~/notes" \; display-popup -E -w 80% -h 80% "\${EDITOR:-vim} ~/notes/tmux-scratch.md"
+
+# Popup for lazygit if available (prefix + g) - maximize workspace
+bind g if-shell "command -v lazygit" \
+  "display-popup -E -w 95% -h 95% -d '#{pane_current_path}' lazygit" \
+  "display-popup -E -w 80% -h 80% -d '#{pane_current_path}'"
+
+# Git status popup (prefix + G) - compact
+bind G display-popup -E -w 70% -h 70% -d "#{pane_current_path}" \
+  "git status; echo ''; echo 'Press enter to close'; read"
+
+# ============================================================================
+# Other Plugin Settings
+# ============================================================================
+
+# Continuum settings
+set -g @continuum-restore 'on'
+set -g @continuum-boot 'on'
+set -g @continuum-boot-options 'fullscreen' # if using iTerm add "iterm"
+
+# Resurrect settings
+set -g @resurrect-strategy-vim 'session'
+set -g @resurrect-strategy-nvim 'session'
+set -g @resurrect-capture-pane-contents 'on'
+
+# Tmux-yank settings (handles clipboard automatically per OS)
+set -g @yank_selection 'primary'  # Use primary selection (middle-click paste)
+set -g @yank_selection_mouse 'clipboard'  # Mouse selection goes to clipboard
+
+# Status bar position and justification
+set -g status-position bottom
+set -g status-justify "absolute-centre"
+
+# ============================================================================
+# Catppuccin Theme Configuration
+# ============================================================================
+
+# Catppuccin theme settings
+set -g @catppuccin_flavor 'mocha'
+
+# Window configuration
+set -g @catppuccin_window_status_style "rounded"
+set -g @catppuccin_window_number_position "right"
+set -g @catppuccin_window_text "#W"
+set -g @catppuccin_window_current_text "#W"
+
+# Load Catppuccin theme manually (recommended over TPM)
+# Installation handled by provisioning script: run_once_install-tools.sh
+if-shell "test -d ~/.tmux/plugins/catppuccin" \
+  "run '~/.tmux/plugins/catppuccin/catppuccin.tmux'" \
+  "display-message 'Catppuccin not found. Run: chezmoi apply'"
+
+# ============================================================================
+# Status Line Configuration (must be after catppuccin load, before TPM)
+# ============================================================================
+
+# Set status line length
+set -g status-left-length 100
+set -g status-right-length 100
+
+# Configure left side: session, application, directory
+set -g status-left "#{E:@catppuccin_status_session}"
+set -ag status-left "#{E:@catppuccin_status_application}"
+set -ag status-left "#{E:@catppuccin_status_directory}"
+
+# Configure right side: battery, date_time
+set -g status-right ""
+set -agF status-right "#{E:@catppuccin_status_battery}"
+set -agF status-right "#{E:@catppuccin_status_date_time}"
+
+# ============================================================================
+# Plugins (TPM)
+# ============================================================================
+
+set -g @plugin 'tmux-plugins/tpm'
+
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-pain-control'
+
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @plugin 'tmux-plugins/tmux-open'
+set -g @plugin 'tmux-plugins/tmux-battery'
+
+# ============================================================================
+# Initialize TPM (keep this at the very bottom)
+# ============================================================================
+
+# TPM installation is handled by provisioning script: run_once_install-tools.sh
+# Initialize TPM (only if installed)
+if-shell "test -d ~/.tmux/plugins/tpm" \
+  "run '~/.tmux/plugins/tpm/tpm'" \
+  "display-message 'TPM not found. Run: chezmoi apply'"

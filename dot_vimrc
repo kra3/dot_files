@@ -721,8 +721,14 @@ endif
     nnoremap <Leader>ft :Tags<CR>
     nnoremap <Leader>fm :Marks<CR>
     nnoremap <Leader>fh :History<CR>
-    " Use ripgrep with FZF for better performance
-    let $FZF_DEFAULT_COMMAND = executable('rg') ? 'rg --files --hidden --follow --glob "!.git/*"' : ''
+    " Use fd (or fallback to ripgrep) with FZF for better performance
+    if executable('fd')
+        let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow --exclude .git'
+    elseif executable('fdfind')
+        let $FZF_DEFAULT_COMMAND = 'fdfind --type f --hidden --follow --exclude .git'
+    elseif executable('rg')
+        let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+    endif
 " }}}
 
 

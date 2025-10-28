@@ -89,12 +89,13 @@ All major CLI tools have been configured with sensible defaults and Catppuccin t
 
 - ✅ **lazygit** - Catppuccin Mocha theme, custom keybindings, delta integration
 - ✅ **bat** - Catppuccin Mocha syntax highlighting, line numbers, Git diff markers
+- ✅ **fd** - Custom ignore patterns, integrated with fzf and tmux
 - ✅ **ripgrep** - Smart case, hidden files, comprehensive ignore patterns
 - ✅ **direnv** - Auto-whitelist for project directories
 - ✅ **GitHub CLI (gh)** - SSH protocol, vim editor, common aliases
 - ✅ **colordiff** - Catppuccin-inspired color scheme
 
-### Tools Installed (33 Total)
+### Tools Installed (34 Total)
 
 **Core:**
 - `git`, `gh` - Version control and GitHub CLI
@@ -110,6 +111,7 @@ All major CLI tools have been configured with sensible defaults and Catppuccin t
 
 **Navigation & Search:**
 - `fzf` - Fuzzy finder
+- `fd` - Modern find (fast file/directory search)
 - `zoxide` - Smart directory jumper
 
 **Git Tools:**
@@ -361,34 +363,6 @@ Chezmoi automatically detects:
 │   └── README.md                   # Script documentation
 └── run_once_install-tools.sh.tmpl  # Tool installation script
 ```
-
-## Migration Status
-
-This repository has been modernized from a manual symlink-based setup to chezmoi.
-
-**Completed**:
-- ✅ Chezmoi initialization and environment detection
-- ✅ Tmux modernization (3.5a with Catppuccin theme, popups, sesh)
-- ✅ Git modernization (delta, git-absorb, difftastic, 50+ aliases)
-- ✅ Bash modernization (5.3+ with enhanced history, lazy-loading)
-- ✅ Zsh modernization (5.9+ with Powerlevel10k, performance optimization)
-- ✅ Comprehensive provisioning script (32 tools)
-- ✅ Complete documentation (tmux, git, bash, zsh, vim)
-- ✅ Work/personal separation via local config files
-- ✅ Vim modernization (LSP support, 45 plugins, 6 languages)
-- ✅ Unified theming (Catppuccin Mocha for Vim, Tmux, bat, Terminal.app)
-- ✅ Tool configurations (lazygit, bat, ripgrep, direnv, gh, colordiff)
-- ✅ Linux desktop environment (i3, X11, irssi, conky, dwm)
-
-**Planned**:
-- 📋 Neovim migration (optional)
-
-## History
-
-- **2014-2021**: Manual symlink-based dotfiles
-- **October 2025**: Migrated to chezmoi with modern tooling
-- **Tag `v1-legacy`**: Snapshot of pre-chezmoi setup
-
 ## Resources
 
 - [Chezmoi Documentation](https://www.chezmoi.io/)

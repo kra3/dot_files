@@ -28,6 +28,7 @@ brew install \
     lazygit \
     tmux \
     fzf \
+    fd \
     zoxide \
     sesh \
     eza \
@@ -75,6 +76,7 @@ if command -v apt-get &> /dev/null; then
         git \
         tmux \
         fzf \
+        fd-find \
         ripgrep \
         gh \
         vim \
@@ -147,6 +149,43 @@ if command -v apt-get &> /dev/null; then
         curl -fsSL https://ollama.com/install.sh | sh
     fi
 
+    # Install Nerd Fonts (Linux)
+    echo ""
+    echo "📥 Installing Nerd Fonts..."
+    FONT_DIR="$HOME/.local/share/fonts"
+    mkdir -p "$FONT_DIR"
+
+    # Install MesloLGS NF (for Powerlevel10k)
+    if ! fc-list 2>/dev/null | grep -q "MesloLGS NF"; then
+        echo "  → Installing MesloLGS NF (recommended for Powerlevel10k)..."
+        MESLO_URL="https://github.com/romkatv/powerlevel10k-media/raw/master"
+        curl -fsSL -o "$FONT_DIR/MesloLGS NF Regular.ttf" "$MESLO_URL/MesloLGS%20NF%20Regular.ttf"
+        curl -fsSL -o "$FONT_DIR/MesloLGS NF Bold.ttf" "$MESLO_URL/MesloLGS%20NF%20Bold.ttf"
+        curl -fsSL -o "$FONT_DIR/MesloLGS NF Italic.ttf" "$MESLO_URL/MesloLGS%20NF%20Italic.ttf"
+        curl -fsSL -o "$FONT_DIR/MesloLGS NF Bold Italic.ttf" "$MESLO_URL/MesloLGS%20NF%20Bold%20Italic.ttf"
+        fc-cache -fv > /dev/null 2>&1
+        echo "  ✅ MesloLGS NF installed"
+    else
+        echo "  ✅ MesloLGS NF already installed"
+    fi
+
+    # Install FuraCode NF (for terminals, editors, general use)
+    if ! fc-list 2>/dev/null | grep -q "FiraCode.*Nerd"; then
+        echo "  → Installing FuraCode NF (for editors and general use)..."
+        NERD_FONT_VERSION="v3.3.0"
+        FIRACODE_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/${NERD_FONT_VERSION}/FiraCode.zip"
+
+        curl -fsSL -o "/tmp/FiraCode.zip" "$FIRACODE_URL"
+        unzip -q -o "/tmp/FiraCode.zip" -d "$FONT_DIR" "*.ttf" "*.otf" 2>/dev/null || true
+        rm -f "/tmp/FiraCode.zip"
+        fc-cache -fv > /dev/null 2>&1
+        echo "  ✅ FuraCode NF installed"
+    else
+        echo "  ✅ FuraCode NF already installed"
+    fi
+
+    echo "✅ Nerd Fonts installation complete"
+
     echo ""
     echo "⚠️  Some tools need manual installation:"
     [ ! -x "$(command -v sesh)" ] && echo "  • sesh: https://github.com/joshmedeski/sesh/releases"
@@ -165,6 +204,7 @@ elif command -v yum &> /dev/null; then
         git \
         tmux \
         fzf \
+        fd-find \
         zoxide \
         eza \
         bat \
@@ -188,7 +228,7 @@ else
     echo "⚠️  Unknown package manager. Install manually:"
     echo ""
     echo "Core tools:"
-    echo "  • git, tmux, fzf, zoxide, sesh, eza, bat, ripgrep"
+    echo "  • git, tmux, fzf, fd, zoxide, sesh, eza, bat, ripgrep"
     echo ""
     echo "Git tools:"
     echo "  • git-delta: https://github.com/dandavison/delta"
@@ -207,6 +247,17 @@ if [ ! -d ~/.tmux/plugins/tpm ]; then
     echo "✅ TPM installed"
 else
     echo "✅ TPM already installed"
+fi
+
+# Install Catppuccin for Tmux (manual installation - recommended over TPM)
+echo ""
+if [ ! -d ~/.tmux/plugins/catppuccin ]; then
+    echo "📥 Installing Catppuccin for Tmux..."
+    mkdir -p ~/.tmux/plugins
+    git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ~/.tmux/plugins/catppuccin
+    echo "✅ Catppuccin for Tmux installed"
+else
+    echo "✅ Catppuccin for Tmux already installed"
 fi
 
 # Install Zinit (Zsh Plugin Manager)
@@ -274,6 +325,33 @@ if [ ! -f "$THEME_DIR/Catppuccin-Mocha.terminal" ]; then
 else
     echo "✅ Catppuccin themes already installed"
 fi
+
+# Install Nerd Fonts (macOS)
+echo ""
+echo "📥 Installing Nerd Fonts via Homebrew..."
+
+# Tap the fonts cask if not already tapped
+brew tap homebrew/cask-fonts 2>/dev/null || true
+
+# Install MesloLGS NF (for Powerlevel10k)
+if ! ls ~/Library/Fonts/ 2>/dev/null | grep -q "MesloLGS NF"; then
+    echo "  → Installing MesloLGS NF (recommended for Powerlevel10k)..."
+    brew install --cask font-meslo-lg-nerd-font
+    echo "  ✅ MesloLGS NF installed"
+else
+    echo "  ✅ MesloLGS NF already installed"
+fi
+
+# Install FuraCode NF (for gVim, general use)
+if ! ls ~/Library/Fonts/ 2>/dev/null | grep -q "Fura.*Code.*Nerd"; then
+    echo "  → Installing FuraCode NF (for editors and general use)..."
+    brew install --cask font-fira-code-nerd-font
+    echo "  ✅ FuraCode NF installed"
+else
+    echo "  ✅ FuraCode NF already installed"
+fi
+
+echo "✅ Nerd Fonts installation complete"
 {{- end }}
 
 # Install Ollama models (optional - ~18GB total)
@@ -339,6 +417,7 @@ echo "  • sesh       - Smart session manager"
 echo ""
 echo "Navigation & Search:"
 echo "  • fzf        - Fuzzy finder"
+echo "  • fd         - Modern find (fast file/directory search)"
 echo "  • zoxide     - Smart directory jumper"
 echo ""
 echo "Git tools:"
@@ -377,6 +456,9 @@ echo "Plugin managers:"
 echo "  • tpm        - Tmux plugin manager"
 echo "  • zinit      - Zsh plugin manager"
 echo "  • vim-plug   - Vim plugin manager"
+echo ""
+echo "Themes:"
+echo "  • catppuccin - Tmux theme (manually installed)"
 echo ""
 echo "Zsh plugins (via Zinit):"
 echo "  • powerlevel10k - Modern zsh theme"

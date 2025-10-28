@@ -17,7 +17,7 @@ Desktop overlay displaying system information in the bottom-right corner.
 - Battery status (if present)
 - Public IP address (updated hourly)
 - Catppuccin Mocha color scheme
-- JetBrainsMono Nerd Font
+- FuraCode Nerd Font
 
 **Preview**:
 ```
@@ -164,7 +164,7 @@ update_interval = 2.0,  -- Seconds between updates (status bar)
 ### Font
 
 ```lua
-font = 'JetBrainsMono Nerd Font:size=9',
+font = 'FuraCode Nerd Font:size=9',
 ```
 
 Change to any installed font:

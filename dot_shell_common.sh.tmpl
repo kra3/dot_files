@@ -6,7 +6,11 @@
 # Environment Variables
 # ============================================================================
 
+{{- if eq .chezmoi.os "darwin" }}
+export EDITOR="/opt/homebrew/bin/vim"
+{{- else }}
 export EDITOR="vim"
+{{- end }}
 export LANG=en_US.UTF-8
 export LC_ALL=$LANG
 export LC_CTYPE=$LANG
@@ -59,8 +63,19 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PIP_REQUIRE_VIRTUALENV=true  # Prevent accidental system-wide pip installs
 
 # FZF configuration
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# Prefer fd (modern find) over rg for file listing - fd is faster and more versatile
+# fd respects .gitignore and .fdignore by default
+if command -v fd &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+elif command -v fdfind &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+elif command -v rg &> /dev/null; then
+    # Fallback to ripgrep if fd not available
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
 
 # Gradle configuration
 export GRADLE_COMPLETION_UNQUALIFIED_TASKS="true"
@@ -141,6 +156,12 @@ alias less='bat --paging=always'
 # Note: ripgrep (rg) has different flags than grep
 # Don't alias grep='rg' as it breaks scripts expecting POSIX grep
 # Use rg directly for better performance and features
+
+# fd - modern find
+# On Debian/Ubuntu, fd is installed as 'fdfind' to avoid conflict with another package
+if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
+    alias fd='fdfind'
+fi
 
 # Navigation
 alias ..="cd .."
@@ -292,7 +313,7 @@ ts() {
         # Interactive mode with fzf
         if command -v sesh &> /dev/null && command -v fzf &> /dev/null; then
             local session
-            session=$(sesh list | fzf --height 40% --reverse --border --prompt '⚡ ' \
+            session=$(sesh list -i | perl -pe 's/\\u\{([0-9a-f]+)\}/chr(hex($1))/gie' | fzf --height 40% --reverse --border --prompt '⚡ ' \
                 --color 'fg:#cdd6f4,bg:#1e1e2e,hl:#cba6f7' \
                 --color 'fg+:#cdd6f4,bg+:#313244,hl+:#cba6f7' \
                 --color 'info:#89b4fa,prompt:#cba6f7,pointer:#f38ba8')

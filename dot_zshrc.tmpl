@@ -63,9 +63,9 @@ if command -v aws_completer &> /dev/null; then
 fi
 
 # Modern completion styling
-zstyle ':completion:*' menu select                                    # Enable menu selection
+zstyle ':completion:*' menu select                                   # Enable menu selection
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"              # Colorize completions using LS_COLORS
-zstyle ':completion:*' group-name ''                                  # Group completions by type
+zstyle ':completion:*' group-name ''                                 # Group completions by type
 zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'    # Style for descriptions
 zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'        # Style for messages
 zstyle ':completion:*:warnings' format '%F{red}-- no matches --%f'   # Style for warnings

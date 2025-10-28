@@ -45,7 +45,7 @@ conky.config = {
     -- Font Settings
     -- ========================================================================
     use_xft = true,
-    font = 'JetBrainsMono Nerd Font:size=9',
+    font = 'FuraCode Nerd Font:size=9',
     override_utf8_locale = true,
 
     -- ========================================================================
@@ -77,7 +77,7 @@ conky.config = {
 }
 
 conky.text = [[
-${font JetBrainsMono Nerd Font:size=11}${color1}${nodename}${color}${font}
+${font FuraCode Nerd Font:size=11}${color1}${nodename}${color}${font}
 ${color6}${sysname} ${kernel} (${machine})${color}
 ${if_existing /sys/class/power_supply/BAT0}Battery: ${battery_short} | ${endif}\
 Users: ${user_number} | Uptime: ${uptime_short}
@@ -174,7 +174,7 @@ ${endif}
 Public IP: ${execi 3600 curl -s ifconfig.me}
 
 ${color1}═══ TIME & DATE ═══${color}
-${font JetBrainsMono Nerd Font:size=12}${time %H:%M:%S}${font}
+${font FuraCode Nerd Font:size=12}${time %H:%M:%S}${font}
 ${time %A, %B %d, %Y}
 ]]
 {{- end -}}
