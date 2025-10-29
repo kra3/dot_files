@@ -1,0 +1,24 @@
+# GPG Agent Configuration
+# Manages passphrase caching for GPG operations (commit signing, encryption, etc.)
+
+# Cache passphrase for 8 hours (28800 seconds)
+# After this time of inactivity, you'll need to re-enter your passphrase
+default-cache-ttl 28800
+
+# Maximum cache time - even with activity, passphrase expires after this
+# Set to 8 hours to match default-cache-ttl
+max-cache-ttl 28800
+
+{{- if eq .chezmoi.os "darwin" }}
+# macOS: Use pinentry-mac for native GUI password prompts
+# Install with: brew install pinentry-mac
+pinentry-program /opt/homebrew/bin/pinentry-mac
+{{- else if eq .chezmoi.os "linux" }}
+# Linux: Use pinentry-curses for terminal-based prompts
+# Or use pinentry-gtk-2, pinentry-qt, etc. for GUI
+pinentry-program /usr/bin/pinentry-curses
+{{- end }}
+
+# Enable SSH agent support (allows gpg-agent to act as ssh-agent)
+# Useful if you use GPG keys for SSH authentication
+enable-ssh-support

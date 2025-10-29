@@ -71,7 +71,7 @@ git:
   autoRefresh: true
   branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --"
   allBranchesLogCmd: "git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium"
-  overrideGpg: false
+  overrideGpg: true  # Let lazygit handle GPG signing (works with gpg-agent passphrase caching)
   disableForcePushing: false
   parseEmoji: false
 
