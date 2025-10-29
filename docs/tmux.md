@@ -122,6 +122,7 @@ Inside sesh, press these keys to switch modes:
 |-----|--------|-------|
 | `Ctrl+a g` | Lazygit | 95% screen size |
 | `Ctrl+a G` | Git status | Compact popup |
+| `Ctrl+a D` | **GitHub Dashboard** | gh-dash - PRs, issues, notifications |
 | `Ctrl+a Ctrl+w` | **Window finder** | Find windows across all sessions |
 | `Ctrl+a N` | Quick notes | ~/notes/tmux-scratch.md |
 
@@ -470,6 +471,7 @@ bind C-t display-popup -E -w 80% -h 80% -d "#{pane_current_path}" \
 ├─────────────────────────────────────────────────────────┤
 │ SPECIAL                                                 │
 │  g        Lazygit popup                                 │
+│  D        GitHub Dashboard (gh-dash)                    │
 │  N        Quick notes                                   │
 │  Enter    Copy mode                                     │
 │  e        Edit config                                   │

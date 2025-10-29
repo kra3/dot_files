@@ -301,6 +301,20 @@ else
     echo "✅ Catppuccin theme already installed for bat"
 fi
 
+# Install gh-dash (GitHub CLI Dashboard extension)
+echo ""
+if command -v gh &> /dev/null; then
+    if ! gh extension list 2>/dev/null | grep -q "dlvhdr/gh-dash"; then
+        echo "📥 Installing gh-dash (GitHub CLI Dashboard)..."
+        gh extension install github.com/dlvhdr/gh-dash
+        echo "✅ gh-dash installed"
+    else
+        echo "✅ gh-dash already installed"
+    fi
+else
+    echo "⚠️  GitHub CLI (gh) not found, skipping gh-dash installation"
+fi
+
 {{- if eq .chezmoi.os "darwin" }}
 # Install Catppuccin theme for Terminal.app
 echo ""
@@ -426,6 +440,7 @@ echo "  • git-absorb - Automatic fixup commits"
 echo "  • difftastic - Syntax-aware structural diffs"
 echo "  • lazygit    - Terminal UI for git"
 echo "  • gh         - GitHub CLI"
+echo "  • gh-dash    - GitHub CLI Dashboard extension"
 echo ""
 echo "CLI tools:"
 echo "  • eza        - Modern ls replacement"
@@ -493,6 +508,7 @@ echo "  • git dft    → difftastic (structural)"
 echo "  • git absorb → auto-fixup commits"
 echo "  • git fixup  → interactive fixup"
 echo "  • lazygit    → full TUI (or Ctrl+a g in tmux)"
+echo "  • gh dash    → GitHub dashboard (PRs, issues, notifications)"
 echo ""
 echo "🤖 Ollama usage:"
 echo "  • ollama list                  → List installed models"

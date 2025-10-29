@@ -148,6 +148,11 @@ bind g if-shell "command -v lazygit" \
 bind G display-popup -E -w 70% -h 70% -d "#{pane_current_path}" \
   "git status; echo ''; echo 'Press enter to close'; read"
 
+# GitHub Dashboard popup (prefix + D) - gh-dash
+bind D if-shell "command -v gh" \
+  "display-popup -E -w 95% -h 95% -d '#{pane_current_path}' 'gh dash'" \
+  "display-message 'gh not found. Install with: brew install gh'"
+
 # ============================================================================
 # Other Plugin Settings
 # ============================================================================
