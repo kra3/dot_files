@@ -380,16 +380,6 @@ See [tools.md](tools.md#zoxide---smart-cd) for full documentation.
 
 See [tools.md](tools.md#fzf---fuzzy-finder) for full documentation.
 
-### direnv (Directory Environments)
-
-```bash
-eval "$(direnv hook zsh)"
-```
-
-Automatically loads/unloads environment from `.envrc` files.
-
-See [tools.md](tools.md#direnv---directory-environments) for full documentation.
-
 ## Plugins
 
 ### Zinit Plugin Manager

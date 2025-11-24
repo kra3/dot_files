@@ -11,7 +11,6 @@ These tools are configured in `.shell_common.sh` and work identically in both ba
 - **Search & Navigation** - fzf, fd, zoxide, ripgrep
 - **File Operations** - eza, bat
 - **Version Management** - pyenv, jenv, nvm
-- **Environment** - direnv
 
 ---
 
@@ -595,66 +594,6 @@ nvm use
 
 ---
 
-## Environment Management
-
-### direnv - Directory Environments
-
-**Purpose:** Automatically load/unload environment variables based on directory.
-
-**Installation:**
-```bash
-brew install direnv
-```
-
-**Initialization:**
-```bash
-# In bash
-eval "$(direnv hook bash)"
-
-# In zsh
-eval "$(direnv hook zsh)"
-```
-
-**Usage:**
-```bash
-# Create .envrc in project directory
-cat > .envrc << 'EOF'
-export DATABASE_URL="postgres://localhost/mydb"
-export API_KEY="dev-key-12345"
-layout python python3.11
-EOF
-
-# Allow direnv to load it
-direnv allow
-
-# Variables are loaded when entering directory
-cd myproject
-# DATABASE_URL and API_KEY are now set
-
-# Unloaded when leaving
-cd ..
-# Variables are unset
-```
-
-**Layouts:**
-```bash
-# Python virtualenv
-layout python python3.11
-
-# Node (use .nvmrc)
-layout node
-
-# Ruby (use .ruby-version)
-layout ruby
-```
-
-**Security:**
-- Requires explicit `direnv allow` before loading
-- Tracks changes to .envrc
-- Re-prompts if .envrc is modified
-
----
-
 ## Tmux Integration
 
 All these tools integrate with tmux. See [tmux.md](tmux.md) for:
@@ -676,7 +615,6 @@ All tools are configured in this shared file:
 eval "$(zoxide init bash)"  # or zsh
 eval "$(pyenv init -)"
 eval "$(jenv init -)"
-eval "$(direnv hook bash)"  # or zsh
 
 # fzf integration
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -765,19 +703,6 @@ eval "$(pyenv init -)"
 pyenv which python
 ```
 
-### direnv Not Loading
-
-```bash
-# Check hook is installed
-type direnv
-
-# Allow .envrc
-direnv allow
-
-# Check status
-direnv status
-```
-
 ---
 
 ## Resources
@@ -791,5 +716,4 @@ direnv status
 - [pyenv](https://github.com/pyenv/pyenv)
 - [jenv](https://github.com/jenv/jenv)
 - [nvm](https://github.com/nvm-sh/nvm)
-- [direnv](https://github.com/direnv/direnv)
 - Configuration: `~/.shell_common.sh`

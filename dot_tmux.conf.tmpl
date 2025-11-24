@@ -58,7 +58,8 @@ set -g status-keys vi
 set -g mode-keys vi
 
 # Edit configuration
-bind e new-window -n "~/.tmux.conf" "sh -c '\${EDITOR:-vim} \$(chezmoi source-path ~/.tmux.conf) && chezmoi apply ~/.tmux.conf && tmux source ~/.tmux.conf && tmux display \"Config sourced\"'"
+bind E new-window -n "~/.tmux.conf" "sh -c '\${EDITOR:-vim} \$(chezmoi source-path ~/.tmux.conf) && chezmoi apply ~/.tmux.conf && tmux source ~/.tmux.conf && tmux display \"Config sourced\"'"
+
 
 # ============================================================================
 # Pane & Window Management
@@ -166,6 +167,7 @@ set -g @continuum-boot-options 'fullscreen' # if using iTerm add "iterm"
 set -g @resurrect-strategy-vim 'session'
 set -g @resurrect-strategy-nvim 'session'
 set -g @resurrect-capture-pane-contents 'on'
+set -g @resurrect-processes '~claude ~aider'
 
 # Tmux-yank settings (handles clipboard automatically per OS)
 set -g @yank_selection 'primary'  # Use primary selection (middle-click paste)
@@ -184,9 +186,11 @@ set -g @catppuccin_flavor 'mocha'
 
 # Window configuration
 set -g @catppuccin_window_status_style "rounded"
-set -g @catppuccin_window_number_position "right"
 set -g @catppuccin_window_text "#W"
 set -g @catppuccin_window_current_text "#W"
+set -g @catppuccin_window_flags "icon"
+set -g @catppuccin_status_left_separator ""
+set -g @catppuccin_status_right_separator " "
 
 # Load Catppuccin theme manually (recommended over TPM)
 # Installation handled by provisioning script: run_once_install-tools.sh
@@ -199,16 +203,15 @@ if-shell "test -d ~/.tmux/plugins/catppuccin" \
 # ============================================================================
 
 # Set status line length
-set -g status-left-length 100
-set -g status-right-length 100
+set -g status-left-length 40
+set -g status-right-length 40
 
-# Configure left side: session, application, directory
 set -g status-left "#{E:@catppuccin_status_session}"
 set -ag status-left "#{E:@catppuccin_status_application}"
 set -ag status-left "#{E:@catppuccin_status_directory}"
 
-# Configure right side: battery, date_time
-set -g status-right ""
+set -g status-right " "
+set -agF status-right "#{E:@catppuccin_status_pomodoro_plus}"
 set -agF status-right "#{E:@catppuccin_status_battery}"
 set -agF status-right "#{E:@catppuccin_status_date_time}"
 
@@ -227,6 +230,7 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'tmux-plugins/tmux-open'
 set -g @plugin 'tmux-plugins/tmux-battery'
+set -g @plugin 'olimorris/tmux-pomodoro-plus'
 
 # ============================================================================
 # Initialize TPM (keep this at the very bottom)

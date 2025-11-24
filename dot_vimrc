@@ -1532,20 +1532,36 @@ augroup java_settings
   endfunction
 augroup END
 
-" Scala settings - simplified but powerful
+" Scala settings - with Metals LSP and Gradle support
 augroup scala_settings
   autocmd!
   autocmd FileType scala setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  " Run with scala (basic)
-  if executable('scala')
-    autocmd FileType scala nnoremap <buffer> <Leader>r :update<CR>:exec '!scala "%"'<CR>
-  endif
-  " SBT support
+
+  " Gradle/Build commands (Space + m prefix to avoid conflicts)
+  autocmd FileType scala nnoremap <buffer> <Leader>mc :!gw compileScala<CR>
+  autocmd FileType scala nnoremap <buffer> <Leader>mt :!gw test<CR>
+  autocmd FileType scala nnoremap <buffer> <Leader>mf :!gw scalafmtAll<CR>
+  autocmd FileType scala nnoremap <buffer> <Leader>mx :!gw scalaFixAll<CR>
+
+  " Metals LSP commands (Space + m prefix)
+  autocmd FileType scala nnoremap <buffer> <Leader>mi :LspCodeAction source.organizeImports<CR>
+  autocmd FileType scala nnoremap <buffer> <Leader>mI :LspCodeAction build-import<CR>
+  autocmd FileType scala nnoremap <buffer> <Leader>mC :LspCodeAction compile-cascade<CR>
+  autocmd FileType scala nnoremap <buffer> <Leader>mR :LspStopServer metals<CR>:edit<CR>
+  autocmd FileType scala nnoremap <buffer> <Leader>ms :LspStatus<CR>
+
+  " SBT support (fallback - Space + s prefix)
   if executable('sbt')
     autocmd FileType scala nnoremap <buffer> <Leader>sb :update<CR>:!sbt run<CR>
     autocmd FileType scala nnoremap <buffer> <Leader>st :update<CR>:!sbt test<CR>
     autocmd FileType scala nnoremap <buffer> <Leader>sc :update<CR>:!sbt compile<CR>
   endif
+
+  " Run with scala (basic - for script files)
+  if executable('scala')
+    autocmd FileType scala nnoremap <buffer> <Leader>r :update<CR>:exec '!scala "%"'<CR>
+  endif
+
   autocmd FileType scala call SetupDevEnvironment()
 augroup END
 

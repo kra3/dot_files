@@ -436,21 +436,6 @@ See [tools.md](tools.md#zoxide---smart-cd) for full documentation.
 
 See [tools.md](tools.md#fzf---fuzzy-finder) for full documentation.
 
-### direnv (Directory Environments)
-
-```bash
-eval "$(direnv hook bash)"
-```
-
-**Quick reference:**
-```bash
-# Create .envrc in project
-echo 'export DATABASE_URL="postgres://localhost/mydb"' > .envrc
-direnv allow
-```
-
-See [tools.md](tools.md#direnv---directory-environments) for full documentation.
-
 ## Local Configuration
 
 For machine-specific or private configs, create `~/.shell_local`:

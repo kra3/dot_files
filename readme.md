@@ -91,11 +91,10 @@ All major CLI tools have been configured with sensible defaults and Catppuccin t
 - ✅ **bat** - Catppuccin Mocha syntax highlighting, line numbers, Git diff markers
 - ✅ **fd** - Custom ignore patterns, integrated with fzf and tmux
 - ✅ **ripgrep** - Smart case, hidden files, comprehensive ignore patterns
-- ✅ **direnv** - Auto-whitelist for project directories
 - ✅ **GitHub CLI (gh)** - SSH protocol, vim editor, common aliases
 - ✅ **colordiff** - Catppuccin-inspired color scheme
 
-### Tools Installed (34 Total)
+### Tools Installed (33 Total)
 
 **Core:**
 - `git`, `gh` - Version control and GitHub CLI
@@ -124,7 +123,6 @@ All major CLI tools have been configured with sensible defaults and Catppuccin t
 - `eza` - Modern ls replacement
 - `bat` - Modern cat with syntax highlighting
 - `ripgrep` - Fast search tool
-- `direnv` - Directory-specific environments
 - `colordiff` - Colorized diff output
 
 **Shell Enhancements:**
@@ -343,7 +341,6 @@ Chezmoi automatically detects:
 │   ├── bat/config                  # bat theme and settings
 │   ├── lazygit/config.yml          # lazygit configuration
 │   ├── gh/config.yml.tmpl          # GitHub CLI settings
-│   ├── direnv/direnv.toml.tmpl     # direnv whitelist
 │   ├── sesh/sesh.toml              # sesh session manager
 │   ├── i3/config.tmpl              # i3 window manager (Linux)
 │   ├── irssi/                      # IRC client (Linux)
