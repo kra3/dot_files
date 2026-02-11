@@ -293,13 +293,33 @@ git worktree add ../repo-feature feature-branch
 
 # List worktrees
 git worktree list
+git wl                     # Alias
 
 # Remove worktree
 git worktree remove ../repo-feature
 
 # Prune stale worktrees
 git worktree prune
+git wp                     # Alias
 ```
+
+### Worktree Workflow with `wt`
+
+The `wt` command creates a worktree + tmux session for feature development.
+Branch names are normalized to `<default>.<feature>` format.
+
+```bash
+wt new-api              # Creates main.new-api branch + worktree + tmux session
+wt feature/new-api      # Same result: main.new-api (strips prefix)
+wt -c main.existing     # Checkout existing branch into worktree
+wt -d old-feature       # Delete worktree for main.old-feature
+wt -l                   # List worktrees
+wt-clean                # Cleanup stale worktrees (where remote is gone)
+```
+
+**Layout:** `claude` (left pane) | `shell` (right pane)
+
+**Worktree location:** `~/src/worktrees/<repo>-<branch>`
 
 ## Cherry-Pick & Rebase
 

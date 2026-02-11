@@ -29,6 +29,10 @@ depth = 2
 path = "~/src/workspace"
 depth = 2
 
+[[session_path]]
+path = "~/src/worktrees"
+depth = 1
+
 # Icon mappings for different project types
 [icons]
 default = "📁"

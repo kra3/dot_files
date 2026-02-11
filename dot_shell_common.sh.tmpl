@@ -387,6 +387,261 @@ treload() {
 }
 
 # ============================================================================
+# Worktree Development Functions
+# ============================================================================
+
+# Git worktree + tmux session for feature development
+# Usage: wt [flags] <branch-name>
+wt() {
+    local branch="" action="create" force_new=false force_checkout=false
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -n|--new) force_new=true; shift ;;
+            -c|--checkout) force_checkout=true; shift ;;
+            -d|--delete) action="delete"; shift ;;
+            -l|--list) action="list"; shift ;;
+            -h|--help) _wt_help; return 0 ;;
+            -*) echo "Unknown option: $1" >&2; return 1 ;;
+            *) branch="$1"; shift ;;
+        esac
+    done
+
+    if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+        echo "Error: Not in a git repository" >&2
+        return 1
+    fi
+
+    [[ "$action" == "list" ]] && { git worktree list; return 0; }
+    [[ -z "$branch" ]] && { echo "Error: Branch name required" >&2; _wt_help >&2; return 1; }
+
+    local repo_root repo_name default_branch
+    repo_root=$(git rev-parse --show-toplevel)
+    repo_name=$(basename "$repo_root")
+    default_branch=$(_wt_get_default_branch)
+
+    # Normalize branch name to <default>.<feature> format
+    local normalized_branch
+    normalized_branch=$(_wt_normalize_branch "$branch" "$default_branch")
+
+    # Worktree path and name
+    local worktree_name="${repo_name}-${normalized_branch}"
+    local worktree_path="$HOME/src/worktrees/${worktree_name}"
+
+    # Window name: just the branch input (session already identifies repo)
+    local window_name="$branch"
+
+    # For delete, check if worktree exists; if not, try the raw branch input
+    if [[ "$action" == "delete" ]]; then
+        if [[ ! -d "$worktree_path" ]]; then
+            # Try with raw branch name (user may have passed full branch name)
+            worktree_name="${repo_name}-${branch}"
+            worktree_path="$HOME/src/worktrees/${worktree_name}"
+        fi
+        _wt_delete "$worktree_path" "$normalized_branch" "$window_name"
+        return $?
+    fi
+
+    _wt_create "$normalized_branch" "$worktree_path" "$window_name" "$force_new" "$force_checkout" "$repo_root" "$default_branch"
+}
+
+# Normalize branch name to <default>.<feature> format
+# Examples: "foobar" -> "main.foobar", "feature/bar" -> "main.bar", "main.bar" -> "main.bar"
+_wt_normalize_branch() {
+    local input="$1"
+    local default_branch="$2"
+    local feature
+
+    # If already in <default>.<something> format, return as-is
+    if [[ "$input" == "${default_branch}."* ]]; then
+        echo "$input"
+        return
+    fi
+
+    # Strip common prefixes (feature/, bugfix/, hotfix/, fix/, etc.)
+    feature=$(echo "$input" | sed -E 's/^(feature|bugfix|hotfix|fix|chore|docs|refactor|test)\///')
+
+    # Remove any remaining slashes (convert to dashes)
+    feature=$(echo "$feature" | tr '/' '-')
+
+    echo "${default_branch}.${feature}"
+}
+
+_wt_help() {
+    cat << 'EOF'
+wt - Git worktree + tmux window for feature development
+
+USAGE: wt [flags] <feature-name>
+
+Branch names are normalized to <default>.<feature> format:
+    wt foobar           → main.foobar
+    wt feature/foobar   → main.foobar
+    wt main.foobar      → main.foobar (unchanged)
+
+FLAGS:
+    -n, --new       Create new branch from default branch
+    -c, --checkout  Checkout existing branch
+    -d, --delete    Delete worktree and tmux window
+    -l, --list      List all worktrees
+    -h, --help      Show help
+
+EXAMPLES:
+    wt new-api            # Creates main.new-api branch + worktree + tmux window
+    wt -c main.bugfix     # Checkout existing branch
+    wt -d old-feature     # Delete worktree for main.old-feature
+
+LAYOUT (new tmux window in current session):
+    +------------------+------------------+
+    |     claude       |      shell       |
+    +------------------+------------------+
+
+CLEANUP: wt-clean (removes worktrees for gone branches)
+
+NOTE: Must be run inside tmux.
+EOF
+}
+
+_wt_get_default_branch() {
+    git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' ||
+    git config --get init.defaultBranch 2>/dev/null ||
+    { git show-ref --verify --quiet refs/heads/main && echo "main" || echo "master"; }
+}
+
+_wt_create() {
+    local branch="$1" worktree_path="$2" window_name="$3" force_new="$4" force_checkout="$5" repo_root="$6" default_branch="$7"
+
+    if [[ -d "$worktree_path" ]]; then
+        echo "Worktree exists at: $worktree_path"
+        # Try to switch to existing window
+        _wt_create_session "$window_name" "$worktree_path"
+        return 0
+    fi
+
+    mkdir -p "$HOME/src/worktrees"
+
+    local branch_exists=false
+    git show-ref --verify --quiet "refs/heads/$branch" 2>/dev/null && branch_exists=true
+    git show-ref --verify --quiet "refs/remotes/origin/$branch" 2>/dev/null && branch_exists=true
+
+    if $branch_exists && ! $force_new; then
+        echo "Creating worktree for existing branch: $branch"
+        git worktree add "$worktree_path" "$branch" || return 1
+    elif ! $branch_exists && $force_checkout; then
+        echo "Error: Branch '$branch' does not exist" >&2
+        return 1
+    else
+        echo "Creating worktree with new branch: $branch (from $default_branch)"
+        git worktree add -b "$branch" "$worktree_path" "$default_branch" || return 1
+    fi
+
+    echo "Worktree created at: $worktree_path"
+    _wt_create_session "$window_name" "$worktree_path"
+}
+
+_wt_create_session() {
+    local window_name="$1" worktree_path="$2"
+
+    # Must be inside tmux to create a window
+    if [[ -z "$TMUX" ]]; then
+        echo "Error: Must be inside tmux to create worktree window" >&2
+        echo "Start tmux first, then run wt again" >&2
+        return 1
+    fi
+
+    # Check if window already exists in current session
+    local current_session
+    current_session=$(tmux display-message -p '#S')
+
+    if tmux list-windows -t "$current_session" -F '#W' | grep -q "^${window_name}$"; then
+        echo "Window '$window_name' already exists, switching to it"
+        tmux select-window -t "${current_session}:${window_name}"
+        return 0
+    fi
+
+    # Create new window with two vertical splits
+    # Left pane: claude CLI (with nvm)
+    # Right pane: shell
+    tmux new-window -n "$window_name" -c "$worktree_path"
+    tmux split-window -t "${current_session}:${window_name}" -h -c "$worktree_path"
+
+    # Left pane (0): run nvm use --lts then claude
+    tmux send-keys -t "${current_session}:${window_name}.0" "nvm use --lts && claude" C-m
+
+    # Right pane (1): clear and show status
+    tmux send-keys -t "${current_session}:${window_name}.1" "clear && git status" C-m
+
+    # Select left pane (claude)
+    tmux select-pane -t "${current_session}:${window_name}.0"
+}
+
+_wt_delete() {
+    local worktree_path="$1" branch="$2" window_name="$3"
+
+    # Kill tmux window if it exists (in current session)
+    if [[ -n "$TMUX" ]]; then
+        local current_session
+        current_session=$(tmux display-message -p '#S')
+        if tmux list-windows -t "$current_session" -F '#W' | grep -q "^${window_name}$"; then
+            echo "Killing tmux window: $window_name"
+            tmux kill-window -t "${current_session}:${window_name}" 2>/dev/null
+        fi
+    fi
+
+    [[ -d "$worktree_path" ]] && {
+        echo "Removing worktree: $worktree_path"
+        git worktree remove "$worktree_path" --force
+    } || echo "Worktree not found at: $worktree_path"
+
+    echo ""
+    echo -n "Delete branch '$branch' as well? [y/N] "
+    read -r REPLY
+    [[ $REPLY =~ ^[Yy]$ ]] && git branch -D "$branch" 2>/dev/null || true
+
+    git worktree prune
+}
+
+# Cleanup worktrees for branches gone from remote
+wt-clean() {
+    local worktrees_dir="$HOME/src/worktrees"
+    [[ ! -d "$worktrees_dir" ]] && { echo "No worktrees at: $worktrees_dir"; return 0; }
+
+    echo "Fetching and checking for stale worktrees..."
+    git rev-parse --is-inside-work-tree &>/dev/null && git fetch -p
+
+    local cleaned=0
+    local current_session=""
+    [[ -n "$TMUX" ]] && current_session=$(tmux display-message -p '#S')
+
+    for wt_dir in "$worktrees_dir"/*; do
+        [[ -d "$wt_dir" && -f "$wt_dir/.git" ]] || continue
+
+        local branch upstream_status
+        branch=$(git -C "$wt_dir" rev-parse --abbrev-ref HEAD 2>/dev/null) || continue
+        upstream_status=$(git -C "$wt_dir" for-each-ref --format='%(upstream:track)' "refs/heads/$branch" 2>/dev/null)
+
+        if [[ "$upstream_status" == "[gone]" ]]; then
+            # Window name: feature part of branch (after the dot)
+            local window_name="${branch#*.}"
+
+            echo "Stale: $wt_dir (branch: $branch)"
+            echo -n "Remove worktree and kill window? [y/N] "
+            read -r REPLY
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                # Kill tmux window if exists
+                if [[ -n "$current_session" ]]; then
+                    tmux kill-window -t "${current_session}:${window_name}" 2>/dev/null
+                fi
+                git -C "$wt_dir" worktree remove "$wt_dir" --force 2>/dev/null || rm -rf "$wt_dir"
+                ((cleaned++))
+            fi
+        fi
+    done
+
+    git rev-parse --is-inside-work-tree &>/dev/null && { git worktree prune; git gone; }
+    echo "Cleaned $cleaned worktree(s)"
+}
+
+# ============================================================================
 # Local/Private Configuration
 # ============================================================================
 

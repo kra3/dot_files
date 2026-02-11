@@ -67,6 +67,10 @@
     cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d"
     gone = "!git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
 
+    # Worktree shortcuts
+    wl = worktree list
+    wp = worktree prune
+
     # Pretty log output
     ll = log --pretty=oneline --abbrev-commit --graph
     l = log --oneline --graph -10
