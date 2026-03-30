@@ -102,6 +102,7 @@
     dl = diff HEAD~1
     dft = difftool --tool=difftastic  # Structural diff (syntax-aware)
     changes = diff --name-status
+    branch-files = !git diff --name-only main...HEAD
     patch = !git --no-pager diff --no-color
 
     # Add
