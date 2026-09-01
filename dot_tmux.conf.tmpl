@@ -31,6 +31,7 @@ set -sg repeat-time 400
 
 # Modern tmux 3.2+ features
 set -s extended-keys on              # Better key binding support
+set -g extended-keys-format csi-u    # Required for pi/kitty protocol compatibility
 set -s set-clipboard on              # External clipboard access
 set -g allow-passthrough on          # Modern terminal features (OSC sequences)
 
